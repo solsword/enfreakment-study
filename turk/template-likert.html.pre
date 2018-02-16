@@ -1,0 +1,1267 @@
+<!-- vim: set syntax=html filetype=html: -->
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+<script type="text/javascript">
+// Uniqueturker limit code
+(function(){
+    var ut_id = "enfreakment-pilot";
+    if (UTWorkerLimitReached(ut_id)) {
+        document.getElementById('mturk_form').style.display = 'none';
+        document.getElementsByTagName('body')[0].innerHTML = "You have already completed this HIT (or a similar HIT as part of the same survey). Please click 'Return HIT' to avoid any impact on your approval rating. You may only complete one HIT for this survey. If you complete multiple HITs, those beyond the first will be rejected.";
+    }
+})();
+</script>
+<script type="text/javascript">
+// Interaction setup
+$(document).ready(function() {
+  $(".responses input").on("click", function(event) {
+    var cell = $(this).parent();
+    var row = cell.parent();
+    row.addClass("touched");
+    row.children('td').each(function (i, el) {
+      $(el).removeClass("selected");
+    });
+    cell.addClass("selected");
+  });
+  $(".question_answers .answer input").on("click", function(event) {
+    var ans = $(this).parent();
+    var area = ans.parent();
+    area.addClass("touched");
+    area.children(".answer").each(function (i, el) {
+      $(el).removeClass("selected");
+    });
+    ans.addClass("selected");
+  });
+  $("div .associated_text").on("click keypress", function(event) {
+    var group = $(this).parent();
+    group.children(".associated_radio").prop("checked", true);
+  });
+  $("td .associated_text").on("click keypress", function(event) {
+    var row = $(this).parent().parent();
+    row.children("td").each(function(i, cell) {
+      $(cell).children(".associated_radio").prop("checked", true);
+    });
+  });
+  var tq_inputs = $(".text_question input[type=text]");
+  tq_inputs = tq_inputs.add($(".text_question textarea"));
+  console.log(tq_inputs);
+  tq_inputs.on("click keypress", function(event) {
+    var here = $(this);
+    while(!here.hasClass("text_question")) {
+      here = here.parent();
+    }
+    here.addClass("touched");
+  });
+  $("#ethnicity_questions input").on("click keypress", function(event) {
+    var cell = $(this).parent();
+    var row = cell.parent();
+    var table = row.parent().parent();
+    var bin = table.parent();
+    bin.addClass("touched");
+    var checkbox = row.find("input:checked");
+    if (checkbox.length > 0) {
+      row.addClass("selected");
+    } else {
+      row.removeClass("selected");
+    }
+  });
+});
+</script>
+<style type="text/css">
+
+textarea {
+  width: 80%;
+  margin: 4pt;
+}
+
+body {
+  font-size: 14pt !important;
+}
+
+table {
+  font-size: 14pt !important;
+}
+
+.panel {
+  margin: 16px 0px 16px 0px;
+}
+
+.question-input {
+  padding-left: 2em;
+}
+
+fieldset {
+  padding: 10px;
+  background:#eee;
+  border-radius:0.6em;
+  margin-bottom:5px;
+}
+
+.single_character {
+  margin-top: 8em;
+}
+
+.character {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2ex;
+  background: #ccc;
+  border-radius: 0.6em;
+  padding: 8pt;
+}
+
+.character-images {
+  text-align: center;
+}
+
+.character-images tr td {
+  width: 32%;
+  padding: 0;
+}
+
+.character-images tr td:first-child {
+  padding: 0 2% 0 0;
+}
+
+.character-images tr td:last-child {
+  padding: 0 0 0 2%;
+}
+
+.character-images img {
+  width: 100%;
+  border-radius: 0.3em;
+  background: #000;
+  color: #eee;
+}
+
+.character-info {
+  width: 86%;
+  margin: 8pt auto 8pt auto;
+  border-collapse: collapse;
+}
+
+.character-info tr td {
+  padding: 4pt;
+}
+
+.character-info tr:first-child td {
+  padding-top: 6pt;
+}
+
+.character-info tr:last-child td {
+  padding-bottom: 6pt;
+}
+
+.character-info tr td:first-child {
+  text-align: right;
+  width: 8em;
+}
+
+.character-info tr td:nth-child(2) {
+  text-align: left;
+}
+
+.character-info tr td:first-child.character-name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.flag {
+  height: 16pt;
+}
+
+.character-questions {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.question td {
+  padding: 8pt;
+  padding-top: 16pt;
+  text-align: center;
+  font-weight: bold;
+}
+
+.spacer {
+  height: 8pt;
+}
+
+.header {
+  text-align: center;
+  border-bottom: 1pt solid #888;
+  border-top: 1pt solid #888;
+  /*background: #f8f8f8;*/
+}
+
+.header td {
+  padding: 4pt;
+}
+
+.header td:first-child {
+  border-top-left-radius: 0.6em;
+  border-bottom-left-radius: 0.6em;
+}
+
+.header td:last-child {
+  border-top-right-radius: 0.6em;
+  border-bottom-right-radius: 0.6em;
+}
+
+.responses {
+  /*border: 1pt solid black;*/
+  border-radius: 0.6em;
+  background: #eee;
+  padding: 10pt;
+  margin: 10pt;
+}
+
+.responses td:first-child {
+  border-top-left-radius: 0.6em;
+  border-bottom-left-radius: 0.6em;
+}
+
+.responses td:last-child {
+  border-top-right-radius: 0.6em;
+  border-bottom-right-radius: 0.6em;
+}
+
+.touched {
+  background: #bbeeff !important;
+}
+
+.selected {
+  background: #88ccee !important;
+}
+
+.question_answers {
+  border-radius:0.6em;
+  background: #eee;
+  padding: 4pt;
+}
+
+.answer {
+  padding: 0pt 2pt 0pt 2pt;
+  border-radius: 0.4em;
+}
+
+.responses td {
+  padding: 6pt;
+  width: 14.28%;
+  min-width: 14.28%;
+  text-align: center;
+}
+
+.options td {
+  padding: 10pt;
+  padding-bottom: 24pt;
+}
+
+.options td:nth-child(1) {
+  text-align: right;
+  padding-right: 24pt;
+}
+
+.options td:nth-child(2) {
+  text-align: left;
+  padding-left: 24pt;
+}
+
+.end_question {
+  margin-top: 12pt;
+}
+
+.end_question .question_text {
+  font-weight: bold;
+  padding-bottom: 8pt;
+}
+
+.lang_extra {
+  min-width: 20em;
+  width: 20em;
+  height: 6ex;
+}
+
+#ethnicity_questions {
+  width: 100%;
+  border-collapse: separate;
+}
+
+#ethnicity_questions tr td {
+  padding: 6pt;
+  padding-bottom: 12pt;
+}
+
+#ethnicity_questions tr td p {
+  margin: 0pt;
+  padding: 0pt;
+  padding-left: 5%;
+}
+
+#ethnicity_questions tr td:nth-child(1) {
+  width: 3%;
+  min-width: 16pt;
+  border-top-left-radius: 0.4em;
+  border-bottom-left-radius: 0.4em;
+}
+
+#ethnicity_questions tr td:nth-child(2) {
+  width: 57%;
+}
+
+#ethnicity_questions tr td:nth-child(3) {
+  width: 40%;
+  border-top-right-radius: 0.4em;
+  border-bottom-right-radius: 0.4em;
+}
+
+#ethnicity_questions tr td:nth-child(3) input {
+  width: 95%;
+}
+
+</style>
+<section class="container" id="Survey" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333;">
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Preliminaries</strong></div>
+
+<div class="panel-body">
+<p>This HIT is part of an MIT scientific research project, and should take about 25–35 minutes to complete (there are 125 survey questions plus 14 exit questions). Your decision to complete this HIT is voluntary. We will not collect identifying information about you beyond your worker ID, which we will not retain in stored copies of the data that we gather. The only information we will have, in addition to your responses, is the time at which you completed the survey. The results of the research may be presented at scientific meetings or published in scientific journals. Clicking on the 'SUBMIT' button at the bottom of this page indicates that you are at least 18 years of age and agree to complete this HIT voluntarily.</p>
+
+<p style="font-weight: bold;">You may only complete one HIT from this survey. If you complete multiple HITs from this survey, your subsequent HITs will be rejected.</p>
+
+<p>To provide useful data for this survey, you must be at least 18 years old and able to read English and clearly view the images on this page. If you don't meet these criterion, please click 'Return HIT' to avoid being rejected.</p>
+
+<p style="font-weight: bold;">To confirm that you meet these criteria, please write the word “yes” in the box below. </p>
+</div>
+</div><!-- End Instructions Box -->
+
+<fieldset class="text_question">
+  <label>I confirm that I am at least 18 years old, I can understand the text of this survey, and I can clearly view the images embedded below (after the survey instructions).</label>
+  <textarea name="suitable"></textarea>
+</fieldset>
+
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Survey Instructions</strong></div>
+
+<div class="panel-body">
+  <p>You will be presented with five fighting game characters, including three images, a country, a quote, and a short bio for each character. Please indicate your agreement (or disagreement) with each of the statements listed for each character using the following scale (the 25 statements are the same for each character, and the scale is repeated throughout the survey for reference):</p>
+
+<ol>
+  <li> Strongly disagree </li>
+  <li> Disagree </li>
+  <li> Somewhat disagree </li>
+  <li> Neutral </li>
+  <li> Somewhat agree </li>
+  <li> Agree </li>
+  <li> Strongly agree </li>
+</ol>
+
+<p>Make sure you also answer the final exit questions after completing all 5 character sections, and remember that your answers are anonymous and will be used for scientific purposes only. This survey should take you about 25–35 minutes to complete.</p>
+
+<p>Note: Each question will change color once you provide an answer to help make it obvious what you've already finished. There are no right or wrong answers.</p>
+</div>
+</div><!-- End Instructions Box -->
+
+<div id="${id1}" class="single_character">
+<input type="hidden" name="id_1" value="${id1}">
+<div class="character">
+  <table class="character-images">
+    <tr>
+      <td> <img src="${imageA1}" alt="${name1} on the character select screen."> </td>
+      <td> <img src="${imageB1}" alt="Official art of ${name1}."> </td>
+      <td> <img src="${imageC1}" alt="${name1} in-game."> </td>
+    </tr>
+  </table>
+  <table class="character-info">
+    <tr><td class="character-name" colspan=2>${name1}</td></tr>
+    <tr><td>Gender:</td><td class="gender">${gender1}</td></tr>
+    <tr><td>Origin:</td><td class="origin">${origin1}</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;${quote1}&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">${bio1}</td></tr>
+  </table>
+</div>
+
+<table class="character-questions">
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} has a realistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_body_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_body_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_body_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_body_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_body_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_body_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_body_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} has an exaggerated or unrealistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="exaggerated_body_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="exaggerated_body_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="exaggerated_body_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="exaggerated_body_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="exaggerated_body_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="exaggerated_body_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="exaggerated_body_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is designed to appear attractive.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attractive_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attractive_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attractive_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attractive_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attractive_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attractive_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attractive_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is designed to appear ugly.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ugly_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ugly_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ugly_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ugly_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ugly_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ugly_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ugly_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} design emphasizes ${namepossessive1} muscles.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="muscular_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="muscular_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="muscular_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="muscular_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="muscular_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="muscular_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="muscular_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} muscles are hidden or not-well-defined.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="non_muscular_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="non_muscular_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="non_muscular_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="non_muscular_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="non_muscular_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="non_muscular_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="non_muscular_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} design emphasizes ${namepossessive1} sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="sexualized_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is not designed to be sexually appealing (to anyone).
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_sexualized_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is designed to appear overweight.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="overweight_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="overweight_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="overweight_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="overweight_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="overweight_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="overweight_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="overweight_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is designed to appear skinny.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="skinny_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="skinny_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="skinny_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="skinny_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="skinny_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="skinny_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="skinny_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} design emphasizes ${namepossessive1} youth.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="young_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="young_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="young_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="young_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="young_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="young_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="young_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} design emphasizes ${namepossessive1} old age.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="old_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="old_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="old_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="old_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="old_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="old_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="old_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} clothing is designed to increase ${namepossessive1} sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_sexualized_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} clothing does not emphasize ${namepossessive1} sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_not_sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_not_sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_not_sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_not_sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_not_sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_not_sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_not_sexualized_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} clothing is something that someone might wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_clothing_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_clothing_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_clothing_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_clothing_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_clothing_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_clothing_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_clothing_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} clothing is something that nobody would wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="costume_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="costume_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="costume_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="costume_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="costume_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="costume_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="costume_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} could be a good role-model.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="role_model_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="role_model_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="role_model_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="role_model_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="role_model_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="role_model_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="role_model_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is someone that nobody should aspire to be like.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_role_model_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_role_model_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_role_model_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_role_model_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_role_model_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_role_model_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_role_model_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} appearance, quote, and/or description suggests that ${name1} is ${origin1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="obv_origin_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="obv_origin_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="obv_origin_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="obv_origin_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="obv_origin_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="obv_origin_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="obv_origin_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} clothing alone suggests that ${name1} is ${origin1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_origin_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_origin_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_origin_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_origin_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_origin_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_origin_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_origin_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is a positive representation of ${origingroup1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_origin_rep_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_origin_rep_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_origin_rep_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_origin_rep_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_origin_rep_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_origin_rep_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_origin_rep_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} design perpetuates harmful stereotypes about ${origingroup1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="origin_stereotypes_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="origin_stereotypes_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="origin_stereotypes_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="origin_stereotypes_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="origin_stereotypes_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="origin_stereotypes_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="origin_stereotypes_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is a positive representation of ${gendergroup1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_gender_rep_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_gender_rep_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_gender_rep_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_gender_rep_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_gender_rep_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_gender_rep_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_gender_rep_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${namepossessive1} design perpetuates harmful stereotypes about ${gendergroup1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="gender_stereotypes_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="gender_stereotypes_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="gender_stereotypes_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="gender_stereotypes_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="gender_stereotypes_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="gender_stereotypes_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="gender_stereotypes_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      ${name1} is similar to me.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="identification_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="identification_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="identification_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="identification_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="identification_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="identification_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="identification_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with ${origingroup1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="group_familiarity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="group_familiarity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="group_familiarity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="group_familiarity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="group_familiarity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="group_familiarity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="group_familiarity_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      My ethnicity/race is similar to ${namepossessive1}.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_match_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_match_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_match_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_match_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_match_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_match_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_match_1" value="7"></td>
+  </tr>
+</table>
+</div>
+
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Exit Questions</strong></div>
+
+<div class="panel-body">
+<p>Thank you for helping us understand more about the character design in fighting games.</p>
+
+<p>In order to better contextualize your responses, please answer the following questions about your background and gaming experience:</p>
+</div>
+</div><!-- End Instructions Box -->
+
+<div class="end_question">
+<div class="question_text">Have you played “Street Fighter V” or “Tekken 7” before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_specific" value="both"> Yes, both.
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_specific" value="sfv"> Yes, just “Street Fighter V.”
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_specific" value="tk7"> Yes, just “Tekken 7.”
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_specific" value="no"> No, neither.
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you played other Street Fighter or Tekken games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="both"> Yes, games from both franchises.
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="sfv"> Yes, just (a) Street Fighter game(s).
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="tk7"> Yes, just (a) Tekken game(s).”
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="no"> No, neither franchise.
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you played other fighting games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_fighting" value="yes"> Yes 
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_fighting" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you played any other videogames before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_any" value="yes"> Yes 
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_any" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">How often do you play videogames?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="daily"> Almost every day. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="weekly"> At least once per week. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="monthly"> At least once per month. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="infrequent"> Less than once per month. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="never"> I don't play videogames. 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you watched other people play Street Fighter or Tekken games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="watched_franchise" value="often"> Yes, often 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_franchise" value="occasionally"> Yes, occasionally 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_franchise" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you watched other people play any other fighting games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="watched_fighting" value="often"> Yes, often 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_fighting" value="occasionally"> Yes, occasionally 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_fighting" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">How old are you?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="age" value="18-24"> 18–24 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="25-34"> 25–34 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="35-44"> 35–44 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="45-54"> 45–54 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="55-64"> 55–64 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="65-74"> 65–74 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="75+"> 75 years old or older 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What is the highest degree or level of school you have completed?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="education" value="none"> None of the below 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="primary"> Primary school (8th grade) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="some_high"> Some high school (no diploma) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="high"> High school (or equivalent, e.g., GED) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="some_college"> Some college (no degree) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="technical"> Trade/technical/vocational training 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="associate"> Associate degree 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="bachelors"> Bachelor's degree 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="masters"> Master's degree 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="doctorate"> Doctorate degree 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What language(s) do you use for everyday conversation in your community, home, school, and/or workplace? (please list in order of frequency of use)</div>
+<div class="question_answers text_question">
+Language 1: <input type="text" name="lang_primary"> <br />
+Language 2: <input type="text" name="lang_secondary"> <br />
+Language 3: <input type="text" name="lang_tertiary"> <br />
+Additional language(s): <br />
+<textarea name="lang_extra" class="lang_extra"></textarea>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What is your gender?</div>
+<div class="question_answers text_question">
+<textarea name="gender_description"></textarea>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">
+What ethnic group(s) do you consider yourself a part of? <br/>
+(Be as specific as possible, and list multiple if appropriate.)
+</div>
+<div class="question_answers text_question">
+<textarea name="enthicity_description"></textarea>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What is your nationality?</div>
+<div class="question_answers text_question">
+<textarea name="nationality_description"></textarea>
+</div>
+</div>
+
+<!--
+<div class="end_question">
+<span>How would you describe your ethnic background? (check any cultures you identify with and please list one or more specific categories) </span> <br />
+<input type="checkbox" name="ethnicity_native_american"> Native American or Indigenous American (e.g., Diné, Inuk, Tlingit, Maya, etc.) <input type="text" name="specific_ethnicity_native_american"> <br />
+<input type="checkbox" name="ethnicity_african"> Sub-Saharan African or African American (e.g., Sudanese, Nigerian, Haitian, African American, etc.) <input type="text" name="specific_ethnicity_african"> <br />
+<input type="checkbox" name="ethnicity_hispanic"> Hispanic, Latina/o or Spanish American (e.g., Mexican, Puerto Rican, Cuban, Argentinian, Colombian, Dominican, etc.) <input type="text" name="specific_ethnicity_hispanic"> <br />
+<input type="checkbox" name="ethnicity_indian"> Indian or Indian American (e.g., Punjabi, Gujarati, Indian American, etc.) <input type="text" name="specific_ethnicity_indian"> <br />
+<input type="checkbox" name="ethnicity_southeast_asian"> Southeast Asian or Southeast Asian American (e.g., Hmong, Laotian, Indonesian, Vietnamese American, etc.) <input type="text" name="specific_ethnicity_southeast_asian"> <br />
+<input type="checkbox" name="ethnicity_east_asian"> East Asian or East Asian American (e.g., Chinese, Korean, Japanese, Yakut, Nanai, Chinese American) <input type="text" name="specific_ethnicity_east_asian"> <br />
+<input type="checkbox" name="ethnicity_central_asian"> Central Asian or Central Asian American (e.g., Turkmeni, Uzbeki, Pakistani American) <input type="text" name="specific_ethnicity_central_asian"> <br />
+<input type="checkbox" name="ethnicity_middle_eastern"> Middle Eastern, North African or Middle Eastern American (e.g., Saudi Arabian, Israeli, Iranian, Egyptian, Moroccan, Omani American) <input type="text" name="specific_ethnicity_asian"> <br />
+<input type="checkbox" name="ethnicity_scandinavian"> Scandinavian or Scandinavian American (e.g., Norwegian, Finnish, Sami, Swedish American) <input type="text" name="specific_ethnicity_european"> <br />
+<input type="checkbox" name="ethnicity_eastern_european"> Eastern European or Eastern European American (e.g., Russian, Ukranian, Chechen, Hungarian American) <input type="text" name="specific_ethnicity_eastern_european"> <br />
+<input type="checkbox" name="ethnicity_european"> Western European or Western European American (e.g., German, Irish, French, European American (a.k.a. “white” American), French American) <input type="text" name="specific_ethnicity_european"> <br />
+<input type="checkbox" name="ethnicity_pacific"> Pacific Islander, or Pacific Islander American (e.g., Hawaiian, Samoan, Filipino American) <input type="text" name="specific_ethnicity_pacific"> <br />
+<input type="checkbox" name="ethnicity_oceanean">  Oceanean or Oceanean American (e.g., Paupan, Aboriginal Australian, European Australian, European New Zealander, Maori American) <input type="text" name="specific_ethnicity_oceanean"> <br />
+<input type="checkbox" name="ethnicity_other"> Other (please list) <input type="text" name="specific_ethnicity_other"> <br />
+</div>
+-->
+
+<!-- - ->
+<div class="end_question">
+<div class="question_text">Which of the following ethnic backgrounds do you identify with? (check any that apply and please list one or more specific categories) </div>
+<div class="question_answers text_question">
+<table id="ethnicity_questions">
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_native_north_american">
+    </td>
+    <td>
+      Native/Indigenous North American <p>(e.g., Diné, Inuk, Tlingit, Métis, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_native_north_american">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_other_american">
+    </td>
+    <td>
+      Other North American <p>(e.g., African American, European American, European Canadian, Italian American, Japanese American, Indian American, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_other_american">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_native_south_american">
+    </td>
+    <td>
+      Native/Indigenous Central or South American <p>(e.g., Maya, Aché, Kalinago, Pirahã, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_native_south_american">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_hispanic">
+    </td>
+    <td>
+      Hispanic, Latina/o or Other Central or South American <p>(e.g., Mexican, Puerto Rican, Cuban, Argentinian, Colombian, Dominican, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_hispanic">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_sub_saharan_african">
+    </td>
+    <td>
+      Sub-Saharan African <p>(e.g., Sudanese, Nigerian, South African, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_sub_saharan_african">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_indian">
+    </td>
+    <td>
+      Indian <p>(e.g., Punjabi, Gujarati, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_indian">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_southeast_asian">
+    </td>
+    <td>
+      Southeast Asian <p>(e.g., Hmong, Laotian, Indonesian, Vietnamese, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_southeast_asian">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_east_asian">
+    </td>
+    <td>
+      East Asian <p>(e.g., Chinese, Korean, Japanese, Yakut, Nanai, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_east_asian">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_central_asian">
+    </td>
+    <td>
+      Central Asian <p>(e.g., Turkmeni, Uzbek, Pakistani, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_central_asian">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_mena">
+    </td>
+    <td>
+      Middle Eastern or North African <p>(e.g., Saudi Arabian, Israeli, Iranian, Egyptian, Moroccan, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_mena">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_eastern_european">
+    </td>
+    <td>
+      Eastern European <p>(e.g., Russian, Ukrainian, Chechen, Hungarian, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_eastern_european">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_european">
+    </td>
+    <td>
+      Western European <p>(e.g., German, Irish, French, Frisian, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_european">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_scandinavian">
+    </td>
+    <td>
+      Scandinavian <p>(e.g., Norwegian, Finnish, Sami, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_scandinavian">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_pacific">
+    </td>
+    <td>
+      Pacific Islander <p>(e.g., Hawaiian, Samoan, Tahitian, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_pacific">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_oceanean">
+    </td>
+    <td>
+      Native/Indigenous Oceanean <p>(e.g., Paupan, Aboriginal Australian, Maori, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_oceanean">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_other_oceanean">
+    </td>
+    <td>
+      Other Oceanean <p>(e.g., European Australian, European New Zealander, etc.)</p> 
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_other_oceanean">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="associated_radio" type="checkbox" name="ethnicity_other">
+    </td>
+    <td>
+      Other <p>(please specify)</p>
+    </td>
+    <td>
+      <input class="associated_text" type="text" class="specific_ethnicity" name="specific_ethnicity_other">
+    </td>
+  </tr>
+  <tr>
+</table>
+</div>
+</div>
+<! -- -->
+
+<div class="end_question">
+<div class="question_text">(optional) Do you have any other feedback about the content of this survey? Were there any questions that were particularly difficult to answer or that didn't seem to make sense? Were the instructions confusing or contradictory?</div>
+<div class="question_answers text_question">
+<textarea name="feedback" rows=6>
+</textarea>
+</div>
+</div>
+
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>The End</strong></div>
+
+<div class="panel-body">
+  <p>Thanks for taking the time to fill out our survey. If you have further questions about the survey or are interested in the results once they are available, you can contact the study coordinator at: <a href="mailto:pmawhorter@gmail.com">pmawhorter@gmail.com</a>.</p>
+
+</div>
+</div><!-- End Instructions Box -->
+
+<!-- End Survey Body -->
+</section>
+<!-- close container -->

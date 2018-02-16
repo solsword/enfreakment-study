@@ -1,0 +1,49 @@
+Target character set:
+
+Street Fighter V: All 28 characters
+Tekken 7: All 33 characters
+^ These were the two most-diverse-character-origin games from the original
+study.
+
+
+Cost estimate:
+
+20 questions/eval @ 20 seconds/question -> 400 seconds/character
++120 seconds for demographics @ 5 evals/HIT-> 2120 seconds/hit ~35 min./HIT
+35 minutes @ $15/hour -> ~$9/HIT
+$9/HIT / 5 evals/HIT -> $1.80/eval
+~$2.00 per eval -> ~$40 per character @ 20 evals/character
+
+61 characters @ $40/character -> $2440 total
+
+
+Hypotheses
+
+(for Americanish respondents)
+
+GDP might be proxy for exotic?
+
+                         Women   Japanese   Unexotic    Exotic
+Body realism           | ?     |    +     |    ?     |    ?    |
+Muscles                | -     |    ?     |    ?     |    ?    |
+Overweight             | -     |    -     |    ?     |    ?    |
+Skinny                 | +     |    +     |    ?     |    ?    |
+Young                  | +     |    ?     |    ?     |    ?    |
+Old                    | -     |    ?     |    ?     |    ?    |
+Attractive             | +     |    +     |    +     |    -    |
+Ugly                   | -     |    -     |    -     |    +    |
+Sexualized             | +     |    ?     |    ?     |    ?    |
+Clothing-sexualized    | +     |    ?     |    ?     |    ?    |
+Clothing-realistic     | -     |    +     |    +     |    -    |
+Role-model             | -     |    +     |    ?     |    ?    |
+Appearance-obvious     | +     |    -     |    -     |    +    |
+Clothing-obvious       | +     |    -     |    -     |    +    |
+Positive-rep           | ?     |    +     |    +     |    -    |
+Harmful-rep            | +     |    -     |    -     |    +    |
+
+
+TODO: More hypotheses about influence of personal distance to
+character/country.
+
+Self-ident
+Country-ident
