@@ -37,19 +37,11 @@ exe "%s`\\${imageC1}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
-exe "%s`\\${gender1}`" . @" . "`g"
+exe "%s`\\${country1}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
 exe "%s`\\${gendergroup1}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origin1}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origingroup1}`" . @" . "`g"
 " Bio is quoted w/ no escaped quotes inside:
 tabn
 normal lyt"f"ll
@@ -90,19 +82,11 @@ exe "%s`\\${imageC2}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
-exe "%s`\\${gender2}`" . @" . "`g"
+exe "%s`\\${country2}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
 exe "%s`\\${gendergroup2}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origin2}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origingroup2}`" . @" . "`g"
 tabn
 normal lyt"f"ll
 tabp
@@ -140,19 +124,11 @@ exe "%s`\\${imageC3}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
-exe "%s`\\${gender3}`" . @" . "`g"
+exe "%s`\\${country3}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
 exe "%s`\\${gendergroup3}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origin3}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origingroup3}`" . @" . "`g"
 tabn
 normal lyt"f"ll
 tabp
@@ -190,19 +166,11 @@ exe "%s`\\${imageC4}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
-exe "%s`\\${gender4}`" . @" . "`g"
+exe "%s`\\${country4}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
 exe "%s`\\${gendergroup4}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origin4}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origingroup4}`" . @" . "`g"
 tabn
 normal lyt"f"ll
 tabp
@@ -240,19 +208,11 @@ exe "%s`\\${imageC5}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
-exe "%s`\\${gender5}`" . @" . "`g"
+exe "%s`\\${country5}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
 exe "%s`\\${gendergroup5}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origin5}`" . @" . "`g"
-tabn
-normal yt,f,l
-tabp
-exe "%s`\\${origingroup5}`" . @" . "`g"
 tabn
 normal lyt"f"ll
 tabp

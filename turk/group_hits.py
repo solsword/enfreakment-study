@@ -66,23 +66,23 @@ nr = len(rows)
 
 head = (
   "id1,name1,namepossessive1,imageA1,imageB1,imageC1,"
-  "gender1,gendergroup1,origin1,origingroup1,bio1,quote1,"
+  "country1,gendergroup1,bio1,quote1,"
 )
 head += (
   "id2,name2,namepossessive2,imageA2,imageB2,imageC2,"
-  "gender2,gendergroup2,origin2,origingroup2,bio2,quote2,"
+  "country2,gendergroup2,bio2,quote2,"
 )
 head += (
   "id3,name3,namepossessive3,imageA3,imageB3,imageC3,"
-  "gender3,gendergroup3,origin3,origingroup3,bio3,quote3,"
+  "country3,gendergroup3,bio3,quote3,"
 )
 head += (
   "id4,name4,namepossessive4,imageA4,imageB4,imageC4,"
-  "gender4,gendergroup4,origin4,origingroup4,bio4,quote4,"
+  "country4,gendergroup4,bio4,quote4,"
 )
 head += (
   "id5,name5,namepossessive5,imageA5,imageB5,imageC5,"
-  "gender5,gendergroup5,origin5,origingroup5,bio5,quote5"
+  "country5,gendergroup5,bio5,quote5"
 )
 
 print(head)
@@ -97,25 +97,16 @@ for gr in groups:
         break
     if selected == None:
       print("Error: Character '{}' does not exist!".format(cid))
-    if selected["flag"] == "🏴":
-      country, flag = ( selected["alt_country"], selected["alt_flag"] )
-    else:
-      country, flag = ( selected["country"], selected["flag"] )
     iubase = IMAGE_URLS[selected["game"]]
-    line+=(
-      '{id},{nm},{np},{imA},{imB},{imC},'
-      '{ge},{gg},{ori},{og},"{bi}","{qu}",'
-    ).format(
+    line+='{id},{nm},{np},{imA},{imB},{imC},{co},{gg},"{bi}","{qu}",'.format(
       id=selected["id"],
       nm=selected["name"],
       np=selected["possessive"],
       imA=iubase.format("cs", selected["id"]), # character select
       imB=iubase.format("oa", selected["id"]), # official art
       imC=iubase.format("ig", selected["id"]), # in-game
-      ge=selected["gender"].title(),
+      co=selected["country"],
       gg=GENDER_GROUPS[selected["gender"]],
-      ori=selected["origin"],
-      og=selected["origingroup"],
       bi=selected["bio"],
       qu=selected["quote"]
     )

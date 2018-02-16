@@ -378,8 +378,7 @@ fieldset {
   </table>
   <table class="character-info">
     <tr><td class="character-name" colspan=2>${name1}</td></tr>
-    <tr><td>Gender:</td><td class="gender">${gender1}</td></tr>
-    <tr><td>Origin:</td><td class="origin">${origin1}</td></tr>
+    <tr><td>Nationality:</td><td class="nationality">${country1}</td></tr>
     <tr><td>Quote:</td><td class="quote">&ldquo;${quote1}&rdquo;</td></tr>
     <tr><td>Description:</td><td class="quote">${bio1}</td></tr>
   </table>
@@ -679,59 +678,59 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive1} appearance, quote, and/or description suggests that ${name1} is ${origin1}.
+      ${namepossessive1} appearance, quote, and/or description makes ${namepossessive1} ethnicity clear.
     </td>
   </tr>
   <tr class="responses">
-    <td>1 <br/><input type="radio" name="obv_origin_1" value="1"></td>
-    <td>2 <br/><input type="radio" name="obv_origin_1" value="2"></td>
-    <td>3 <br/><input type="radio" name="obv_origin_1" value="3"></td>
-    <td>4 <br/><input type="radio" name="obv_origin_1" value="4"></td>
-    <td>5 <br/><input type="radio" name="obv_origin_1" value="5"></td>
-    <td>6 <br/><input type="radio" name="obv_origin_1" value="6"></td>
-    <td>7 <br/><input type="radio" name="obv_origin_1" value="7"></td>
+    <td>1 <br/><input type="radio" name="obv_ethnicity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="obv_ethnicity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="obv_ethnicity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="obv_ethnicity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="obv_ethnicity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="obv_ethnicity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="obv_ethnicity_1" value="7"></td>
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive1} clothing alone suggests that ${name1} is ${origin1}.
+      ${namepossessive1} clothing alone suggests ${namepossessive1} ethnicity.
     </td>
   </tr>
   <tr class="responses">
-    <td>1 <br/><input type="radio" name="attire_origin_1" value="1"></td>
-    <td>2 <br/><input type="radio" name="attire_origin_1" value="2"></td>
-    <td>3 <br/><input type="radio" name="attire_origin_1" value="3"></td>
-    <td>4 <br/><input type="radio" name="attire_origin_1" value="4"></td>
-    <td>5 <br/><input type="radio" name="attire_origin_1" value="5"></td>
-    <td>6 <br/><input type="radio" name="attire_origin_1" value="6"></td>
-    <td>7 <br/><input type="radio" name="attire_origin_1" value="7"></td>
+    <td>1 <br/><input type="radio" name="attire_ethnicity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_ethnicity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_ethnicity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_ethnicity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_ethnicity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_ethnicity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_ethnicity_1" value="7"></td>
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is a positive representation of ${origingroup1}.
+      ${name1} is a positive representation of ${namepossessive1} ethnic group.
     </td>
   </tr>
   <tr class="responses">
-    <td>1 <br/><input type="radio" name="pos_origin_rep_1" value="1"></td>
-    <td>2 <br/><input type="radio" name="pos_origin_rep_1" value="2"></td>
-    <td>3 <br/><input type="radio" name="pos_origin_rep_1" value="3"></td>
-    <td>4 <br/><input type="radio" name="pos_origin_rep_1" value="4"></td>
-    <td>5 <br/><input type="radio" name="pos_origin_rep_1" value="5"></td>
-    <td>6 <br/><input type="radio" name="pos_origin_rep_1" value="6"></td>
-    <td>7 <br/><input type="radio" name="pos_origin_rep_1" value="7"></td>
+    <td>1 <br/><input type="radio" name="pos_ethnic_rep_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_ethnic_rep_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_ethnic_rep_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_ethnic_rep_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_ethnic_rep_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_ethnic_rep_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_ethnic_rep_1" value="7"></td>
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive1} design perpetuates harmful stereotypes about ${origingroup1}.
+      ${namepossessive1} design perpetuates harmful stereotypes about ${namepossessive1} ethnic group.
     </td>
   </tr>
   <tr class="responses">
-    <td>1 <br/><input type="radio" name="origin_stereotypes_1" value="1"></td>
-    <td>2 <br/><input type="radio" name="origin_stereotypes_1" value="2"></td>
-    <td>3 <br/><input type="radio" name="origin_stereotypes_1" value="3"></td>
-    <td>4 <br/><input type="radio" name="origin_stereotypes_1" value="4"></td>
-    <td>5 <br/><input type="radio" name="origin_stereotypes_1" value="5"></td>
-    <td>6 <br/><input type="radio" name="origin_stereotypes_1" value="6"></td>
-    <td>7 <br/><input type="radio" name="origin_stereotypes_1" value="7"></td>
+    <td>1 <br/><input type="radio" name="ethnic_stereotypes_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_stereotypes_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_stereotypes_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_stereotypes_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_stereotypes_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_stereotypes_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_stereotypes_1" value="7"></td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -777,17 +776,17 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with ${origingroup1}.
+      I am very familiar with ${namepossessive1} ethnic group.
     </td>
   </tr>
   <tr class="responses">
-    <td>1 <br/><input type="radio" name="group_familiarity_1" value="1"></td>
-    <td>2 <br/><input type="radio" name="group_familiarity_1" value="2"></td>
-    <td>3 <br/><input type="radio" name="group_familiarity_1" value="3"></td>
-    <td>4 <br/><input type="radio" name="group_familiarity_1" value="4"></td>
-    <td>5 <br/><input type="radio" name="group_familiarity_1" value="5"></td>
-    <td>6 <br/><input type="radio" name="group_familiarity_1" value="6"></td>
-    <td>7 <br/><input type="radio" name="group_familiarity_1" value="7"></td>
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_1" value="7"></td>
   </tr>
   <tr class="question">
     <td colspan=7>
