@@ -1,7 +1,3 @@
-character(deviljin).
-gender(deviljin,male).
-origin(deviljin,supernatural).
-game(deviljin,tk7).
 
 character(gigas).
 gender(gigas,male).
@@ -22,3 +18,8 @@ character(yoshimitsu).
 gender(yoshimitsu,male).
 origin(yoshimitsu,unknown).
 game(yoshimitsu,tk7).
+
+character(eliza).
+gender(eliza,female).
+origin(eliza,supernatural).
+game(eliza,tk7).

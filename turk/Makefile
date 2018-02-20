@@ -41,8 +41,31 @@ groups.csv: report.lp post.lp shuffle_columns.py
 hits.csv: groups.csv all_chars.csv group_hits.py
 	./group_hits.py > $@
 
+all_urls.csv: hits.csv
+	tail -n +2 hits.csv | cut -d, -f4 > $@
+	tail -n +2 hits.csv | cut -d, -f5 >> $@
+	tail -n +2 hits.csv | cut -d, -f6 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f5 | cut -d, -f5 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f5 | cut -d, -f6 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f5 | cut -d, -f7 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f9 | cut -d, -f5 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f9 | cut -d, -f6 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f9 | cut -d, -f7 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f13 | cut -d, -f5 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f13 | cut -d, -f6 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f13 | cut -d, -f7 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f17 | cut -d, -f5 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f17 | cut -d, -f6 >> $@
+	tail -n +2 hits.csv | cut -d'"' -f17 | cut -d, -f7 >> $@
+
+unique_urls.csv: all_urls.csv
+	sort all_urls.csv | uniq > $@
+
 test.csv: hits.csv
 	head -n 3 hits.csv > $@
+
+test/missing: unique_urls.csv
+	mkdir -p test; cd test; rm -f missing; touch missing; for url in `cat ../unique_urls.csv`; do wget "$$url" || echo "Missing: $$url" >> missing; done
 
 .PHONY: default
 default: template-likert-instantiated.html

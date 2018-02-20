@@ -126,10 +126,10 @@ character(bob).
 gender(bob,male).
 origin(bob,us).
 game(bob,tk7).
-character(brian).
-gender(brian,male).
-origin(brian,us).
-game(brian,tk7).
+character(bryan).
+gender(bryan,male).
+origin(bryan,us).
+game(bryan,tk7).
 character(claudio).
 gender(claudio,male).
 origin(claudio,it).
@@ -142,10 +142,6 @@ character(eddy).
 gender(eddy,male).
 origin(eddy,br).
 game(eddy,tk7).
-character(eliza).
-gender(eliza,female).
-origin(eliza,supernatural).
-game(eliza,tk7).
 character(feng).
 gender(feng,male).
 origin(feng,cn).
@@ -238,3 +234,9 @@ character(xiaoyu).
 gender(xiaoyu,female).
 origin(xiaoyu,jp).
 game(xiaoyu,tk7).
+
+% Note: Required for balancing to work out?!?
+character(deviljin).
+gender(deviljin,male).
+origin(deviljin,supernatural).
+game(deviljin,tk7).

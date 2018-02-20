@@ -7,8 +7,16 @@ into Amazon Mechanical Turk to instantiate template-likert.html.
 import csv
 
 IMAGE_URLS = {
-  "sfv": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_{}_{}.jpg",
-  "tk7": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_{}_{}.png",
+  "sfv": {
+    "A": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_cs_{}.jpg",
+    "B": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_oa_{}.jpg",
+    "C": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_ig_{}.jpg",
+  },
+  "tk7": {
+    "A": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_cs_{}.jpg",
+    "B": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_pr_{}.png",
+    "C": "http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_ig_{}.jpg",
+  }
 }
 FLAG_URL = "http://web.mit.edu/pmwh/www/enfreakment-images/flags/{}.png"
 
@@ -102,9 +110,9 @@ for gr in groups:
       id=selected["id"],
       nm=selected["name"],
       np=selected["possessive"],
-      imA=iubase.format("cs", selected["id"]), # character select
-      imB=iubase.format("oa", selected["id"]), # official art
-      imC=iubase.format("ig", selected["id"]), # in-game
+      imA=iubase["A"].format(selected["id"]), # character select
+      imB=iubase["B"].format(selected["id"]), # official art
+      imC=iubase["C"].format(selected["id"]), # in-game
       co=selected["country"],
       gg=GENDER_GROUPS[selected["gender"]],
       bi=selected["bio"],

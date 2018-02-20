@@ -100,7 +100,8 @@ fieldset {
 }
 
 .single_character {
-  margin-top: 8em;
+  margin-top: 7ex;
+  margin-bottom: 7ex;
 }
 
 .character {
@@ -132,7 +133,8 @@ fieldset {
 .character-images img {
   width: 100%;
   border-radius: 0.3em;
-  background: #000;
+  /*background: #000;*/
+  background: #1a344b; /* Grabbed from Tekken 7 character select screen */
   color: #eee;
 }
 
@@ -328,13 +330,13 @@ fieldset {
 <div class="panel-heading"><strong>Preliminaries</strong></div>
 
 <div class="panel-body">
-<p>This HIT is part of an MIT scientific research project, and should take about 25–35 minutes to complete (there are 125 survey questions plus 14 exit questions). Your decision to complete this HIT is voluntary. We will not collect identifying information about you beyond your worker ID, which we will not retain in stored copies of the data that we gather. The only information we will have, in addition to your responses, is the time at which you completed the survey. The results of the research may be presented at scientific meetings or published in scientific journals. Clicking on the 'SUBMIT' button at the bottom of this page indicates that you are at least 18 years of age and agree to complete this HIT voluntarily.</p>
+<p>This HIT is part of an MIT scientific research project, and should take about 25&ndash;35 minutes to complete (there are 135 survey questions plus 14 exit questions). Your decision to complete this HIT is voluntary. We will not collect identifying information about you beyond your worker ID, which we will not retain in stored copies of the data that we gather. The only information we will have, in addition to your responses, is the time at which you completed the survey. The results of the research may be presented at scientific meetings or published in scientific journals. Clicking on the 'SUBMIT' button at the bottom of this page indicates that you are at least 18 years of age and agree to complete this HIT voluntarily.</p>
 
 <p style="font-weight: bold;">You may only complete one HIT from this survey. If you complete multiple HITs from this survey, your subsequent HITs will be rejected.</p>
 
 <p>To provide useful data for this survey, you must be at least 18 years old and able to read English and clearly view the images on this page. If you don't meet these criterion, please click 'Return HIT' to avoid being rejected.</p>
 
-<p style="font-weight: bold;">To confirm that you meet these criteria, please write the word “yes” in the box below. </p>
+<p style="font-weight: bold;">To confirm that you meet these criteria, please write the word "yes" in the box below. </p>
 </div>
 </div><!-- End Instructions Box -->
 
@@ -360,7 +362,7 @@ fieldset {
   <li> Strongly agree </li>
 </ol>
 
-<p>Make sure you also answer the final exit questions after completing all 5 character sections, and remember that your answers are anonymous and will be used for scientific purposes only. This survey should take you about 25–35 minutes to complete.</p>
+<p>Make sure you also answer the final exit questions after completing all 5 character sections, and remember that your answers are anonymous and will be used for scientific purposes only. This survey should take you about 25&ndash;35 minutes to complete.</p>
 
 <p>Note: Each question will change color once you provide an answer to help make it obvious what you've already finished. There are no right or wrong answers.</p>
 </div>
@@ -378,7 +380,7 @@ fieldset {
   </table>
   <table class="character-info">
     <tr><td class="character-name" colspan=2>${name1}</td></tr>
-    <tr><td>Nationality:</td><td class="nationality">${country1}</td></tr>
+    <tr><td>Country:</td><td class="nationality">${country1}</td></tr>
     <tr><td>Quote:</td><td class="quote">&ldquo;${quote1}&rdquo;</td></tr>
     <tr><td>Description:</td><td class="quote">${bio1}</td></tr>
   </table>
@@ -478,16 +480,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="non_muscular_1" value="6"></td>
     <td>7 <br/><input type="radio" name="non_muscular_1" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive1} design emphasizes ${namepossessive1} sex appeal.
@@ -515,6 +507,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_sexualized_1" value="5"></td>
     <td>6 <br/><input type="radio" name="not_sexualized_1" value="6"></td>
     <td>7 <br/><input type="radio" name="not_sexualized_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -572,16 +574,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="old_1" value="6"></td>
     <td>7 <br/><input type="radio" name="old_1" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive1} clothing is designed to increase ${namepossessive1} sex appeal.
@@ -638,6 +630,16 @@ fieldset {
     <td>6 <br/><input type="radio" name="costume_1" value="6"></td>
     <td>7 <br/><input type="radio" name="costume_1" value="7"></td>
   </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
   <tr class="question">
     <td colspan=7>
       ${name1} could be a good role-model.
@@ -665,16 +667,6 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_role_model_1" value="5"></td>
     <td>6 <br/><input type="radio" name="not_role_model_1" value="6"></td>
     <td>7 <br/><input type="radio" name="not_role_model_1" value="7"></td>
-  </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -720,7 +712,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive1} design perpetuates harmful stereotypes about ${namepossessive1} ethnic group.
+      ${namepossessive1} design encourages misleading assumptions about people from ${namepossessive1} ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -748,7 +740,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive1} design perpetuates harmful stereotypes about ${gendergroup1}.
+      ${namepossessive1} design encourages misleading assumptions about ${gendergroup1}.
     </td>
   </tr>
   <tr class="responses">
@@ -759,6 +751,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="gender_stereotypes_1" value="5"></td>
     <td>6 <br/><input type="radio" name="gender_stereotypes_1" value="6"></td>
     <td>7 <br/><input type="radio" name="gender_stereotypes_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -776,20 +778,6 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with ${namepossessive1} ethnic group.
-    </td>
-  </tr>
-  <tr class="responses">
-    <td>1 <br/><input type="radio" name="ethnic_familiarity_1" value="1"></td>
-    <td>2 <br/><input type="radio" name="ethnic_familiarity_1" value="2"></td>
-    <td>3 <br/><input type="radio" name="ethnic_familiarity_1" value="3"></td>
-    <td>4 <br/><input type="radio" name="ethnic_familiarity_1" value="4"></td>
-    <td>5 <br/><input type="radio" name="ethnic_familiarity_1" value="5"></td>
-    <td>6 <br/><input type="radio" name="ethnic_familiarity_1" value="6"></td>
-    <td>7 <br/><input type="radio" name="ethnic_familiarity_1" value="7"></td>
-  </tr>
-  <tr class="question">
-    <td colspan=7>
       My ethnicity/race is similar to ${namepossessive1}.
     </td>
   </tr>
@@ -801,6 +789,20 @@ fieldset {
     <td>5 <br/><input type="radio" name="ethnic_match_1" value="5"></td>
     <td>6 <br/><input type="radio" name="ethnic_match_1" value="6"></td>
     <td>7 <br/><input type="radio" name="ethnic_match_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with ${namepossessive1} ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_1" value="7"></td>
   </tr>
 </table>
 </div>
@@ -817,7 +819,7 @@ fieldset {
   </table>
   <table class="character-info">
     <tr><td class="character-name" colspan=2>${name2}</td></tr>
-    <tr><td>Nationality:</td><td class="nationality">${country2}</td></tr>
+    <tr><td>Country:</td><td class="nationality">${country2}</td></tr>
     <tr><td>Quote:</td><td class="quote">&ldquo;${quote2}&rdquo;</td></tr>
     <tr><td>Description:</td><td class="quote">${bio2}</td></tr>
   </table>
@@ -917,16 +919,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="non_muscular_2" value="6"></td>
     <td>7 <br/><input type="radio" name="non_muscular_2" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive2} design emphasizes ${namepossessive2} sex appeal.
@@ -954,6 +946,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_sexualized_2" value="5"></td>
     <td>6 <br/><input type="radio" name="not_sexualized_2" value="6"></td>
     <td>7 <br/><input type="radio" name="not_sexualized_2" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -1011,16 +1013,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="old_2" value="6"></td>
     <td>7 <br/><input type="radio" name="old_2" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive2} clothing is designed to increase ${namepossessive2} sex appeal.
@@ -1077,6 +1069,16 @@ fieldset {
     <td>6 <br/><input type="radio" name="costume_2" value="6"></td>
     <td>7 <br/><input type="radio" name="costume_2" value="7"></td>
   </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
   <tr class="question">
     <td colspan=7>
       ${name2} could be a good role-model.
@@ -1104,16 +1106,6 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_role_model_2" value="5"></td>
     <td>6 <br/><input type="radio" name="not_role_model_2" value="6"></td>
     <td>7 <br/><input type="radio" name="not_role_model_2" value="7"></td>
-  </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -1159,7 +1151,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive2} design perpetuates harmful stereotypes about ${namepossessive2} ethnic group.
+      ${namepossessive2} design encourages misleading assumptions about people from ${namepossessive2} ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1187,7 +1179,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive2} design perpetuates harmful stereotypes about ${gendergroup2}.
+      ${namepossessive2} design encourages misleading assumptions about ${gendergroup2}.
     </td>
   </tr>
   <tr class="responses">
@@ -1198,6 +1190,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="gender_stereotypes_2" value="5"></td>
     <td>6 <br/><input type="radio" name="gender_stereotypes_2" value="6"></td>
     <td>7 <br/><input type="radio" name="gender_stereotypes_2" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -1215,20 +1217,6 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with ${namepossessive2} ethnic group.
-    </td>
-  </tr>
-  <tr class="responses">
-    <td>1 <br/><input type="radio" name="ethnic_familiarity_2" value="1"></td>
-    <td>2 <br/><input type="radio" name="ethnic_familiarity_2" value="2"></td>
-    <td>3 <br/><input type="radio" name="ethnic_familiarity_2" value="3"></td>
-    <td>4 <br/><input type="radio" name="ethnic_familiarity_2" value="4"></td>
-    <td>5 <br/><input type="radio" name="ethnic_familiarity_2" value="5"></td>
-    <td>6 <br/><input type="radio" name="ethnic_familiarity_2" value="6"></td>
-    <td>7 <br/><input type="radio" name="ethnic_familiarity_2" value="7"></td>
-  </tr>
-  <tr class="question">
-    <td colspan=7>
       My ethnicity/race is similar to ${namepossessive2}.
     </td>
   </tr>
@@ -1240,6 +1228,20 @@ fieldset {
     <td>5 <br/><input type="radio" name="ethnic_match_2" value="5"></td>
     <td>6 <br/><input type="radio" name="ethnic_match_2" value="6"></td>
     <td>7 <br/><input type="radio" name="ethnic_match_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with ${namepossessive2} ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_2" value="7"></td>
   </tr>
 </table>
 </div>
@@ -1256,7 +1258,7 @@ fieldset {
   </table>
   <table class="character-info">
     <tr><td class="character-name" colspan=2>${name3}</td></tr>
-    <tr><td>Nationality:</td><td class="nationality">${country3}</td></tr>
+    <tr><td>Country:</td><td class="nationality">${country3}</td></tr>
     <tr><td>Quote:</td><td class="quote">&ldquo;${quote3}&rdquo;</td></tr>
     <tr><td>Description:</td><td class="quote">${bio3}</td></tr>
   </table>
@@ -1356,16 +1358,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="non_muscular_3" value="6"></td>
     <td>7 <br/><input type="radio" name="non_muscular_3" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive3} design emphasizes ${namepossessive3} sex appeal.
@@ -1393,6 +1385,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_sexualized_3" value="5"></td>
     <td>6 <br/><input type="radio" name="not_sexualized_3" value="6"></td>
     <td>7 <br/><input type="radio" name="not_sexualized_3" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -1450,16 +1452,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="old_3" value="6"></td>
     <td>7 <br/><input type="radio" name="old_3" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive3} clothing is designed to increase ${namepossessive3} sex appeal.
@@ -1516,6 +1508,16 @@ fieldset {
     <td>6 <br/><input type="radio" name="costume_3" value="6"></td>
     <td>7 <br/><input type="radio" name="costume_3" value="7"></td>
   </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
   <tr class="question">
     <td colspan=7>
       ${name3} could be a good role-model.
@@ -1543,16 +1545,6 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_role_model_3" value="5"></td>
     <td>6 <br/><input type="radio" name="not_role_model_3" value="6"></td>
     <td>7 <br/><input type="radio" name="not_role_model_3" value="7"></td>
-  </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -1598,7 +1590,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive3} design perpetuates harmful stereotypes about ${namepossessive3} ethnic group.
+      ${namepossessive3} design encourages misleading assumptions about people from ${namepossessive3} ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1626,7 +1618,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive3} design perpetuates harmful stereotypes about ${gendergroup3}.
+      ${namepossessive3} design encourages misleading assumptions about ${gendergroup3}.
     </td>
   </tr>
   <tr class="responses">
@@ -1637,6 +1629,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="gender_stereotypes_3" value="5"></td>
     <td>6 <br/><input type="radio" name="gender_stereotypes_3" value="6"></td>
     <td>7 <br/><input type="radio" name="gender_stereotypes_3" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -1654,20 +1656,6 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with ${namepossessive3} ethnic group.
-    </td>
-  </tr>
-  <tr class="responses">
-    <td>1 <br/><input type="radio" name="ethnic_familiarity_3" value="1"></td>
-    <td>2 <br/><input type="radio" name="ethnic_familiarity_3" value="2"></td>
-    <td>3 <br/><input type="radio" name="ethnic_familiarity_3" value="3"></td>
-    <td>4 <br/><input type="radio" name="ethnic_familiarity_3" value="4"></td>
-    <td>5 <br/><input type="radio" name="ethnic_familiarity_3" value="5"></td>
-    <td>6 <br/><input type="radio" name="ethnic_familiarity_3" value="6"></td>
-    <td>7 <br/><input type="radio" name="ethnic_familiarity_3" value="7"></td>
-  </tr>
-  <tr class="question">
-    <td colspan=7>
       My ethnicity/race is similar to ${namepossessive3}.
     </td>
   </tr>
@@ -1679,6 +1667,20 @@ fieldset {
     <td>5 <br/><input type="radio" name="ethnic_match_3" value="5"></td>
     <td>6 <br/><input type="radio" name="ethnic_match_3" value="6"></td>
     <td>7 <br/><input type="radio" name="ethnic_match_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with ${namepossessive3} ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_3" value="7"></td>
   </tr>
 </table>
 </div>
@@ -1695,7 +1697,7 @@ fieldset {
   </table>
   <table class="character-info">
     <tr><td class="character-name" colspan=2>${name4}</td></tr>
-    <tr><td>Nationality:</td><td class="nationality">${country4}</td></tr>
+    <tr><td>Country:</td><td class="nationality">${country4}</td></tr>
     <tr><td>Quote:</td><td class="quote">&ldquo;${quote4}&rdquo;</td></tr>
     <tr><td>Description:</td><td class="quote">${bio4}</td></tr>
   </table>
@@ -1795,16 +1797,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="non_muscular_4" value="6"></td>
     <td>7 <br/><input type="radio" name="non_muscular_4" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive4} design emphasizes ${namepossessive4} sex appeal.
@@ -1832,6 +1824,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_sexualized_4" value="5"></td>
     <td>6 <br/><input type="radio" name="not_sexualized_4" value="6"></td>
     <td>7 <br/><input type="radio" name="not_sexualized_4" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -1889,16 +1891,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="old_4" value="6"></td>
     <td>7 <br/><input type="radio" name="old_4" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive4} clothing is designed to increase ${namepossessive4} sex appeal.
@@ -1955,6 +1947,16 @@ fieldset {
     <td>6 <br/><input type="radio" name="costume_4" value="6"></td>
     <td>7 <br/><input type="radio" name="costume_4" value="7"></td>
   </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
   <tr class="question">
     <td colspan=7>
       ${name4} could be a good role-model.
@@ -1982,16 +1984,6 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_role_model_4" value="5"></td>
     <td>6 <br/><input type="radio" name="not_role_model_4" value="6"></td>
     <td>7 <br/><input type="radio" name="not_role_model_4" value="7"></td>
-  </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -2037,7 +2029,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive4} design perpetuates harmful stereotypes about ${namepossessive4} ethnic group.
+      ${namepossessive4} design encourages misleading assumptions about people from ${namepossessive4} ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -2065,7 +2057,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive4} design perpetuates harmful stereotypes about ${gendergroup4}.
+      ${namepossessive4} design encourages misleading assumptions about ${gendergroup4}.
     </td>
   </tr>
   <tr class="responses">
@@ -2076,6 +2068,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="gender_stereotypes_4" value="5"></td>
     <td>6 <br/><input type="radio" name="gender_stereotypes_4" value="6"></td>
     <td>7 <br/><input type="radio" name="gender_stereotypes_4" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -2093,20 +2095,6 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with ${namepossessive4} ethnic group.
-    </td>
-  </tr>
-  <tr class="responses">
-    <td>1 <br/><input type="radio" name="ethnic_familiarity_4" value="1"></td>
-    <td>2 <br/><input type="radio" name="ethnic_familiarity_4" value="2"></td>
-    <td>3 <br/><input type="radio" name="ethnic_familiarity_4" value="3"></td>
-    <td>4 <br/><input type="radio" name="ethnic_familiarity_4" value="4"></td>
-    <td>5 <br/><input type="radio" name="ethnic_familiarity_4" value="5"></td>
-    <td>6 <br/><input type="radio" name="ethnic_familiarity_4" value="6"></td>
-    <td>7 <br/><input type="radio" name="ethnic_familiarity_4" value="7"></td>
-  </tr>
-  <tr class="question">
-    <td colspan=7>
       My ethnicity/race is similar to ${namepossessive4}.
     </td>
   </tr>
@@ -2118,6 +2106,20 @@ fieldset {
     <td>5 <br/><input type="radio" name="ethnic_match_4" value="5"></td>
     <td>6 <br/><input type="radio" name="ethnic_match_4" value="6"></td>
     <td>7 <br/><input type="radio" name="ethnic_match_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with ${namepossessive4} ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_4" value="7"></td>
   </tr>
 </table>
 </div>
@@ -2134,7 +2136,7 @@ fieldset {
   </table>
   <table class="character-info">
     <tr><td class="character-name" colspan=2>${name5}</td></tr>
-    <tr><td>Nationality:</td><td class="nationality">${country5}</td></tr>
+    <tr><td>Country:</td><td class="nationality">${country5}</td></tr>
     <tr><td>Quote:</td><td class="quote">&ldquo;${quote5}&rdquo;</td></tr>
     <tr><td>Description:</td><td class="quote">${bio5}</td></tr>
   </table>
@@ -2234,16 +2236,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="non_muscular_5" value="6"></td>
     <td>7 <br/><input type="radio" name="non_muscular_5" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive5} design emphasizes ${namepossessive5} sex appeal.
@@ -2271,6 +2263,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_sexualized_5" value="5"></td>
     <td>6 <br/><input type="radio" name="not_sexualized_5" value="6"></td>
     <td>7 <br/><input type="radio" name="not_sexualized_5" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -2328,16 +2330,6 @@ fieldset {
     <td>6 <br/><input type="radio" name="old_5" value="6"></td>
     <td>7 <br/><input type="radio" name="old_5" value="7"></td>
   </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
-  </tr>
   <tr class="question">
     <td colspan=7>
       ${namepossessive5} clothing is designed to increase ${namepossessive5} sex appeal.
@@ -2394,6 +2386,16 @@ fieldset {
     <td>6 <br/><input type="radio" name="costume_5" value="6"></td>
     <td>7 <br/><input type="radio" name="costume_5" value="7"></td>
   </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
   <tr class="question">
     <td colspan=7>
       ${name5} could be a good role-model.
@@ -2421,16 +2423,6 @@ fieldset {
     <td>5 <br/><input type="radio" name="not_role_model_5" value="5"></td>
     <td>6 <br/><input type="radio" name="not_role_model_5" value="6"></td>
     <td>7 <br/><input type="radio" name="not_role_model_5" value="7"></td>
-  </tr>
-  <tr class="spacer"></tr>
-  <tr class="header">
-    <td>Strongly disagree</td>
-    <td>Disagree </td>
-    <td>Somewhat disagree </td>
-    <td>Neutral </td>
-    <td>Somewhat agree </td>
-    <td>Agree </td>
-    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -2476,7 +2468,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive5} design perpetuates harmful stereotypes about ${namepossessive5} ethnic group.
+      ${namepossessive5} design encourages misleading assumptions about people from ${namepossessive5} ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -2504,7 +2496,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${namepossessive5} design perpetuates harmful stereotypes about ${gendergroup5}.
+      ${namepossessive5} design encourages misleading assumptions about ${gendergroup5}.
     </td>
   </tr>
   <tr class="responses">
@@ -2515,6 +2507,16 @@ fieldset {
     <td>5 <br/><input type="radio" name="gender_stereotypes_5" value="5"></td>
     <td>6 <br/><input type="radio" name="gender_stereotypes_5" value="6"></td>
     <td>7 <br/><input type="radio" name="gender_stereotypes_5" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
   </tr>
   <tr class="question">
     <td colspan=7>
@@ -2532,20 +2534,6 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with ${namepossessive5} ethnic group.
-    </td>
-  </tr>
-  <tr class="responses">
-    <td>1 <br/><input type="radio" name="ethnic_familiarity_5" value="1"></td>
-    <td>2 <br/><input type="radio" name="ethnic_familiarity_5" value="2"></td>
-    <td>3 <br/><input type="radio" name="ethnic_familiarity_5" value="3"></td>
-    <td>4 <br/><input type="radio" name="ethnic_familiarity_5" value="4"></td>
-    <td>5 <br/><input type="radio" name="ethnic_familiarity_5" value="5"></td>
-    <td>6 <br/><input type="radio" name="ethnic_familiarity_5" value="6"></td>
-    <td>7 <br/><input type="radio" name="ethnic_familiarity_5" value="7"></td>
-  </tr>
-  <tr class="question">
-    <td colspan=7>
       My ethnicity/race is similar to ${namepossessive5}.
     </td>
   </tr>
@@ -2557,6 +2545,20 @@ fieldset {
     <td>5 <br/><input type="radio" name="ethnic_match_5" value="5"></td>
     <td>6 <br/><input type="radio" name="ethnic_match_5" value="6"></td>
     <td>7 <br/><input type="radio" name="ethnic_match_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with ${namepossessive5} ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_5" value="7"></td>
   </tr>
 </table>
 </div>
@@ -2573,16 +2575,16 @@ fieldset {
 </div><!-- End Instructions Box -->
 
 <div class="end_question">
-<div class="question_text">Have you played “Street Fighter V” or “Tekken 7” before?</div>
+<div class="question_text">Have you played "Street Fighter V" or "Tekken 7" before?</div>
 <div class="question_answers">
   <div class="answer">
     <input type="radio" name="played_specific" value="both"> Yes, both.
   </div>
   <div class="answer">
-    <input type="radio" name="played_specific" value="sfv"> Yes, just “Street Fighter V.”
+    <input type="radio" name="played_specific" value="sfv"> Yes, just "Street Fighter V."
   </div>
   <div class="answer">
-    <input type="radio" name="played_specific" value="tk7"> Yes, just “Tekken 7.”
+    <input type="radio" name="played_specific" value="tk7"> Yes, just "Tekken 7."
   </div>
   <div class="answer">
     <input type="radio" name="played_specific" value="no"> No, neither.
@@ -2600,7 +2602,7 @@ fieldset {
     <input type="radio" name="played_franchise" value="sfv"> Yes, just (a) Street Fighter game(s).
   </div>
   <div class="answer">
-    <input type="radio" name="played_franchise" value="tk7"> Yes, just (a) Tekken game(s).”
+    <input type="radio" name="played_franchise" value="tk7"> Yes, just (a) Tekken game(s).
   </div>
   <div class="answer">
     <input type="radio" name="played_franchise" value="no"> No, neither franchise.
@@ -2687,22 +2689,22 @@ fieldset {
 <div class="question_text">How old are you?</div>
 <div class="question_answers">
   <div class="answer">
-    <input type="radio" name="age" value="18-24"> 18–24 years old 
+    <input type="radio" name="age" value="18-24"> 18&ndash;24 years old 
   </div>
   <div class="answer">
-    <input type="radio" name="age" value="25-34"> 25–34 years old 
+    <input type="radio" name="age" value="25-34"> 25&ndash;34 years old 
   </div>
   <div class="answer">
-    <input type="radio" name="age" value="35-44"> 35–44 years old 
+    <input type="radio" name="age" value="35-44"> 35&ndash;44 years old 
   </div>
   <div class="answer">
-    <input type="radio" name="age" value="45-54"> 45–54 years old 
+    <input type="radio" name="age" value="45-54"> 45&ndash;54 years old 
   </div>
   <div class="answer">
-    <input type="radio" name="age" value="55-64"> 55–64 years old 
+    <input type="radio" name="age" value="55-64"> 55&ndash;64 years old 
   </div>
   <div class="answer">
-    <input type="radio" name="age" value="65-74"> 65–74 years old 
+    <input type="radio" name="age" value="65-74"> 65&ndash;74 years old 
   </div>
   <div class="answer">
     <input type="radio" name="age" value="75+"> 75 years old or older 
@@ -2794,7 +2796,7 @@ What ethnic group(s) do you consider yourself a part of? <br/>
 <input type="checkbox" name="ethnicity_middle_eastern"> Middle Eastern, North African or Middle Eastern American (e.g., Saudi Arabian, Israeli, Iranian, Egyptian, Moroccan, Omani American) <input type="text" name="specific_ethnicity_asian"> <br />
 <input type="checkbox" name="ethnicity_scandinavian"> Scandinavian or Scandinavian American (e.g., Norwegian, Finnish, Sami, Swedish American) <input type="text" name="specific_ethnicity_european"> <br />
 <input type="checkbox" name="ethnicity_eastern_european"> Eastern European or Eastern European American (e.g., Russian, Ukranian, Chechen, Hungarian American) <input type="text" name="specific_ethnicity_eastern_european"> <br />
-<input type="checkbox" name="ethnicity_european"> Western European or Western European American (e.g., German, Irish, French, European American (a.k.a. “white” American), French American) <input type="text" name="specific_ethnicity_european"> <br />
+<input type="checkbox" name="ethnicity_european"> Western European or Western European American (e.g., German, Irish, French, European American (a.k.a. "white" American), French American) <input type="text" name="specific_ethnicity_european"> <br />
 <input type="checkbox" name="ethnicity_pacific"> Pacific Islander, or Pacific Islander American (e.g., Hawaiian, Samoan, Filipino American) <input type="text" name="specific_ethnicity_pacific"> <br />
 <input type="checkbox" name="ethnicity_oceanean">  Oceanean or Oceanean American (e.g., Paupan, Aboriginal Australian, European Australian, European New Zealander, Maori American) <input type="text" name="specific_ethnicity_oceanean"> <br />
 <input type="checkbox" name="ethnicity_other"> Other (please list) <input type="text" name="specific_ethnicity_other"> <br />
