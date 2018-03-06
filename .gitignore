@@ -1,6 +1,7 @@
 misc/
 turk/results/
-turk/images/
+turk/images/*/clean
+turk/images/*/*.zip
 turk/all_urls.csv
 turk/unique_urls.csv
 turk/test
