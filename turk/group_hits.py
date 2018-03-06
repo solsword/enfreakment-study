@@ -73,23 +73,23 @@ nr = len(rows)
 #print("Groupings:", len(groups))
 
 head = (
-  "id1,name1,namepossessive1,imageA1,imageB1,imageC1,"
+  "id1,name1,shortname1,namepossessive1,imageA1,imageB1,imageC1,"
   "country1,gendergroup1,bio1,quote1,"
 )
 head += (
-  "id2,name2,namepossessive2,imageA2,imageB2,imageC2,"
+  "id2,name2,shortname2,namepossessive2,imageA2,imageB2,imageC2,"
   "country2,gendergroup2,bio2,quote2,"
 )
 head += (
-  "id3,name3,namepossessive3,imageA3,imageB3,imageC3,"
+  "id3,name3,shortname3,namepossessive3,imageA3,imageB3,imageC3,"
   "country3,gendergroup3,bio3,quote3,"
 )
 head += (
-  "id4,name4,namepossessive4,imageA4,imageB4,imageC4,"
+  "id4,name4,shortname4,namepossessive4,imageA4,imageB4,imageC4,"
   "country4,gendergroup4,bio4,quote4,"
 )
 head += (
-  "id5,name5,namepossessive5,imageA5,imageB5,imageC5,"
+  "id5,name5,shortname5,namepossessive5,imageA5,imageB5,imageC5,"
   "country5,gendergroup5,bio5,quote5"
 )
 
@@ -106,9 +106,12 @@ for gr in groups:
     if selected == None:
       print("Error: Character '{}' does not exist!".format(cid))
     iubase = IMAGE_URLS[selected["game"]]
-    line+='{id},{nm},{np},{imA},{imB},{imC},{co},{gg},"{bi}","{qu}",'.format(
+    line+=(
+      '{id},{fn},{nm},{np},{imA},{imB},{imC},{co},{gg},"{bi}","{qu}",'
+    ).format(
       id=selected["id"],
-      nm=selected["name"],
+      fn=selected["name"],
+      nm=selected["shortname"],
       np=selected["possessive"],
       imA=iubase["A"].format(selected["id"]), # character select
       imB=iubase["B"].format(selected["id"]), # official art

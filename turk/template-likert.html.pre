@@ -46,7 +46,6 @@ $(document).ready(function() {
   });
   var tq_inputs = $(".text_question input[type=text]");
   tq_inputs = tq_inputs.add($(".text_question textarea"));
-  console.log(tq_inputs);
   tq_inputs.on("click keypress", function(event) {
     var here = $(this);
     while(!here.hasClass("text_question")) {
@@ -373,9 +372,9 @@ fieldset {
 <div class="character">
   <table class="character-images">
     <tr>
-      <td> <img src="${imageA1}" alt="${name1} on the character select screen."> </td>
-      <td> <img src="${imageB1}" alt="Official art of ${name1}."> </td>
-      <td> <img src="${imageC1}" alt="${name1} in-game."> </td>
+      <td> <img src="${imageA1}" alt="${shortname1} on the character select screen."> </td>
+      <td> <img src="${imageB1}" alt="Official art of ${shortname1}."> </td>
+      <td> <img src="${imageC1}" alt="${shortname1} in-game."> </td>
     </tr>
   </table>
   <table class="character-info">
@@ -398,7 +397,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} has a realistic body.
+      ${shortname1} has a realistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -412,7 +411,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} has an exaggerated or unrealistic body.
+      ${shortname1} has an exaggerated or unrealistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -426,7 +425,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is designed to appear attractive.
+      ${shortname1} is designed to appear attractive.
     </td>
   </tr>
   <tr class="responses">
@@ -440,7 +439,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is designed to appear ugly.
+      ${shortname1} is designed to appear ugly.
     </td>
   </tr>
   <tr class="responses">
@@ -496,7 +495,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is not designed to be sexually appealing (to anyone).
+      ${shortname1} is not designed to be sexually appealing (to anyone).
     </td>
   </tr>
   <tr class="responses">
@@ -520,7 +519,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is designed to appear overweight.
+      ${shortname1} is designed to appear overweight.
     </td>
   </tr>
   <tr class="responses">
@@ -534,7 +533,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is designed to appear skinny.
+      ${shortname1} is designed to appear skinny.
     </td>
   </tr>
   <tr class="responses">
@@ -642,7 +641,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} could be a good role-model.
+      ${shortname1} could be a good role-model.
     </td>
   </tr>
   <tr class="responses">
@@ -656,7 +655,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is someone that nobody should aspire to be like.
+      ${shortname1} is someone that nobody should aspire to be like.
     </td>
   </tr>
   <tr class="responses">
@@ -698,7 +697,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is a positive representation of ${namepossessive1} ethnic group.
+      ${shortname1} is a positive representation of ${namepossessive1} ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -726,7 +725,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is a positive representation of ${gendergroup1}.
+      ${shortname1} is a positive representation of ${gendergroup1}.
     </td>
   </tr>
   <tr class="responses">
@@ -764,7 +763,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      ${name1} is similar to me.
+      ${shortname1} is similar to me.
     </td>
   </tr>
   <tr class="responses">

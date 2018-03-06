@@ -15,6 +15,13 @@ tabp
 " Replace all
 exe "%s`\\${name1}`" . @" . "`g"
 
+" shortname1
+tabn
+normal yt,f,l
+tabp
+" Replace all
+exe "%s`\\${shortname1}`" . @" . "`g"
+
 " namepossessive1
 tabn
 normal yt,f,l
@@ -66,6 +73,10 @@ exe "%s`\\${name2}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
+exe "%s`\\${shortname2}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
 exe "%s`\\${namepossessive2}`" . @" . "`g"
 tabn
 normal yt,f,l
@@ -105,6 +116,10 @@ tabn
 normal yt,f,l
 tabp
 exe "%s`\\${name3}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
+exe "%s`\\${shortname3}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
@@ -150,6 +165,10 @@ exe "%s`\\${name4}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
+exe "%s`\\${shortname4}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
 exe "%s`\\${namepossessive4}`" . @" . "`g"
 tabn
 normal yt,f,l
@@ -189,6 +208,10 @@ tabn
 normal yt,f,l
 tabp
 exe "%s`\\${name5}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
+exe "%s`\\${shortname5}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
