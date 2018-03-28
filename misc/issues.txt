@@ -1,6 +1,11 @@
 Kolin was classified as male!
   - 2 questions affected
   - Zero participants commented
+      - (One person did comment that Kolin was a weird name for a "female
+        character")
   - Female pronoun appears in description
 
+One person was unable to view the Devil Jin original picture.
+  - File was misnamed (devil_jin vs. deviljin) and this issue has now been
+    fixed.
 
