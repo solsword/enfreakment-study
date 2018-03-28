@@ -1,7 +1,7 @@
 %.html: %.html.pre expand.vim
 	vim -T dumb -N -n -E -s -c 'set nomore' -c 'source expand.vim' -c'wq! $@' $<
 
-%-instantiated.html: %.html instantiate.vim test.csv
+%-instantiated.html: %.html instantiate.vim hits.csv
 	vim -T dumb -N -n -E -s -c 'set nomore' -c 'source instantiate.vim' -c'wq! $@' $<
 
 # -T dumb → don't detect terminal type; use dumb
@@ -60,9 +60,6 @@ all_urls.csv: hits.csv
 
 unique_urls.csv: all_urls.csv
 	sort all_urls.csv | uniq > $@
-
-test.csv: hits.csv
-	head -n 3 hits.csv > $@
 
 test/missing: unique_urls.csv
 	mkdir -p test; cd test; rm -f missing; touch missing; for url in `cat ../unique_urls.csv`; do wget "$$url" || echo "Missing: $$url" >> missing; done
