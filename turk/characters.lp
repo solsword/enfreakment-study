@@ -91,7 +91,7 @@ gender(akuma,male).
 origin(akuma,jp).
 game(akuma,sfv).
 character(kolin).
-gender(kolin,male).
+gender(kolin,female).
 origin(kolin,ru).
 game(kolin,sfv).
 character(ed).

@@ -1,7 +1,7 @@
 % counterbalance.lp
 % Solver for counterbalanced study design
 
-%#const items = 65.
+%#const items = 60.
 
 count(X) :- X = { character(C) }.
 
