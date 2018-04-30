@@ -45,5 +45,5 @@ Harmful-rep            | +     |    -     |    -     |    +    |
 TODO: More hypotheses about influence of personal distance to
 character/country.
 
-Self-ident
-Country-ident
+Self-ident → gender stereotypes?
+Country-ident → ethnic stereotypes?

@@ -3,63 +3,9 @@
 import csv
 import sys
 
-character_properties = [
-  "country",
-  "gendergroup",
-  "bio",
-  "quote",
-]
+import numpy as np
 
-participant_properties = [
-  "suitable",
-  "age",
-  "education",
-  "played_specific",
-  "played_franchise",
-  "played_fighting",
-  "played_any",
-  "play_frequency",
-  "watched_franchise",
-  "watched_fighting",
-  "lang_primary",
-  "lang_secondary",
-  "lang_tertiary",
-  "lang_extra",
-  "gender_description",
-  "ethnicity_description",
-  "nationality_description",
-  "feedback",
-]
-
-ratings = [
-  "attire_ethnicity",
-  "attire_not_sexualized",
-  "attire_sexualized",
-  "attractive",
-  "chubby",
-  "costume",
-  "ethnic_familiarity",
-  "ethnic_match",
-  "ethnic_stereotypes",
-  "exaggerated_body",
-  "gender_stereotypes",
-  "identification",
-  "muscular",
-  "non_muscular",
-  "not_role_model",
-  "not_sexualized",
-  "obv_ethnicity",
-  "old",
-  "pos_ethnic_rep",
-  "pos_gender_rep",
-  "realistic_body",
-  "realistic_clothing",
-  "role_model",
-  "sexualized",
-  "skinny",
-  "ugly",
-  "young",
-]
+import properties
 
 def process(source):
   reader = csv.DictReader(source, dialect="excel-tab")
@@ -67,31 +13,49 @@ def process(source):
   rows = [rin for rin in reader]
 
   characters = sorted(list(set(row["id"] for row in rows)))
+  participants = sorted(list(set(row["participant"] for row in rows)))
 
   forchar = {
     ch: [rin for rin in rows if rin["id"] == ch]
       for ch in characters
   }
 
-  averages = {}
+  forpart = {
+    part: [rin for rin in rows if rin["participant"] == part]
+      for part in participants
+  }
+
+  ch_medians = {}
+  pt_medians = {}
 
   for ch in forchar:
-    averages[ch] = []
-    for rt in ratings:
+    ch_medians[ch] = []
+    for rt in properties.ratings + properties.personal_ratings:
       pure = [ int(row[rt]) for row in forchar[ch] if row[rt] != "" ]
-      averages[ch].append(sum(pure) / len(pure))
+      ch_medians[ch].append(np.median(pure))
+
+  for part in forpart:
+    pt_medians[part] = []
+    for rt in properties.personal_ratings:
+      pure = [ int(row[rt]) for row in forpart[part] if row[rt] != "" ]
+      pt_medians[part].append(np.median(pure))
 
   result = []
   result.append(
     ["participant", "id"]
-  + ["character_" + ch for ch in character_properties]
-  + participant_properties
-  + ratings
-  + ["avg_" + rt for rt in ratings]
+  + ["character_" + ch for ch in properties.character_properties]
+  + properties.participant_properties
+  + properties.ratings
+  + properties.personal_ratings
+  + ["med_" + rt for rt in (properties.ratings + properties.personal_ratings)]
+  + ["participant_" + rt for rt in properties.personal_ratings]
   )
   for row in rows:
-    nr = list(row.values()) + averages[row["id"]]
-    result.append(nr)
+    result.append(
+      list(row.values())
+    + ch_medians[row["id"]]
+    + pt_medians[row["participant"]]
+    )
 
   return result
 
