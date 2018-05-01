@@ -1,8 +1,36 @@
 .PHONY: default
 default: report.txt
 
-efr.tsv: enfreakment_results.csv process.py
-	./process.py < enfreakment_results.csv > efr.tsv
+combined.csv: batches/batch-2.csv batches/batch-3.csv Makefile
+	cat batches/batch-2.csv > combined.csv
+	echo >> combined.csv
+	tail -n +2 batches/batch-3.csv >> combined.csv
+
+filtered.csv: combined.csv reject.lst
+	cat combined.csv \
+		| grep -v Rejected \
+		| grep -vf reject.lst \
+		| sed "s/\\r$$//" \
+		| tr "\\r" " " \
+		| sed "/^$$/d" \
+		> filtered.csv
+
+extras.csv: batches/makeup.tsv
+	sed "1s/\t/\tAnswer./g" batches/makeup.tsv \
+		| sed "1s/^/Answer./" \
+		| sed "s/\t/\",\"/g" \
+		| sed "s/^/\"/" \
+		| sed "s/$$/\"/" \
+		> extras.csv
+
+efr.tsv: filtered.csv extras.csv process.py
+	./process.py filtered.csv extras.csv > efr.tsv
+
+ethnicities.lst: efr.tsv
+	cut -d"	" -f22 efr.tsv | tail -n +2 | sort | uniq > ethnicities.lst
+
+nationalities.lst: efr.tsv
+	cut -d"	" -f23 efr.tsv | tail -n +2 | sort | uniq > nationalities.lst
 
 efr-aug.tsv: efr.tsv reprocess.py
 	./reprocess.py < efr.tsv > efr-aug.tsv
@@ -15,4 +43,4 @@ report.txt: efr-aug-grp.json analyze.py
 
 .PHONY: clean
 clean:
-	rm efr.tsv efr-aug.tsv efr-aug-grp.json
+	rm -f combined.csv filtered.csv extras.csv extras.tsv efr.tsv efr-aug.tsv efr-aug-grp.json
