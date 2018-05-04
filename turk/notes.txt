@@ -26,18 +26,26 @@ GDP might be proxy for exotic?
                          Women   Japanese   Unexotic    Exotic
 Body realism           | ?     |    +     |    ?     |    ?    |
 Muscles                | -     |    ?     |    ?     |    ?    |
+
 Overweight             | -     |    -     |    ?     |    ?    |
 Skinny                 | +     |    +     |    ?     |    ?    |
+
 Young                  | +     |    ?     |    ?     |    ?    |
 Old                    | -     |    ?     |    ?     |    ?    |
+
 Attractive             | +     |    +     |    +     |    -    |
 Ugly                   | -     |    -     |    -     |    +    |
+
 Sexualized             | +     |    ?     |    ?     |    ?    |
 Clothing-sexualized    | +     |    ?     |    ?     |    ?    |
+
 Clothing-realistic     | -     |    +     |    +     |    -    |
-Role-model             | -     |    +     |    ?     |    ?    |
+
 Appearance-obvious     | +     |    -     |    -     |    +    |
 Clothing-obvious       | +     |    -     |    -     |    +    |
+
+Role-model             | -     |    +     |    ?     |    ?    |
+
 Positive-rep           | ?     |    +     |    +     |    -    |
 Harmful-rep            | +     |    -     |    -     |    +    |
 

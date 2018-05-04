@@ -12,6 +12,10 @@ def process(source):
 
   rows = [rin for rin in reader]
 
+  for row in rows:
+    for (cns, _) in properties.constructs:
+      row["@" + cns] = properties.extract_construct(row, cns)
+
   characters = sorted(list(set(row["id"] for row in rows)))
   participants = sorted(list(set(row["participant"] for row in rows)))
 
@@ -28,15 +32,23 @@ def process(source):
   ch_medians = {}
   pt_medians = {}
 
+  group_by_character = (
+    properties.ratings
+  + properties.personal_ratings
+  + [ ("@" + cns) for (cns, _) in properties.constructs ]
+  )
+
+  group_by_participant = properties.personal_ratings
+
   for ch in forchar:
     ch_medians[ch] = []
-    for rt in properties.ratings + properties.personal_ratings:
-      pure = [ int(row[rt]) for row in forchar[ch] if row[rt] != "" ]
+    for rt in group_by_character:
+      pure = [int(row[rt]) for row in forchar[ch] if row[rt] not in ("", None)]
       ch_medians[ch].append(np.median(pure))
 
   for part in forpart:
     pt_medians[part] = []
-    for rt in properties.personal_ratings:
+    for rt in group_by_participant:
       pure = [ int(row[rt]) for row in forpart[part] if row[rt] != "" ]
       pt_medians[part].append(np.median(pure))
 
@@ -47,8 +59,9 @@ def process(source):
   + properties.participant_properties
   + properties.ratings
   + properties.personal_ratings
-  + ["med_" + rt for rt in (properties.ratings + properties.personal_ratings)]
-  + ["participant_" + rt for rt in properties.personal_ratings]
+  + ["@" + cns for (cns, _) in properties.constructs]
+  + ["med_" + rt for rt in group_by_character]
+  + ["participant_" + rt for rt in group_by_participant]
   )
   for row in rows:
     result.append(

@@ -24,7 +24,7 @@ def process(source):
       "med_personal",
       "participant_personal",
       "constructs",
-      "avg_constructs",
+      "med_constructs",
       "enfreakments",
     ]
   )
@@ -40,7 +40,10 @@ def process(source):
 
     fields["participant"] = { "id": row["participant"] }
     for pp in properties.participant_properties:
-      fields["participant"][pp] = row[pp]
+      if pp == "normalized_ethnicity":
+        fields["participant"][pp] = { c: 1 for c in row[pp].split(' + ') }
+      else:
+        fields["participant"][pp] = row[pp]
 
     fields["character"] = { "id": row["id"] }
     for cp in properties.character_properties:
@@ -92,35 +95,14 @@ def process(source):
 
     fields["character"]["skin_tone"] = properties.skin_tones[row["id"]]
 
-    cons = []
-    avg_cons = []
-    for (name, components) in properties.constructs:
-      cval = 0
-      aval = 0
-      cdenom = 0
-      adenom = 0
-      for sign, field in components:
-        val = properties.nv(row[field])
-        # Add to average constructs
-        adenom += 1
-        if sign == "+":
-          aval += properties.nv(row["med_" + field])
-        else:
-          aval += 8 - properties.nv(row["med_" + field])
-        if val != None:
-          # Value present: add to individual constructs as well
-          cdenom += 1
-          if sign == "+":
-            cval += val
-          else:
-            cval += 8 - val
-      cval /= cdenom
-      aval /= adenom
-      cons.append(cval)
-      avg_cons.append(aval)
-
-    fields["constructs"] = cons
-    fields["avg_constructs"] = avg_cons
+    fields["constructs"] = [
+      properties.nv(row["@" + cns])
+        for (cns, _) in properties.constructs
+    ]
+    fields["med_constructs"] = [
+      properties.nv(row["med_@" + cns])
+        for (cns, _) in properties.constructs
+    ]
 
     nr = [ fields[k] for k in columns ]
 

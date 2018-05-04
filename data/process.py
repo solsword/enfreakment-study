@@ -18,71 +18,93 @@ normalize_case = [
   "lang_primary",
   "lang_secondary",
   "lang_tertiary",
+  "ethnicity_description",
+  "nationality_description"
 ]
 
+# Note: Keep these in sync
+normalized_properties = [
+  "any_suitable",
+  "normalized_ethnicity",
+  "normalized_nationality"
+]
 normalize_map = {
   "suitable": {
     "": "",
     None: "yes"
   },
   "ethnicity_description":{
-    "NO": "Unknown",
-    "i like very so match this task and very happy thank you.": "Unknown",
-    "asian": "Asian",
+    "No": "Unknown",
+    "I Like Very So Match This Task And Very Happy Thank You.": "Unknown",
     "Asian": "Asian",
-    "ASIAN": "Asian",
-    "indian": "Indian",
-    "hispanic": "Hispanic",
-    "black": "Black",
+    "Indian": "Indian",
+    "Hispanic": "Hispanic",
+    "Latino": "Latinx",
+    "I Am A White Latino": "Latinx + White",
+    "Hispanic And White": "Hispanic + White",
+    "White, Hispanic": "Hispanic + White",
+    "White/Hispanic": "Hispanic + White",
+    "White/Hispanic- American": "Hispanic + American + White",
+    "Hispanic- Puerto Rican, Caucasian": "Hispanic + Puerto Rican + White",
     "Black": "Black",
-    "African American": "African American",
-    "caucasian": "Caucasian Unknown",
-    "Caucasion": "Caucasian Unknown",
-    "Caucasian": "Caucasian Unknown",
-    "caucasion": "Caucasian Unknown",
-    "Caucasian white": "Caucasian Unknown",
-    "Caucasian/white": "Caucasian Unknown",
-    "Caucasian White": "Caucasian Unknown",
-    "White-Caucasian": "Caucasian Unknown",
-    "White/Caucasian": "Caucasian Unknown",
-    "White/ Caucasian": "Caucasian Unknown",
-    "White, caucasian": "Caucasian Unknown",
-    "Non-Hispanic White": "Caucasian Unknown",
-    "white": "Caucasian Unknown",
-    "White": "Caucasian Unknown",
-    "White Caucasian": "Caucasian Unknown",
-    "White-Caucasian": "Caucasian Unknown",
-    "White American": "Caucasian American",
-    "White American, third generation(not \"European\")": "Caucasian American",
-    "White, North American": "Caucasian American",
-    "American": "Caucasian American",
-    "White European": "Caucasian European",
-    "I am half German and half English. I just consider myself to be Anglo/Saxon or just White.": "Caucasian European",
-    "White/Caucasian, West European Descent": "Caucasian European",
-    "euro-white": "Caucasian European",
-    "White (European American) non-hispanic": "Caucasian American",
+    "African American": "Black",
+    "Caucasian": "White",
+    "Caucasion": "White",
+    "White": "White",
+    "Caucasian White": "White",
+    "Caucasian/White": "White",
+    "White-Caucasian": "White",
+    "White/Caucasian": "White",
+    "White/ Caucasian": "White",
+    "White, Caucasian": "White",
+    "Non-Hispanic White": "White",
+    "White Caucasian": "White",
+    "White-Caucasian": "White",
+    "White/Caucasian, West European Descent": "White",
+    "I Am Half German And Half English. I Just Consider Myself To Be Anglo/Saxon Or Just White.": "White",
+    "White American": "American + White",
+    "White American, Third Generation(Not \"European\")": "American + White",
+    "White, North American": "American + White",
+    "American": "American",
+    "White European": "European + White",
+    "Euro-White": "European + White",
+    "White (European American) Non-Hispanic": "European + White",
+    "Vietmamese": "Vietnamese",
+    "Chinese": "Chinese",
+    "Asian, Hispanic, White": "Asian + Hispanic + White",
+    "Black And White (Biracial)": "Black + White",
+    "American, Hawaiian, Native American": "American + Hawaiian + Native American",
+    "Caucasian (Irish, Scottish, English, French), Native American": "Native American + White",
+    "White/Japanese": "Japanese + White",
+    "Caucasian, Japanese 25%": "Japanese + White",
+    "German, French, English": "German + French + English",
+    "Hindu": "Hindu",
+    "Indian, Asian": "Indian + Asian",
+    "Native American": "Native American",
+    "White Jewish American": "Jewish + American + White",
+    "Yes,(1.Asian,2.American,3.African)": "American + Asian + African",
 
   },
   "nationality_description":{
-    "American": "United States of America",
-    "american": "United States of America",
-    "American, USA": "United States of America",
-    "I am American.": "United States of America",
-    "united states": "United States of America",
-    "United States": "United States of America",
-    "United States of America": "United States of America",
-    "US": "United States of America",
-    "usa": "United States of America",
-    "USA": "United States of America",
-    "USA!": "United States of America",
-    "USA-- born and raised here": "United States of America",
-    "ianda": "Indian",
-    "india": "Indian",
+    "American Indian": "Native American",
+    "American": "US American",
+    "American, Usa": "US American",
+    "American European": "US American + European",
+    "Asian American": "US American",
+    "I Am American.": "US American",
+    "United States": "US American",
+    "United States Of America": "US American",
+    "Us": "US American",
+    "Usa": "US American",
+    "Usa!": "US American",
+    "Usa-- Born And Raised Here": "US American",
+    "Ianda": "Indian",
     "India": "Indian",
-    "INDIA": "Indian",
-    "indian": "Indian",
-    "INDIAN": "Indian",
     "Indian": "Indian",
+    "Canadian": "Canadian",
+    "Colombian": "Columbian",
+    "French": "French",
+    "Usa/Spain": "US American + Spanish",
   },
 }
 
@@ -116,6 +138,7 @@ def cheat_char_prop(cid, prp):
 
 def process(sources):
   results = []
+  ext_part_props = []
   results.append( # the header
     ["participant", "id"]
   + ["character_" + ch for ch in properties.character_properties]
@@ -126,14 +149,22 @@ def process(sources):
   rout = []
   results.append(rout)
 
-  participant = 0 # track participant ID
+  participants = {} # track participant IDs and assign them numbers instead
+  next_pid = 0
 
   for fn in sources:
     with open(fn, 'r') as fin:
       reader = csv.DictReader(fin)
 
       for rin in reader:
-        participant += 1
+        wid = rin["WorkerId"]
+        if wid in participants:
+          participant = participants[wid]
+        else:
+          participants[wid] = next_pid
+          participant = next_pid
+          next_pid += 1
+
         for idf in idfields:
           n = idf[-1]
           cid = rin[idf]
@@ -150,25 +181,32 @@ def process(sources):
             rout.append(val)
 
           for p in properties.participant_properties:
+            if p in normalized_properties:
+              continue
             pkey = "Answer.{}".format(p)
             if pkey in rin:
               val = rin[pkey]
             else:
               val = ""
+
+            orig_val = val
+
             if val in ("{}", ""):
               val = None
-            elif p in normalize_map:
-              nm = normalize_map[p]
-              if val in nm:
-                val = nm[val]
-              elif None in nm:
-                val = nm[None]
-              else:
-                val = "<{}>".format(val)
             elif p in normalize_case:
               val = val.title()
 
             rout.append(val)
+
+            if p in normalize_map:
+              nm = normalize_map[p]
+              if val in nm:
+                nval = nm[val]
+              elif None in nm:
+                nval = nm[None]
+              else:
+                nval = "<{}>".format(orig_val)
+              rout.append(nval)
 
           for c in properties.ratings + properties.personal_ratings:
             val = rin["Answer.{}_{}".format(c, n)]

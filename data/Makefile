@@ -17,7 +17,6 @@ filtered.csv: combined.csv reject.lst
 
 extras.csv: batches/makeup.tsv
 	sed "1s/\t/\tAnswer./g" batches/makeup.tsv \
-		| sed "1s/^/Answer./" \
 		| sed "s/\t/\",\"/g" \
 		| sed "s/^/\"/" \
 		| sed "s/$$/\"/" \
@@ -27,10 +26,10 @@ efr.tsv: filtered.csv extras.csv process.py
 	./process.py filtered.csv extras.csv > efr.tsv
 
 ethnicities.lst: efr.tsv
-	cut -d"	" -f22 efr.tsv | tail -n +2 | sort | uniq > ethnicities.lst
+	cut -d"	" -f24 efr.tsv | tail -n +2 | sort | uniq > ethnicities.lst
 
 nationalities.lst: efr.tsv
-	cut -d"	" -f23 efr.tsv | tail -n +2 | sort | uniq > nationalities.lst
+	cut -d"	" -f26 efr.tsv | tail -n +2 | sort | uniq > nationalities.lst
 
 efr-aug.tsv: efr.tsv reprocess.py
 	./reprocess.py < efr.tsv > efr-aug.tsv
