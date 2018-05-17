@@ -93,7 +93,10 @@ def process(source):
       "Japanese"
     ][row["character_country"] == "Japan"]
 
-    fields["character"]["skin_tone"] = properties.skin_tones[row["id"]]
+    st = properties.skin_tones[row["id"]]
+    ast = properties.alt_tones[row["id"]]
+    fields["character"]["skin_tones"] = [ st, ast ]
+    fields["character"]["skin_tone"] = st if st == ast else "indeterminate"
 
     fields["constructs"] = [
       properties.nv(row["@" + cns])

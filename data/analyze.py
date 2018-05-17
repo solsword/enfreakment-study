@@ -2,6 +2,7 @@
 
 import sys
 import json
+import random
 
 import properties
 
@@ -21,31 +22,37 @@ def get(row, index):
   """
   if (index in ALIASES):
     index = ALIASES[index]
-  first = ""
-  i = 0
-  leftovers = False
-  for i, c in enumerate(index):
-    if i == 0:
-      continue
-    if c in sep_chars:
-      leftovers = True
-      break
-    first += c
-
-  if leftovers:
-    rest = index[i:]
-  else:
-    rest = ""
-
   try:
-    first = int(first)
-  except:
-    pass
+    first = ""
+    i = 0
+    leftovers = False
+    for i, c in enumerate(index):
+      if i == 0:
+        continue
+      if c in sep_chars:
+        leftovers = True
+        break
+      first += c
 
-  if rest:
-    return get(row[first], rest)
-  else:
-    return row[first]
+    if leftovers:
+      rest = index[i:]
+    else:
+      rest = ""
+
+    try:
+      first = int(first)
+    except:
+      pass
+
+    if rest:
+      return get(row[first], rest)
+    else:
+      if isinstance(row, dict):
+        return row[first] if first in row else None
+      else:
+        return row[first]
+  except TypeError:
+    raise ValueError("Invalid index: '{}'".format(index))
 
 characters = [ "ryu", "chun_li", "nash", "m_bison", "cammy", "birdie", "ken", "necalli", "vega", "r_mika", "rashid", "karin", "zangief", "laura", "dhalsim", "f_a_n_g", "alex", "guile", "ibuki", "balrog", "juri", "urien", "akuma", "kolin", "ed", "abigail", "menat", "zeku", "akumat7", "alisa", "asuka", "bob", "bryan", "claudio", "dragunov", "eddy", "feng", "heihachi", "hwoarang", "jack7", "jin", "josie", "katarina", "kazumi", "kazuya", "king", "lars", "law", "lee", "leo", "lili", "luckychloe", "miguel", "nina", "paul", "raven", "shaheen", "steve", "xiaoyu", "deviljin", ]
 
@@ -81,40 +88,361 @@ test_agreement = [
   ".ratings.young",
 ]
 
-hypotheses = [
-  (".constructs.body_realism", ".character.country", "Japan", "↑"),
-  (".constructs.muscles", ".character.gendergroup", "women", "↓"),
-  (".constructs.thinness", ".character.country", "Japan", "↑"),
-  (".constructs.thinness", ".character.gendergroup", "women", "↑"),
+def is_japanese(row):
+  return get(row, ".character.country") == "Japan"
 
-  (".constructs.youth", ".character.gendergroup", "women", "↑"),
+def is_majority(row):
+  return get(row, ".character.is_token") == "Majority"
 
-  (".constructs.attractiveness", ".character.gendergroup", "women", "↑"),
-  (".constructs.attractiveness", ".character.country", "Japan", "↑"),
-  (".constructs.attractiveness", ".character.is_token","Majority", "↑"),
-  (".constructs.attractiveness", ".character.is_token", "Token", "↓"),
+def is_minority(row):
+  return get(row, ".character.is_token") == "Minority"
 
-  (".constructs.combined_sexualization", ".character.gendergroup", "women","↑"),
+def is_token(row):
+  return get(row, ".character.is_token") == "Token"
 
-  (".constructs.clothing_realism", ".character.gendergroup", "women", "↓"),
-  (".constructs.clothing_realism", ".character.country", "Japan", "↑"),
-  (".constructs.clothing_realism", ".character.is_token", "Majority", "↑"),
-  (".constructs.clothing_realism", ".character.is_token", "Token", "↓"),
+def character_female(row):
+  return get(row, ".character.gendergroup") == "women"
 
-  (".constructs.combined_ethnic_signals", ".character.gendergroup","women","↑"),
-  (".constructs.combined_ethnic_signals", ".character.country", "Japan", "↓"),
-  (".constructs.combined_ethnic_signals", ".character.is_token","Majority","↓"),
-  (".constructs.combined_ethnic_signals", ".character.is_token", "Token", "↑"),
+def participant_female(row):
+  return get(row, ".participant.gender_description") == "Female"
 
-  (".constructs.admirableness", ".character.gendergroup", "women", "↓"),
-  (".constructs.admirableness", ".character.country", "Japan", "↑"),
+def infrequent_player(row):
+  return get(row, ".participant.play_frequency") in ("never", "infrequent")
 
-  (".constructs.positive_gender_rep", ".character.gendergroup", "women", "↓"),
+def is_fair_skinned(row):
+  return get(row, ".character.skin_tone") == "fair"
 
-  (".constructs.positive_ethnic_rep", ".character.country", "Japan", "↑"),
-  (".constructs.positive_ethnic_rep", ".character.is_token", "Majority", "↑"),
-  (".constructs.positive_ethnic_rep", ".character.is_token", "Token", "↓"),
+# monthly players aren't in either group
+
+def frequent_player(row):
+  return get(row, ".participant.play_frequency") in ("daily", "weekly")
+
+original_hypotheses = [
+  ("Japanese:more-realistic", ".constructs.body_realism", is_japanese, None, "↑"),
+  ("Women:less-muscular", ".constructs.muscles", character_female, None, "↓"),
+  ("Japanese:thinner", ".constructs.thinness", is_japanese, None, "↑"),
+  ("Women:thinner", ".constructs.thinness", character_female, None, "↑"),
+
+  ("Women:younger", ".constructs.youth", character_female, None, "↑"),
+
+  ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "↑"),
+  ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "↑"),
+  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "↑"),
+  ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "↓"),
+
+  ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"↑"),
+  ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"↑"),
+
+  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "↓"),
+  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "↑"),
+  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "↑"),
+  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "↓"),
+
+  ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"↑"),
+  ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "↓"),
+  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"↓"),
+  ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "↑"),
+
+  ("Women:less-admirable", ".constructs.admirableness", character_female, None, "↓"),
+  ("Japanese:more-admirable", ".constructs.admirableness", is_japanese, None, "↑"),
+
+  ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "↓"),
+
+  ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "↑"),
+  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "↑"),
+  ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "↓"),
 ]
+
+def colonizer_country(row):
+  return get(row, ".character.country") in (
+    "Japan",
+    "United States of America",
+    "Canada",
+    "Germany",
+    "Italy",
+    "Spain",
+    "United Kingdom",
+    "Monaco",
+    "Russia",
+    "Sweden",
+  )
+
+def colonized_country(row):
+  return get(row, ".character.country") in (
+    "Brazil",
+    "China",
+    "Egypt",
+    "India",
+    "Ireland",
+    "Mexico",
+    "Middle East",
+    "Philippines",
+    "Saudi Arabia",
+    "South Korea",
+  )
+
+def unknown_country(row):
+  return get(row, ".character.country") == "Unknown"
+
+def dark_skinned_women(row):
+  return character_female(row) and get(row, ".character.skin_tone") == "dark"
+
+def fair_skinned_women(row):
+  return character_female(row) and get(row, ".character.skin_tone") == "fair"
+
+def dark_skinned_men(row):
+  return not character_female(row) and get(row, ".character.skin_tone") =="dark"
+
+def fair_skinned_men(row):
+  return not character_female(row) and get(row, ".character.skin_tone") =="fair"
+
+def colonized_women(row):
+  return character_female(row) and colonized_country(row)
+
+def colonizer_women(row):
+  return character_female(row) and colonizer_country(row)
+
+def colonized_men(row):
+  return not character_female(row) and colonized_country(row)
+
+def colonizer_men(row):
+  return not character_female(row) and colonizer_country(row)
+
+def participant_nonwhite(row):
+  return get(row, ".participant.normalized_ethnicity.White") == None
+
+def participant_white(row):
+  return get(row, ".participant.normalized_ethnicity.White") == 1
+
+novel_hypotheses = [
+  # Brute sub-components:
+  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, None, "↑"),
+  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, None, "↑"),
+  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, None, "↓"),
+  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, None, "↑"),
+
+  ("Colonizer:more-realistic", ".constructs.body_realism", colonizer_country, colonized_country, "↑"),
+  ("Colonizer:more-attractive", ".constructs.attractiveness", colonizer_country, colonized_country, "↑"),
+  ("Colonizer:less-muscular", ".constructs.muscles", colonizer_country, colonized_country, "↓"),
+  ("Colonizer:thinner", ".constructs.thinness", colonizer_country, colonized_country, "↑"),
+
+  # Ethnic sub-components (minus positive_ethnic_rep):
+  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, None, "↑"),
+  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, None, "↓"),
+
+  ("Colonizer:more-realistic-clothing", ".constructs.clothing_realism", colonizer_country, colonized_country, "↑"),
+  ("Colonizer:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", colonizer_country, colonized_country, "↓"),
+
+  # Villain sub-components
+  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, None, "↑"),
+  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, None, "↑"),
+  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, None, "↑"),
+
+  ("Colonizer:more-admirable", ".constructs.admirableness", colonizer_country, colonized_country, "↑"),
+  ("Colonizer:more-positive-ethnicity", ".constructs.positive_ethnic_rep", colonizer_country, colonized_country, "↑"),
+  ("Colonizer:more-positive-gender", ".constructs.positive_gender_rep", colonizer_country, colonized_country, "↑"),
+
+  # Participant gender/frequency vs. gender perceptions:
+  ("Female-Raters:recognize-bad-gender-rep", ".constructs.positive_gender_rep", participant_female, None, "↓"),
+  ("Infrequent-Players:recognize-bad-gender-rep", ".constructs.positive_gender_rep", infrequent_player, None, "↓"),
+  ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "↑"),
+
+  # Participant ethnicity/frequency vs. ethnicity perceptions:
+  ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "↓"),
+  ("White-Raters:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_white, None, "↑"),
+  ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "↓"),
+  ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "↑"),
+
+  # Intersections
+  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "↑"),
+  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "↑"),
+  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "↓"),
+  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "↓"),
+  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "↓"),
+  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "↑"),
+  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "↓"),
+  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "↑"),
+  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "↑"),
+  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "↑"),
+
+  ("Colonizer-Women:more-realistic", ".constructs.body_realism", colonizer_women, colonized_women, "↑"),
+  ("Colonizer-Women:more-attractive", ".constructs.attractiveness", colonizer_women, colonized_women, "↑"),
+  ("Colonizer-Women:less-sexualized", ".constructs.sexualization", colonizer_women, colonized_women, "↓"),
+  ("Colonizer-Women:less-attire-sexualized", ".constructs.attire_sexualization", colonizer_women, colonized_women, "↓"),
+  ("Colonizer-Women:less-muscular", ".constructs.muscles", colonizer_women, colonized_women, "↓"),
+  ("Colonizer-Women:thinner", ".constructs.thinness", colonizer_women, colonized_women, "↑"),
+  ("Colonizer-Women:older", ".constructs.youth", colonizer_women, colonized_women, "↓"),
+  ("Colonizer-Women:more-admirable", ".constructs.admirableness", colonizer_women, colonized_women, "↑"),
+  ("Colonizer-Women:more-positive-gender", ".constructs.positive_gender_rep", colonizer_women, colonized_women, "↑"),
+  ("Colonizer-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_women, colonized_women, "↑"),
+
+  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "↑"),
+  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "↑"),
+  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "↓"),
+  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "↑"),
+  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "↓"),
+  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "↑"),
+  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "↑"),
+  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "↑"),
+
+  ("Colonizer-Men:more-realistic", ".constructs.body_realism", colonizer_men, colonized_men, "↑"),
+  ("Colonizer-Men:more-attractive", ".constructs.attractiveness", colonizer_men, colonized_men, "↑"),
+  ("Colonizer-Men:less-muscular", ".constructs.muscles", colonizer_men, colonized_men, "↓"),
+  ("Colonizer-Men:thinner", ".constructs.thinness", colonizer_men, colonized_men, "↑"),
+  ("Colonizer-Men:older", ".constructs.youth", colonizer_men, colonized_men, "↓"),
+  ("Colonizer-Men:more-admirable", ".constructs.admirableness", colonizer_men, colonized_men, "↑"),
+  ("Colonizer-Men:more-positive-gender", ".constructs.positive_gender_rep", colonizer_men, colonized_men, "↑"),
+  ("Colonizer-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_men, colonized_men, "↑"),
+
+  # Unknown dumping?
+  ("Unknown:less-realistic", ".constructs.body_realism", unknown_country, None, "↓"),
+  ("Unknown:more-muscular", ".constructs.muscles", unknown_country, None, "↑"),
+  ("Unknown:less-attractive", ".constructs.attractiveness", unknown_country, None, "↓"),
+  ("Unknown:fatter", ".constructs.thinness", unknown_country, None, "↓"),
+  ("Unknown:older", ".constructs.youth", unknown_country, None, "↓"),
+  ("Unknown:less-admirable", ".constructs.admirableness", unknown_country, None, "↓"),
+  ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "↓"),
+  ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "↓"),
+]
+
+all_hypotheses = original_hypotheses + novel_hypotheses
+
+hgroups = {
+  "Women sexualized": [
+    "Women:less-muscular",
+    "Women:younger",
+    "Women:thinner",
+    "Women:more-attractive",
+    "Women:more-sexualized",
+    "Women:more-attire-sexualized",
+  ],
+  "Women ethnicity exaggerated": [
+    "Women:less-realistic-clothes",
+    "Women:more-obvious-ethnicity",
+  ],
+  "Women disliked": [
+    "Women:less-admirable",
+    "Women:less-positive-gender",
+  ],
+  "Japanese preferred": [
+    "Japanese:more-realistic",
+    "Japanese:thinner",
+    "Japanese:more-attractive",
+    "Japanese:more-admirable",
+    "Japanese:more-positive-ethnicity",
+  ],
+  "Japanese more realistic": [
+    "Japanese:more-realistic-clothes",
+    "Japanese:less-obvious-ethnicity",
+  ],
+  "Majority preferred/realistic": [
+    "Majority:more-attractive",
+    "Majority:more-realistic-clothes",
+    "Majority:less-obvious-ethnicity",
+    "Majority:more-positive-ethnicity",
+  ],
+  "Token suppressed/unrealistic": [
+    "Token:less-attractive",
+    "Token:less-realistic-clothes",
+    "Token:more-obvious-ethnicity",
+    "Token:less-positive-ethnicity",
+  ],
+  "Fair-skinned less brutish": [
+    "Fair:more-realistic",
+    "Fair:more-attractive",
+    "Fair:less-muscular",
+    "Fair:thinner",
+  ],
+  "Colonizer less brutish": [
+    "Colonizer:more-realistic",
+    "Colonizer:more-attractive",
+    "Colonizer:less-muscular",
+    "Colonizer:thinner",
+  ],
+  "Fair-skinned less exaggerated": [
+    "Fair:more-realistic-clothing",
+    "Fair:less-obvious-ethnicity",
+  ],
+  "Colonizer less exaggerated": [
+    "Colonizer:more-realistic-clothing",
+    "Colonizer:less-obvious-ethnicity",
+  ],
+  "Fair-skinned less villainous": [
+    "Fair:more-admirable",
+    "Fair:more-positive-ethnicity",
+    "Fair:more-positive-gender",
+  ],
+  "Colonizer less villainous": [
+    "Colonizer:more-admirable",
+    "Colonizer:more-positive-ethnicity",
+    "Colonizer:more-positive-gender",
+  ],
+  "Women and non-gamers more aware of gender stereotypes": [
+    "Female-Raters:recognize-bad-gender-rep",
+    "Infrequent-Players:recognize-bad-gender-rep",
+    "Frequent-Players:ignore-bad-gender-rep",
+  ],
+  "Nonwhite and non-gamers more aware of racial stereotypes": [
+    "Nonwhite-Raters:recognize-bad-ethnic-rep",
+    "White-Raters:ignore-bad-ethnic-rep",
+    "Infrequent-Players:recognize-bad-ethnic-rep",
+    "Frequent-Players:ignore-bad-ethnic-rep",
+  ],
+  "Fair-skinned women more attractive/less sexualized then dark-skinned women":[
+    "Fair-Women:more-realistic",
+    "Fair-Women:more-attractive",
+    "Fair-Women:less-sexualized",
+    "Fair-Women:less-attire-sexualized",
+    "Fair-Women:less-muscular",
+    "Fair-Women:thinner",
+    "Fair-Women:older",
+    "Fair-Women:more-admirable",
+    "Fair-Women:more-positive-gender",
+    "Fair-Women:more-positive-ethnic",
+  ],
+  "Colonizer women more attractive/less sexualized than colonized women": [
+    "Colonizer-Women:more-realistic",
+    "Colonizer-Women:more-attractive",
+    "Colonizer-Women:less-sexualized",
+    "Colonizer-Women:less-attire-sexualized",
+    "Colonizer-Women:less-muscular",
+    "Colonizer-Women:thinner",
+    "Colonizer-Women:older",
+    "Colonizer-Women:more-admirable",
+    "Colonizer-Women:more-positive-gender",
+    "Colonizer-Women:more-positive-ethnic",
+  ],
+  "Fair-skinned men less brutish than dark-skinned men": [
+    "Fair-Men:more-realistic",
+    "Fair-Men:more-attractive",
+    "Fair-Men:less-muscular",
+    "Fair-Men:thinner",
+    "Fair-Men:older",
+    "Fair-Men:more-admirable",
+    "Fair-Men:more-positive-gender",
+    "Fair-Men:more-positive-ethnic",
+  ],
+  "Colonizer men less brutish than colonized men": [
+    "Colonizer-Men:more-realistic",
+    "Colonizer-Men:more-attractive",
+    "Colonizer-Men:less-muscular",
+    "Colonizer-Men:thinner",
+    "Colonizer-Men:older",
+    "Colonizer-Men:more-admirable",
+    "Colonizer-Men:more-positive-gender",
+    "Colonizer-Men:more-positive-ethnic",
+  ],
+  "Unknown country used for villains/brutes": [
+    "Unknown:less-realistic",
+    "Unknown:more-muscular",
+    "Unknown:less-attractive",
+    "Unknown:fatter",
+    "Unknown:older",
+    "Unknown:less-admirable",
+    "Unknown:worse-gender-rep",
+    "Unknown:worse-ethnic-rep",
+  ]
+}
 
 def main(fin):
   """
@@ -131,30 +459,218 @@ def main(fin):
   print('='*80)
   print("Starting statistical analysis...")
   print('-'*80)
-  tests = init_tests(rows, hypotheses)
-  analyze_tests(rows, tests)
+  print("Testing {} hypotheses...".format(len(all_hypotheses)))
+  # TODO: Switch this?
+  #tests = init_tests(rows, all_hypotheses, t_test)
+  tests = init_tests(rows, all_hypotheses)
+  print()
+  effects, expected = analyze_tests(rows, tests)
+  summarize_tests(effects, expected, hgroups)
   print('-'*80)
   analyze_agreement(rows)
   print('-'*80)
   print("...analysis complete.")
   print('='*80)
 
-def init_tests(rows, hypotheses):
+def bootstrap_test(
+  rows,
+  index,
+  pos_filter,
+  alt_filter=None,
+  trials=15000,
+  seed=1081230891
+):
+  pos_mean = 0
+  pos_count = 0
+  alt_mean = 0
+  alt_count = 0
+  vals = []
+  hits = []
+  alts = []
+  for i, row in enumerate(rows):
+    val = get(row, index)
+    vals.append(val)
+    if pos_filter(row):
+      hits.append(i)
+      pos_mean += val
+      pos_count += 1
+    elif alt_filter == None:
+      alts.append(i)
+      alt_mean += val
+      alt_count += 1
+
+    if alt_filter != None and alt_filter(row):
+      alts.append(i)
+      alt_mean += val
+      alt_count += 1
+
+  pos_mean /= pos_count
+  alt_mean /= alt_count
+
+  md = pos_mean - alt_mean
+
+  random.seed(seed)
+  as_diff = 0
+  for t in range(trials):
+    random.shuffle(vals)
+    pos_mean = 0
+    alt_mean = 0
+    for i in hits:
+      pos_mean += vals[i]
+    for i in alts:
+      alt_mean += vals[i]
+    pos_mean /= pos_count
+    alt_mean /= alt_count
+    tmd = pos_mean - alt_mean
+    if (md > 0 and tmd >= md) or (md < 0 and tmd <= md):
+      as_diff += 1
+
+  return md, as_diff / trials
+
+def t_test(
+  rows,
+  index,
+  pos_filter,
+  alt_filter=None
+):
+  ingroup = []
+  outgroup = []
+  for row in rows:
+    if pos_filter(row):
+      ingroup.append(get(row, index))
+    elif alt_filter == None:
+      outgroup.append(get(row, index))
+
+    if alt_filter != None and alt_filter(row):
+      outgroup.append(get(row, index))
+
+  inmean = np.mean(ingroup)
+  outmean = np.mean(outgroup)
+
+  stat, p = ttest_ind(ingroup, outgroup, equal_var=False)
+
+  return inmean - outmean, p
+
+def init_tests(rows, hypotheses, method=bootstrap_test):
   """
   Constructs a bunch of test objects and returns a list of them for
   analyze_tests to process.
   """
-  result = []
-  # TODO
-  return result
+  tests = []
+  for i, (name, index, pos_filter, alt_filter, direction) in enumerate(
+    hypotheses
+  ):
+    md, p = method(rows, index, pos_filter, alt_filter)
+    print("{}/{} done...".format(i, len(hypotheses)), end="\r")
+    sys.stdout.flush()
 
-def analyze_tests(rows, tests):
+    dword = {
+      "↑": "greater",
+      "↓": "less"
+    }[direction]
+
+    cond_name = pos_filter.__name__
+
+    if direction == "↑":
+      smsg = "== {} is greater for {}: {:+.3g}, p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        md,
+        p
+      )
+      fmsg = "-- {} is indistinguishable for {}: p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        p
+      )
+      qmsg = "!! {} is unexpectedly smaller for {}: {:+.3g}, p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        md,
+        p
+      )
+      qfmsg = "-- {} is indistinguishable (& unexpectedly smaller) for {}: p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        p
+      )
+      if md > 0:
+        tests.append([name, True, md, p, smsg, fmsg])
+      else:
+        tests.append([name, False, md, p, qmsg, qfmsg])
+    elif direction == "↓":
+      smsg = "== {} is smaller for {}: {:+.3g}, p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        md,
+        p
+      )
+      fmsg = "-- {} is indistinguishable for {}: p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        p
+      )
+      qmsg = "!! {} is unexpectedly greater for {}: {:+.3g}, p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        md,
+        p
+      )
+      qfmsg = "-- {} is indistinguishable (& unexpectedly greater) for {}: p = {:.3g}".format(
+        index[12:],
+        cond_name,
+        p
+      )
+      if md < 0:
+        tests.append([name, True, md, p, smsg, fmsg])
+      else:
+        tests.append([name, False, md, p, qmsg, qfmsg])
+    else:
+      raise ValueError("Invalid test direction: '{}'".format(direction))
+  print("{}/{} done...".format(len(hypotheses), len(hypotheses)))
+  return tests
+
+def analyze_tests(rows, tests, threshold = 0.05):
   """
   Given a bunch of test objects, analyzes them and prints out results.
   """
-  for t in tests:
-    print(t)
-    # TODO
+  failed = False
+  m = len(tests)
+  effects = {}
+  expected = {}
+  for i, (name, expd, md, p, smsg, fmsg) in enumerate(
+    sorted(tests, key=lambda x: x[3])
+  ):
+    k = i + 1
+    #th = threshold / (m - i) ## Holm-Bonferroni
+    th = threshold * (k/m) # Benjamini-Hochberg
+    close = p < threshold
+    expected[name] = expd
+    if failed:
+      effects[name] = None
+      print("{} {} ~ {:.3g}".format(" *"[close], fmsg, th))
+    elif p > th:
+      effects[name] = None
+      failed = True
+      print("{} {} > {:.3g}".format(" *"[close], fmsg, th))
+    else:
+      effects[name] = md
+      print("{} {} < {:.3g}".format(" *"[close], smsg, th))
+
+  return effects, expected
+
+def summarize_tests(effects, expected, hgroups):
+  for name in hgroups:
+    hypotheses = hgroups[name]
+    print(name)
+    for hyp in hypotheses:
+      print(
+        "  {} {}: {}".format(
+          ' ' if expected[hyp] else '!',
+          hyp,
+          "{:+.3g}".format(effects[hyp]) if effects[hyp] != None else '?'
+        )
+      )
 
 def analyze_agreement(rows):
   n_raters = len(rows)//5
