@@ -34,7 +34,7 @@ nationalities.lst: efr.tsv
 efr-aug.tsv: efr.tsv reprocess.py
 	./reprocess.py < efr.tsv > efr-aug.tsv
 
-efr-aug-grp.json: efr-aug.tsv group.py
+efr-aug-grp.json: efr-aug.tsv group.py framedata.py properties.py
 	./group.py < efr-aug.tsv > efr-aug-grp.json
 
 report.txt: efr-aug-grp.json analyze.py

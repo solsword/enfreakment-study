@@ -45,10 +45,17 @@ def get(row, index):
       pass
 
     if rest:
-      return get(row[first], rest)
+      if isinstance(row, dict):
+        sub = row.get(first, None)
+      else:
+        sub = row[first]
+      if sub != None:
+        return get(sub, rest)
+      else:
+        return None
     else:
       if isinstance(row, dict):
-        return row[first] if first in row else None
+        return row.get(first, None)
       else:
         return row[first]
   except TypeError:
@@ -103,6 +110,9 @@ def is_token(row):
 def character_female(row):
   return get(row, ".character.gendergroup") == "women"
 
+def character_male(row):
+  return get(row, ".character.gendergroup") == "men"
+
 def participant_female(row):
   return get(row, ".participant.gender_description") == "Female"
 
@@ -112,45 +122,48 @@ def infrequent_player(row):
 def is_fair_skinned(row):
   return get(row, ".character.skin_tone") == "fair"
 
+def is_dark_skinned(row):
+  return get(row, ".character.skin_tone") == "dark"
+
 # monthly players aren't in either group
 
 def frequent_player(row):
   return get(row, ".participant.play_frequency") in ("daily", "weekly")
 
 original_hypotheses = [
-  ("Japanese:more-realistic", ".constructs.body_realism", is_japanese, None, "↑"),
-  ("Women:less-muscular", ".constructs.muscles", character_female, None, "↓"),
-  ("Japanese:thinner", ".constructs.thinness", is_japanese, None, "↑"),
-  ("Women:thinner", ".constructs.thinness", character_female, None, "↑"),
+  ("Japanese:more-realistic", ".constructs.body_realism", is_japanese, None, "+"),
+  ("Women:less-muscular", ".constructs.muscles", character_female, None, "-"),
+  ("Japanese:thinner", ".constructs.thinness", is_japanese, None, "+"),
+  ("Women:thinner", ".constructs.thinness", character_female, None, "+"),
 
-  ("Women:younger", ".constructs.youth", character_female, None, "↑"),
+  ("Women:younger", ".constructs.youth", character_female, None, "+"),
 
-  ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "↑"),
-  ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "↑"),
-  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "↑"),
-  ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "↓"),
+  ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "+"),
+  ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "+"),
+  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "+"),
+  ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "-"),
 
-  ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"↑"),
-  ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"↑"),
+  ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"+"),
+  ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"+"),
 
-  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "↓"),
-  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "↑"),
-  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "↑"),
-  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "↓"),
+  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "-"),
+  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "+"),
+  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "+"),
+  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "-"),
 
-  ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"↑"),
-  ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "↓"),
-  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"↓"),
-  ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "↑"),
+  ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"+"),
+  ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "-"),
+  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"-"),
+  ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "+"),
 
-  ("Women:less-admirable", ".constructs.admirableness", character_female, None, "↓"),
-  ("Japanese:more-admirable", ".constructs.admirableness", is_japanese, None, "↑"),
+  ("Women:less-admirable", ".constructs.admirableness", character_female, None, "-"),
+  ("Japanese:more-admirable", ".constructs.admirableness", is_japanese, None, "+"),
 
-  ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "↓"),
+  ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "-"),
 
-  ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "↑"),
-  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "↑"),
-  ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "↓"),
+  ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "+"),
+  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+"),
+  ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "-"),
 ]
 
 def colonizer_country(row):
@@ -216,96 +229,163 @@ def participant_white(row):
 
 novel_hypotheses = [
   # Brute sub-components:
-  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, None, "↑"),
-  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, None, "↑"),
-  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, None, "↓"),
-  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, None, "↑"),
+  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, is_dark_skinned, "+"),
+  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, is_dark_skinned, "+"),
+  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, is_dark_skinned, "-"),
+  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, is_dark_skinned, "+"),
 
-  ("Colonizer:more-realistic", ".constructs.body_realism", colonizer_country, colonized_country, "↑"),
-  ("Colonizer:more-attractive", ".constructs.attractiveness", colonizer_country, colonized_country, "↑"),
-  ("Colonizer:less-muscular", ".constructs.muscles", colonizer_country, colonized_country, "↓"),
-  ("Colonizer:thinner", ".constructs.thinness", colonizer_country, colonized_country, "↑"),
+  ("Colonizer:more-realistic", ".constructs.body_realism", colonizer_country, colonized_country, "+"),
+  ("Colonizer:more-attractive", ".constructs.attractiveness", colonizer_country, colonized_country, "+"),
+  ("Colonizer:less-muscular", ".constructs.muscles", colonizer_country, colonized_country, "-"),
+  ("Colonizer:thinner", ".constructs.thinness", colonizer_country, colonized_country, "+"),
 
   # Ethnic sub-components (minus positive_ethnic_rep):
-  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, None, "↑"),
-  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, None, "↓"),
+  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, is_dark_skinned, "+"),
+  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, is_dark_skinned, "-"),
 
-  ("Colonizer:more-realistic-clothing", ".constructs.clothing_realism", colonizer_country, colonized_country, "↑"),
-  ("Colonizer:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", colonizer_country, colonized_country, "↓"),
+  ("Colonizer:more-realistic-clothing", ".constructs.clothing_realism", colonizer_country, colonized_country, "+"),
+  ("Colonizer:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", colonizer_country, colonized_country, "-"),
 
   # Villain sub-components
-  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, None, "↑"),
-  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, None, "↑"),
-  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, None, "↑"),
+  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, is_dark_skinned, "+"),
+  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, is_dark_skinned, "+"),
+  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, is_dark_skinned, "+"),
 
-  ("Colonizer:more-admirable", ".constructs.admirableness", colonizer_country, colonized_country, "↑"),
-  ("Colonizer:more-positive-ethnicity", ".constructs.positive_ethnic_rep", colonizer_country, colonized_country, "↑"),
-  ("Colonizer:more-positive-gender", ".constructs.positive_gender_rep", colonizer_country, colonized_country, "↑"),
+  ("Colonizer:more-admirable", ".constructs.admirableness", colonizer_country, colonized_country, "+"),
+  ("Colonizer:more-positive-ethnicity", ".constructs.positive_ethnic_rep", colonizer_country, colonized_country, "+"),
+  ("Colonizer:more-positive-gender", ".constructs.positive_gender_rep", colonizer_country, colonized_country, "+"),
 
   # Participant gender/frequency vs. gender perceptions:
-  ("Female-Raters:recognize-bad-gender-rep", ".constructs.positive_gender_rep", participant_female, None, "↓"),
-  ("Infrequent-Players:recognize-bad-gender-rep", ".constructs.positive_gender_rep", infrequent_player, None, "↓"),
-  ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "↑"),
+  ("Female-Raters:recognize-bad-gender-rep", ".constructs.positive_gender_rep", participant_female, None, "-"),
+  ("Infrequent-Players:recognize-bad-gender-rep", ".constructs.positive_gender_rep", infrequent_player, None, "-"),
+  ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "+"),
 
   # Participant ethnicity/frequency vs. ethnicity perceptions:
-  ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "↓"),
-  ("White-Raters:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_white, None, "↑"),
-  ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "↓"),
-  ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "↑"),
+  ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "-"),
+  ("White-Raters:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_white, None, "+"),
+  ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "-"),
+  ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+"),
 
   # Intersections
-  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "↑"),
-  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "↑"),
-  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "↓"),
-  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "↓"),
-  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "↓"),
-  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "↑"),
-  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "↓"),
-  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "↑"),
-  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "↑"),
-  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "↑"),
+  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "+"),
+  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "+"),
+  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "-"),
+  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "-"),
+  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "-"),
+  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "+"),
+  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "-"),
+  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "+"),
+  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "+"),
+  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "+"),
 
-  ("Colonizer-Women:more-realistic", ".constructs.body_realism", colonizer_women, colonized_women, "↑"),
-  ("Colonizer-Women:more-attractive", ".constructs.attractiveness", colonizer_women, colonized_women, "↑"),
-  ("Colonizer-Women:less-sexualized", ".constructs.sexualization", colonizer_women, colonized_women, "↓"),
-  ("Colonizer-Women:less-attire-sexualized", ".constructs.attire_sexualization", colonizer_women, colonized_women, "↓"),
-  ("Colonizer-Women:less-muscular", ".constructs.muscles", colonizer_women, colonized_women, "↓"),
-  ("Colonizer-Women:thinner", ".constructs.thinness", colonizer_women, colonized_women, "↑"),
-  ("Colonizer-Women:older", ".constructs.youth", colonizer_women, colonized_women, "↓"),
-  ("Colonizer-Women:more-admirable", ".constructs.admirableness", colonizer_women, colonized_women, "↑"),
-  ("Colonizer-Women:more-positive-gender", ".constructs.positive_gender_rep", colonizer_women, colonized_women, "↑"),
-  ("Colonizer-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_women, colonized_women, "↑"),
+  ("Colonizer-Women:more-realistic", ".constructs.body_realism", colonizer_women, colonized_women, "+"),
+  ("Colonizer-Women:more-attractive", ".constructs.attractiveness", colonizer_women, colonized_women, "+"),
+  ("Colonizer-Women:less-sexualized", ".constructs.sexualization", colonizer_women, colonized_women, "-"),
+  ("Colonizer-Women:less-attire-sexualized", ".constructs.attire_sexualization", colonizer_women, colonized_women, "-"),
+  ("Colonizer-Women:less-muscular", ".constructs.muscles", colonizer_women, colonized_women, "-"),
+  ("Colonizer-Women:thinner", ".constructs.thinness", colonizer_women, colonized_women, "+"),
+  ("Colonizer-Women:older", ".constructs.youth", colonizer_women, colonized_women, "-"),
+  ("Colonizer-Women:more-admirable", ".constructs.admirableness", colonizer_women, colonized_women, "+"),
+  ("Colonizer-Women:more-positive-gender", ".constructs.positive_gender_rep", colonizer_women, colonized_women, "+"),
+  ("Colonizer-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_women, colonized_women, "+"),
 
-  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "↑"),
-  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "↑"),
-  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "↓"),
-  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "↑"),
-  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "↓"),
-  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "↑"),
-  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "↑"),
-  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "↑"),
+  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "+"),
+  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "+"),
+  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "-"),
+  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "+"),
+  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "-"),
+  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "+"),
+  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "+"),
+  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "+"),
 
-  ("Colonizer-Men:more-realistic", ".constructs.body_realism", colonizer_men, colonized_men, "↑"),
-  ("Colonizer-Men:more-attractive", ".constructs.attractiveness", colonizer_men, colonized_men, "↑"),
-  ("Colonizer-Men:less-muscular", ".constructs.muscles", colonizer_men, colonized_men, "↓"),
-  ("Colonizer-Men:thinner", ".constructs.thinness", colonizer_men, colonized_men, "↑"),
-  ("Colonizer-Men:older", ".constructs.youth", colonizer_men, colonized_men, "↓"),
-  ("Colonizer-Men:more-admirable", ".constructs.admirableness", colonizer_men, colonized_men, "↑"),
-  ("Colonizer-Men:more-positive-gender", ".constructs.positive_gender_rep", colonizer_men, colonized_men, "↑"),
-  ("Colonizer-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_men, colonized_men, "↑"),
+  ("Colonizer-Men:more-realistic", ".constructs.body_realism", colonizer_men, colonized_men, "+"),
+  ("Colonizer-Men:more-attractive", ".constructs.attractiveness", colonizer_men, colonized_men, "+"),
+  ("Colonizer-Men:less-muscular", ".constructs.muscles", colonizer_men, colonized_men, "-"),
+  ("Colonizer-Men:thinner", ".constructs.thinness", colonizer_men, colonized_men, "+"),
+  ("Colonizer-Men:older", ".constructs.youth", colonizer_men, colonized_men, "-"),
+  ("Colonizer-Men:more-admirable", ".constructs.admirableness", colonizer_men, colonized_men, "+"),
+  ("Colonizer-Men:more-positive-gender", ".constructs.positive_gender_rep", colonizer_men, colonized_men, "+"),
+  ("Colonizer-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_men, colonized_men, "+"),
 
   # Unknown dumping?
-  ("Unknown:less-realistic", ".constructs.body_realism", unknown_country, None, "↓"),
-  ("Unknown:more-muscular", ".constructs.muscles", unknown_country, None, "↑"),
-  ("Unknown:less-attractive", ".constructs.attractiveness", unknown_country, None, "↓"),
-  ("Unknown:fatter", ".constructs.thinness", unknown_country, None, "↓"),
-  ("Unknown:older", ".constructs.youth", unknown_country, None, "↓"),
-  ("Unknown:less-admirable", ".constructs.admirableness", unknown_country, None, "↓"),
-  ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "↓"),
-  ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "↓"),
+  ("Unknown:less-realistic", ".constructs.body_realism", unknown_country, None, "-"),
+  ("Unknown:more-muscular", ".constructs.muscles", unknown_country, None, "+"),
+  ("Unknown:less-attractive", ".constructs.attractiveness", unknown_country, None, "-"),
+  ("Unknown:fatter", ".constructs.thinness", unknown_country, None, "-"),
+  ("Unknown:older", ".constructs.youth", unknown_country, None, "-"),
+  ("Unknown:less-admirable", ".constructs.admirableness", unknown_country, None, "-"),
+  ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "-"),
+  ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "-"),
 ]
 
-all_hypotheses = original_hypotheses + novel_hypotheses
+framedata_hypotheses = [
+  # Men are bulkier
+  ("Health:men-healthier", ".character.stats.health", character_male, character_female, '+'),
+  ("Health:men-higher-stun", ".character.stats.stun", character_male, character_female, '+'),
+  ("Size:men-grab-farther", ".character.stats.throw_range", character_male, character_female, '+'),
+  # Women are more agile
+  ("Agility:women-jump-higher", ".character.stats.jump_height", character_female, character_male, '+'),
+  ("Agility:women-jump-farther", ".character.stats.jump_distance", character_female, character_male, '+'),
+  ("Agility:women-dash-farther", ".character.stats.dash_distance", character_female, character_male, '+'),
+  ("Agility:women-faster", ".character.stats.speed", character_female, character_male, '+'),
+  # Men hit harder & slower
+  ("Normals:men-more-damage", ".character.stats.normals.avg_hit_damage", character_male, character_female, '+'),
+  ("Attacks:men-more-damage", ".character.stats.all_moves.avg_hit_damage", character_male, character_female, '+'),
+  ("Normals:men-more-stun", ".character.stats.normals.avg_hit_stun", character_male, character_female, '+'),
+  ("Attacks:men-more-stun", ".character.stats.all_moves.avg_hit_stun", character_male, character_female, '+'),
+  ("Normals:men-active-longer", ".character.stats.normals.avg_active_frames", character_male, character_female, '+'),
+  ("Attacks:men-active-longer", ".character.stats.all_moves.avg_active_frames", character_male, character_female, '+'),
+  ("Normals:women-hit-more", ".character.stats.normals.avg_hit_count", character_female, character_male, '+'),
+  ("Attacks:women-hit-more", ".character.stats.all_moves.avg_hit_count", character_female, character_male, '+'),
+  ("Normals:men-slower", ".character.stats.normals.avg_frames_per_hit", character_male, character_female, '+'),
+  ("Attacks:men-slower", ".character.stats.all_moves.avg_frames_per_hit", character_male, character_female, '+'),
+  ("Normals:men-more-delayed", ".character.stats.normals.avg_dead_frames", character_male, character_female, '+'),
+  ("Attacks:men-more-delayed", ".character.stats.all_moves.avg_dead_frames", character_male, character_female, '+'),
+  ("Normals:women-plus-on-hit", ".character.stats.normals.avg_hit_advantage", character_female, character_male, '+'),
+  ("Attacks:women-plus-on-hit", ".character.stats.all_moves.avg_hit_advantage", character_female, character_male, '+'),
+  ("Normals:women-plus-on-block", ".character.stats.normals.avg_block_advantage", character_female, character_male, '+'),
+  ("Attacks:women-plus-on-block", ".character.stats.all_moves.avg_block_advantage", character_female, character_male, '+'),
+  ("Normals:women-more-multihit", ".character.stats.normals.multihit_proportion", character_female, character_male, '+'),
+  ("Attacks:women-more-multihit", ".character.stats.all_moves.multihit_proportion", character_female, character_male, '+'),
+  ("Normals:women-more-combos", ".character.stats.normals.combo_proportion", character_female, character_male, '+'),
+  ("Attacks:women-more-combos", ".character.stats.all_moves.combo_proportion", character_female, character_male, '+'),
+  ("Normals:men-more-knockdowns", ".character.stats.normals.knockdown_proportion", character_male, character_female, '+'),
+  ("Attacks:men-more-knockdowns", ".character.stats.all_moves.knockdown_proportion", character_male, character_female, '+'),
+  # Men have safer attacks
+  ("Normals:men-safer", ".character.stats.normals.unsafe_proportion", character_female, character_male, '+'),
+  ("Attacks:men-safer", ".character.stats.all_moves.unsafe_proportion", character_female, character_male, '+'),
+  # Dark-skinned characters are bulkier
+  ("Health:dark-men-healthier", ".character.stats.health", dark_skinned_men, fair_skinned_men, '+'),
+  ("Health:dark-men-higher-stun", ".character.stats.stun", dark_skinned_men, fair_skinned_men, '+'),
+  ("Size:dark-men-grab-farther", ".character.stats.throw_range", dark_skinned_men, fair_skinned_men, '+'),
+  # Fair-skinned characters are faster
+  ("Agility:fair-men-faster", ".character.stats.speed", fair_skinned_men, dark_skinned_men, '+'),
+  # Dark-skinned characters hit harder/slower
+  ("Normals:dark-men-more-damage", ".character.stats.normals.avg_hit_damage", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-damage", ".character.stats.all_moves.avg_hit_damage", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:dark-men-more-stun", ".character.stats.normals.avg_hit_stun", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-stun", ".character.stats.all_moves.avg_hit_stun", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:dark-men-active-longer", ".character.stats.normals.avg_active_frames", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-active-longer", ".character.stats.all_moves.avg_active_frames", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:fair-men-hit-more", ".character.stats.normals.avg_hit_count", fair_skinned_men, dark_skinned_men, '+'),
+  ("Attacks:fair-men-hit-more", ".character.stats.all_moves.avg_hit_count", fair_skinned_men, dark_skinned_men, '+'),
+  ("Normals:dark-men-slower", ".character.stats.normals.avg_frames_per_hit", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-slower", ".character.stats.all_moves.avg_frames_per_hit", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:dark-men-more-delayed", ".character.stats.normals.avg_dead_frames", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-delayed", ".character.stats.all_moves.avg_dead_frames", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:fair-men-plus-on-hit", ".character.stats.normals.avg_hit_advantage", fair_skinned_men, dark_skinned_men, '+'),
+  ("Attacks:fair-men-plus-on-hit", ".character.stats.all_moves.avg_hit_advantage", fair_skinned_men, dark_skinned_men, '+'),
+  ("Normals:fair-men-plus-on-block", ".character.stats.normals.avg_block_advantage", fair_skinned_men, dark_skinned_men, '+'),
+  ("Attacks:fair-men-plus-on-block", ".character.stats.all_moves.avg_block_advantage", fair_skinned_men, dark_skinned_men, '+'),
+  ("Normals:fair-men-more-multihit", ".character.stats.normals.multihit_proportion", fair_skinned_men, dark_skinned_men, '+'),
+  ("Attacks:fair-men-more-multihit", ".character.stats.all_moves.multihit_proportion", fair_skinned_men, dark_skinned_men, '+'),
+  ("Normals:fair-men-more-combos", ".character.stats.normals.combo_proportion", fair_skinned_men, dark_skinned_men, '+'),
+  ("Attacks:fair-men-more-combos", ".character.stats.all_moves.combo_proportion", fair_skinned_men, dark_skinned_men, '+'),
+  ("Normals:dark-men-more-knockdowns", ".character.stats.normals.knockdown_proportion", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-knockdowns", ".character.stats.all_moves.knockdown_proportion", dark_skinned_men, fair_skinned_men, '+'),
+]
+
+all_hypotheses = original_hypotheses + novel_hypotheses + framedata_hypotheses
 
 hgroups = {
   "Women sexualized": [
@@ -441,7 +521,80 @@ hgroups = {
     "Unknown:less-admirable",
     "Unknown:worse-gender-rep",
     "Unknown:worse-ethnic-rep",
-  ]
+  ],
+  "Men are bulkier": [
+    "Health:men-healthier",
+    "Health:men-higher-stun",
+    "Size:men-grab-farther",
+  ],
+  "Women are more agile": [
+    "Agility:women-jump-higher",
+    "Agility:women-jump-farther",
+    "Agility:women-dash-farther",
+    "Agility:women-faster",
+  ],
+  "Men have slower/stronger normals": [
+    "Normals:men-more-damage",
+    "Normals:men-more-stun",
+    "Normals:men-active-longer",
+    "Normals:women-hit-more",
+    "Normals:men-slower",
+    "Normals:men-more-delayed",
+    "Normals:women-plus-on-hit",
+    "Normals:women-plus-on-block",
+    "Normals:women-more-multihit",
+    "Normals:women-more-combos",
+    "Normals:men-more-knockdowns",
+    "Normals:men-safer",
+  ],
+  "Men have slower/stronger attacks": [
+    "Attacks:men-more-damage",
+    "Attacks:men-more-stun",
+    "Attacks:men-active-longer",
+    "Attacks:women-hit-more",
+    "Attacks:men-slower",
+    "Attacks:men-more-delayed",
+    "Attacks:women-plus-on-hit",
+    "Attacks:women-plus-on-block",
+    "Attacks:women-more-multihit",
+    "Attacks:women-more-combos",
+    "Attacks:men-more-knockdowns",
+    "Attacks:men-safer",
+  ],
+  "Darker-skinned men are bulkier": [
+    "Health:dark-men-healthier",
+    "Health:dark-men-higher-stun",
+    "Size:dark-men-grab-farther",
+  ],
+  "Darker-skinned men are less agile": [
+    "Agility:fair-men-faster",
+  ],
+  "Darker-skinned men have slower/stronger normals": [
+    "Normals:dark-men-more-damage",
+    "Normals:dark-men-more-stun",
+    "Normals:dark-men-active-longer",
+    "Normals:fair-men-hit-more",
+    "Normals:dark-men-slower",
+    "Normals:dark-men-more-delayed",
+    "Normals:fair-men-plus-on-hit",
+    "Normals:fair-men-plus-on-block",
+    "Normals:fair-men-more-multihit",
+    "Normals:fair-men-more-combos",
+    "Normals:dark-men-more-knockdowns",
+  ],
+  "Darker-skinned men have slower/stronger attacks": [
+    "Attacks:dark-men-more-damage",
+    "Attacks:dark-men-more-stun",
+    "Attacks:dark-men-active-longer",
+    "Attacks:fair-men-hit-more",
+    "Attacks:dark-men-slower",
+    "Attacks:dark-men-more-delayed",
+    "Attacks:fair-men-plus-on-hit",
+    "Attacks:fair-men-plus-on-block",
+    "Attacks:fair-men-more-multihit",
+    "Attacks:fair-men-more-combos",
+    "Attacks:dark-men-more-knockdowns",
+  ],
 }
 
 def main(fin):
@@ -459,10 +612,16 @@ def main(fin):
   print('='*80)
   print("Starting statistical analysis...")
   print('-'*80)
-  print("Testing {} hypotheses...".format(len(all_hypotheses)))
   # TODO: Switch this?
-  #tests = init_tests(rows, all_hypotheses, t_test)
-  tests = init_tests(rows, all_hypotheses)
+  #use = t_test
+  use = bootstrap_test
+  print(
+    "Testing {} hypotheses using {}...".format(
+      len(all_hypotheses),
+      use.__name__
+    )
+  )
+  tests = init_tests(rows, all_hypotheses, use)
   print()
   effects, expected = analyze_tests(rows, tests)
   summarize_tests(effects, expected, hgroups)
@@ -487,20 +646,24 @@ def bootstrap_test(
   vals = []
   hits = []
   alts = []
+  nones = 0
   for i, row in enumerate(rows):
     val = get(row, index)
+    if val == None:
+      nones += 1
+      continue
     vals.append(val)
     if pos_filter(row):
-      hits.append(i)
+      hits.append(i - nones)
       pos_mean += val
       pos_count += 1
     elif alt_filter == None:
-      alts.append(i)
+      alts.append(i - nones)
       alt_mean += val
       alt_count += 1
 
     if alt_filter != None and alt_filter(row):
-      alts.append(i)
+      alts.append(i - nones)
       alt_mean += val
       alt_count += 1
 
@@ -537,12 +700,18 @@ def t_test(
   outgroup = []
   for row in rows:
     if pos_filter(row):
-      ingroup.append(get(row, index))
+      val = get(row, index)
+      if val != None:
+        ingroup.append(val)
     elif alt_filter == None:
-      outgroup.append(get(row, index))
+      val = get(row, index)
+      if val != None:
+        outgroup.append(val)
 
     if alt_filter != None and alt_filter(row):
-      outgroup.append(get(row, index))
+      val = get(row, index)
+      if val != None:
+        outgroup.append(val)
 
   inmean = np.mean(ingroup)
   outmean = np.mean(outgroup)
@@ -565,13 +734,13 @@ def init_tests(rows, hypotheses, method=bootstrap_test):
     sys.stdout.flush()
 
     dword = {
-      "↑": "greater",
-      "↓": "less"
+      "+": "greater",
+      "-": "less"
     }[direction]
 
     cond_name = pos_filter.__name__
 
-    if direction == "↑":
+    if direction == "+":
       smsg = "== {} is greater for {}: {:+.3g}, p = {:.3g}".format(
         index[12:],
         cond_name,
@@ -598,7 +767,7 @@ def init_tests(rows, hypotheses, method=bootstrap_test):
         tests.append([name, True, md, p, smsg, fmsg])
       else:
         tests.append([name, False, md, p, qmsg, qfmsg])
-    elif direction == "↓":
+    elif direction == "-":
       smsg = "== {} is smaller for {}: {:+.3g}, p = {:.3g}".format(
         index[12:],
         cond_name,

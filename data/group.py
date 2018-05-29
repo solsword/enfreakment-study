@@ -6,8 +6,11 @@ import sys
 import json
 
 import properties
+import framedata
 
 def process(source):
+  ingame_stats = framedata.parse_frame_data()
+
   reader = csv.DictReader(source, dialect="excel-tab")
 
   rows = [rin for rin in reader]
@@ -49,6 +52,11 @@ def process(source):
     for cp in properties.character_properties:
       key = "character_" + cp
       fields["character"][cp] = row[key]
+
+    if row["id"] in ingame_stats:
+      fields["character"]["stats"] = ingame_stats[row["id"]]
+    else:
+      fields["character"]["stats"] = {}
 
     fields["ratings"] = [properties.nv(row[rt]) for rt in properties.ratings]
     fields["personal_ratings"] = [
