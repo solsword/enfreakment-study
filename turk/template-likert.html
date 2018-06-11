@@ -2,17 +2,6 @@
 <!-- Bootstrap v3.0.3 -->
 <link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
-<script type="text/javascript">
-// Uniqueturker limit code
-(function(){
-    var ut_id = "enfreakment-pilot";
-    if (UTWorkerLimitReached(ut_id)) {
-        document.getElementById('mturk_form').style.display = 'none';
-        document.getElementsByTagName('body')[0].innerHTML = "You have already completed this HIT (or a similar HIT as part of the same survey). Please click 'Return HIT' to avoid any impact on your approval rating. You may only complete one HIT for this survey. If you complete multiple HITs, those beyond the first will be rejected.";
-    }
-})();
-</script>
 <script type="text/javascript">
 // Interaction setup
 $(document).ready(function() {
@@ -337,7 +326,8 @@ fieldset {
 <div class="panel-body">
   <div style="font-weight: bold;">
     <p>This is a survey HIT, so please do not complete more than one, including if you took one of the similar HITs titled "Survey on Fighting Game Characters" previously.</p>
-  <p>(HIT Type IDs 3OYYRRZZOLQMS3FMAOJH1JCZSCY3I7,  3DF3CY4WM8HDRH9QAWWFBVHSXD1MB3, and 3KBQBQZF89BETA1BWYOBXORHK10AP3 are part of the same survey.)</p>
+    <p class="important">If you already took this survey as part of a previous batch (or a similar survey as part of the pilot study), please return this HIT; your submission will be rejected.</p>
+    <p>If you're not sure whether you participated in an earlier batch, feel free to get in touch via email.</p>
 
 <p class="important">To avoid rejection, you need to do 2 things:</p>
 <ol>
@@ -386,6 +376,7 @@ fieldset {
 
 <div id="${id1}" class="single_character">
 <input type="hidden" name="id_1" value="${id1}">
+<input type="hidden" name="gender_1" value="${gender1}">
 <div class="character">
   <table class="character-images">
     <tr>
@@ -825,6 +816,7 @@ fieldset {
 
 <div id="${id2}" class="single_character">
 <input type="hidden" name="id_2" value="${id2}">
+<input type="hidden" name="gender_2" value="${gender2}">
 <div class="character">
   <table class="character-images">
     <tr>
@@ -1264,6 +1256,7 @@ fieldset {
 
 <div id="${id3}" class="single_character">
 <input type="hidden" name="id_3" value="${id3}">
+<input type="hidden" name="gender_3" value="${gender3}">
 <div class="character">
   <table class="character-images">
     <tr>
@@ -1703,6 +1696,7 @@ fieldset {
 
 <div id="${id4}" class="single_character">
 <input type="hidden" name="id_4" value="${id4}">
+<input type="hidden" name="gender_4" value="${gender4}">
 <div class="character">
   <table class="character-images">
     <tr>
@@ -2142,6 +2136,7 @@ fieldset {
 
 <div id="${id5}" class="single_character">
 <input type="hidden" name="id_5" value="${id5}">
+<input type="hidden" name="gender_5" value="${gender5}">
 <div class="character">
   <table class="character-images">
     <tr>

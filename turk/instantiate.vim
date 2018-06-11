@@ -1,6 +1,7 @@
 " Open test file
 tabe hits.csv
-49
+3
+"49
 
 " Yank id1 and go back to other tab
 normal yt,f,l
@@ -45,6 +46,10 @@ tabn
 normal yt,f,l
 tabp
 exe "%s`\\${country1}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
+exe "%s`\\${gender1}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
@@ -97,6 +102,10 @@ exe "%s`\\${country2}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
+exe "%s`\\${gender2}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
 exe "%s`\\${gendergroup2}`" . @" . "`g"
 tabn
 normal lyt"f"ll
@@ -140,6 +149,10 @@ tabn
 normal yt,f,l
 tabp
 exe "%s`\\${country3}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
+exe "%s`\\${gender3}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
@@ -189,6 +202,10 @@ exe "%s`\\${country4}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp
+exe "%s`\\${gender4}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
 exe "%s`\\${gendergroup4}`" . @" . "`g"
 tabn
 normal lyt"f"ll
@@ -232,6 +249,10 @@ tabn
 normal yt,f,l
 tabp
 exe "%s`\\${country5}`" . @" . "`g"
+tabn
+normal yt,f,l
+tabp
+exe "%s`\\${gender5}`" . @" . "`g"
 tabn
 normal yt,f,l
 tabp

@@ -123,6 +123,23 @@ def define_cprops():
       cid = rin["id"]
       CPROPS[cid] = rin
 
+PIDS = None
+PIDFILE = "pids.tsv"
+
+def define_pids():
+  """
+  Defines anonymous participant IDs from the PIDFILE.
+  """
+  global PIDS
+  PIDS = {}
+  with open(PIDFILE, 'r') as fin:
+    reader = csv.DictReader(fin, dialect="excel-tab")
+    for rin in reader:
+      pid = rin["id"]
+      wid = rin["worker_id"]
+      submissions = rin["submissions"]
+      PIDS[wid] = (pid, submissions)
+
 def cheat_char_prop(cid, prp):
   """
   Cheats by looking up a character property from the definitions file.
@@ -137,6 +154,9 @@ def cheat_char_prop(cid, prp):
     return CPROPS[cid][uprp]
 
 def process(sources):
+  if PIDS == None:
+    define_pids()
+
   results = []
   ext_part_props = []
   results.append( # the header
@@ -149,21 +169,19 @@ def process(sources):
   rout = []
   results.append(rout)
 
-  participants = {} # track participant IDs and assign them numbers instead
-  next_pid = 0
-
   for fn in sources:
     with open(fn, 'r') as fin:
       reader = csv.DictReader(fin)
 
       for rin in reader:
         wid = rin["WorkerId"]
-        if wid in participants:
-          participant = participants[wid]
-        else:
-          participants[wid] = next_pid
-          participant = next_pid
-          next_pid += 1
+        if wid not in PIDS:
+          raise ValueError("Unknown worker '{}'".format(wid))
+        participant, submissions = PIDS[wid]
+        submissions = int(submissions)
+
+        if submissions > 1:
+          continue # skip potentially tainted data
 
         for idf in idfields:
           n = idf[-1]
@@ -178,6 +196,10 @@ def process(sources):
             else:
               cid = rin["Answer.id_{}".format(n)]
               val = cheat_char_prop(cid, ch)
+
+            if ch == "gendergroup" and cid == "leo":
+                val = "ambiguous" # refilter Leo's gender
+
             rout.append(val)
 
           for p in properties.participant_properties:

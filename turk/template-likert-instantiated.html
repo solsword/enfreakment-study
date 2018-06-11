@@ -2,17 +2,6 @@
 <!-- Bootstrap v3.0.3 -->
 <link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
-<script type="text/javascript">
-// Uniqueturker limit code
-(function(){
-    var ut_id = "enfreakment-pilot";
-    if (UTWorkerLimitReached(ut_id)) {
-        document.getElementById('mturk_form').style.display = 'none';
-        document.getElementsByTagName('body')[0].innerHTML = "You have already completed this HIT (or a similar HIT as part of the same survey). Please click 'Return HIT' to avoid any impact on your approval rating. You may only complete one HIT for this survey. If you complete multiple HITs, those beyond the first will be rejected.";
-    }
-})();
-</script>
 <script type="text/javascript">
 // Interaction setup
 $(document).ready(function() {
@@ -337,7 +326,8 @@ fieldset {
 <div class="panel-body">
   <div style="font-weight: bold;">
     <p>This is a survey HIT, so please do not complete more than one, including if you took one of the similar HITs titled "Survey on Fighting Game Characters" previously.</p>
-  <p>(HIT Type IDs 3OYYRRZZOLQMS3FMAOJH1JCZSCY3I7,  3DF3CY4WM8HDRH9QAWWFBVHSXD1MB3, and 3KBQBQZF89BETA1BWYOBXORHK10AP3 are part of the same survey.)</p>
+    <p class="important">If you already took this survey as part of a previous batch (or a similar survey as part of the pilot study), please return this HIT; your submission will be rejected.</p>
+    <p>If you're not sure whether you participated in an earlier batch, feel free to get in touch via email.</p>
 
 <p class="important">To avoid rejection, you need to do 2 things:</p>
 <ol>
@@ -384,21 +374,22 @@ fieldset {
 </div>
 </div><!-- End Instructions Box -->
 
-<div id="ken" class="single_character">
-<input type="hidden" name="id_1" value="ken">
+<div id="leo" class="single_character">
+<input type="hidden" name="id_1" value="leo">
+<input type="hidden" name="gender_1" value="ambiguous_male">
 <div class="character">
   <table class="character-images">
     <tr>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_cs_ken.jpg" alt="Ken on the character select screen."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_oa_ken.jpg" alt="Official art of Ken."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_ig_ken.jpg" alt="Ken in-game."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_cs_leo.jpg" alt="Leo on the character select screen."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_pr_leo.png" alt="Official art of Leo."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_ig_leo.jpg" alt="Leo in-game."> </td>
     </tr>
   </table>
   <table class="character-info">
-    <tr><td class="character-name" colspan=2>Ken</td></tr>
-    <tr><td>Country:</td><td class="nationality">United States of America</td></tr>
-    <tr><td>Quote:</td><td class="quote">&ldquo;Come on, let's turn up the heat.&rdquo;</td></tr>
-    <tr><td>Description:</td><td class="quote">Heir to the Masters family fortune, Ken is a flamoyant fighter who learned the art of Ansatsuken from Gouken. He also grew up alongside Ryu, a man he considers both his best friend and ultimate rival.</td></tr>
+    <tr><td class="character-name" colspan=2>Leo Kliesen</td></tr>
+    <tr><td>Country:</td><td class="nationality">Germany</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;Get ready!&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">Leo entered the King of Iron Fist Tournament in the hope of uncovering more about his deceased mother, who had been a researcher for the Mishima Zaibatsu. When Leo learned that his battle arena was to be a Zaibatsu-owned dojo, he couldn't believe his luck. However, when he got there, the dojo was in ruin. The moonlight poured in through holes in the walls and roof, illuminating the floor with an eerie beauty. A short while later, a strange, floating silhouette appeared, and slowly glided toward Leo. The silhouette held a sword in its left hand that rotated at a mind-bending speed. What the hell was this thing? It looked like some kind of a flying squid or octopus! Was it a demon…? Then it finally dawned on Leo: This bizarre creature was his opponent. Cautiously, he prepared to fight.</td></tr>
   </table>
 </div>
 
@@ -414,7 +405,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken has a realistic body.
+      Leo has a realistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -428,7 +419,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken has an exaggerated or unrealistic body.
+      Leo has an exaggerated or unrealistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -442,7 +433,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is designed to appear attractive.
+      Leo is designed to appear attractive.
     </td>
   </tr>
   <tr class="responses">
@@ -456,7 +447,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is designed to appear ugly.
+      Leo is designed to appear ugly.
     </td>
   </tr>
   <tr class="responses">
@@ -470,7 +461,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's design emphasizes Ken's muscles.
+      Leo's design emphasizes Leo's muscles.
     </td>
   </tr>
   <tr class="responses">
@@ -484,7 +475,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's muscles are hidden or not-well-defined.
+      Leo's muscles are hidden or not-well-defined.
     </td>
   </tr>
   <tr class="responses">
@@ -498,7 +489,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's design emphasizes Ken's sex appeal.
+      Leo's design emphasizes Leo's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -512,7 +503,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is not designed to be sexually appealing (to anyone).
+      Leo is not designed to be sexually appealing (to anyone).
     </td>
   </tr>
   <tr class="responses">
@@ -536,7 +527,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is designed to appear overweight.
+      Leo is designed to appear overweight.
     </td>
   </tr>
   <tr class="responses">
@@ -550,7 +541,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is designed to appear thin/skinny.
+      Leo is designed to appear thin/skinny.
     </td>
   </tr>
   <tr class="responses">
@@ -564,7 +555,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's design emphasizes Ken's youth.
+      Leo's design emphasizes Leo's youth.
     </td>
   </tr>
   <tr class="responses">
@@ -578,7 +569,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's design emphasizes Ken's old age.
+      Leo's design emphasizes Leo's old age.
     </td>
   </tr>
   <tr class="responses">
@@ -592,7 +583,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's clothing is designed to increase Ken's sex appeal.
+      Leo's clothing is designed to increase Leo's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -606,7 +597,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's clothing does not emphasize Ken's sex appeal.
+      Leo's clothing does not emphasize Leo's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -620,7 +611,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's clothing is something that someone might wear in real life.
+      Leo's clothing is something that someone might wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -634,7 +625,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's clothing is something that nobody would wear in real life.
+      Leo's clothing is something that nobody would wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -658,7 +649,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken could be a good role-model.
+      Leo could be a good role-model.
     </td>
   </tr>
   <tr class="responses">
@@ -672,7 +663,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is someone that nobody should aspire to be like.
+      Leo is someone that nobody should aspire to be like.
     </td>
   </tr>
   <tr class="responses">
@@ -686,7 +677,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's appearance, quote, and/or description makes Ken's race/ethnicity clear.
+      Leo's appearance, quote, and/or description makes Leo's race/ethnicity clear.
     </td>
   </tr>
   <tr class="responses">
@@ -700,7 +691,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's clothing alone suggests Ken's race/ethnicity.
+      Leo's clothing alone suggests Leo's race/ethnicity.
     </td>
   </tr>
   <tr class="responses">
@@ -714,7 +705,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is a positive representation of Ken's racial/ethnic group.
+      Leo is a positive representation of Leo's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -728,7 +719,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's design encourages misleading assumptions about people from Ken's racial/ethnic group.
+      Leo's design encourages misleading assumptions about people from Leo's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -742,7 +733,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is a positive representation of men.
+      Leo is a positive representation of men.
     </td>
   </tr>
   <tr class="responses">
@@ -756,7 +747,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken's design encourages misleading assumptions about men.
+      Leo's design encourages misleading assumptions about men.
     </td>
   </tr>
   <tr class="responses">
@@ -780,7 +771,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Ken is similar to me.
+      Leo is similar to me.
     </td>
   </tr>
   <tr class="responses">
@@ -794,7 +785,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      My race/ethnicity is similar to Ken's.
+      My race/ethnicity is similar to Leo's.
     </td>
   </tr>
   <tr class="responses">
@@ -808,7 +799,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with Ken's racial/ethnic group.
+      I am very familiar with Leo's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -823,21 +814,22 @@ fieldset {
 </table>
 </div>
 
-<div id="lili" class="single_character">
-<input type="hidden" name="id_2" value="lili">
+<div id="bob" class="single_character">
+<input type="hidden" name="id_2" value="bob">
+<input type="hidden" name="gender_2" value="male">
 <div class="character">
   <table class="character-images">
     <tr>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_cs_lili.jpg" alt="Lili on the character select screen."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_pr_lili.png" alt="Official art of Lili."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_ig_lili.jpg" alt="Lili in-game."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_cs_bob.jpg" alt="Bob on the character select screen."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_pr_bob.png" alt="Official art of Bob."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_ig_bob.jpg" alt="Bob in-game."> </td>
     </tr>
   </table>
   <table class="character-info">
-    <tr><td class="character-name" colspan=2>Emilie 'Lili' De Rochefort</td></tr>
-    <tr><td>Country:</td><td class="nationality">Monaco</td></tr>
-    <tr><td>Quote:</td><td class="quote">&ldquo;You surely don't believe… you can beat me?&rdquo;</td></tr>
-    <tr><td>Description:</td><td class="quote">Lili entered the King of Iron Fist Tournament again without telling her father this time either. There she was anyway, smiling as the rapturous crowd looked on and her opponent entered the arena. Lili was set to fight Asuka Kazama, someone she had personally considered her greatest rival for many years. If Lili saw the look of annoyance on Asuka's face, it didn't show; she just walked elegantly to the center of the ring like she owned it, all the while thanking Lady Luck for the opportunity to fight her rival.</td></tr>
+    <tr><td class="character-name" colspan=2>Bob</td></tr>
+    <tr><td>Country:</td><td class="nationality">United States of America</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;Speed and weight!&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">Once a fighter who had won the hearts of fans with his excellent sensibility and handsome good looks, he decided to transform himself completely by gaining weight to eliminate the perceived disadvantage he had in a fight due to his body type. His fans were disappointed, as on the outside it looked like he'd merely put on a few too many pounds, but Bob was definitely pleased with himself.</td></tr>
   </table>
 </div>
 
@@ -853,7 +845,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili has a realistic body.
+      Bob has a realistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -867,7 +859,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili has an exaggerated or unrealistic body.
+      Bob has an exaggerated or unrealistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -881,7 +873,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is designed to appear attractive.
+      Bob is designed to appear attractive.
     </td>
   </tr>
   <tr class="responses">
@@ -895,7 +887,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is designed to appear ugly.
+      Bob is designed to appear ugly.
     </td>
   </tr>
   <tr class="responses">
@@ -909,7 +901,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's design emphasizes Lili's muscles.
+      Bob's design emphasizes Bob's muscles.
     </td>
   </tr>
   <tr class="responses">
@@ -923,7 +915,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's muscles are hidden or not-well-defined.
+      Bob's muscles are hidden or not-well-defined.
     </td>
   </tr>
   <tr class="responses">
@@ -937,7 +929,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's design emphasizes Lili's sex appeal.
+      Bob's design emphasizes Bob's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -951,7 +943,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is not designed to be sexually appealing (to anyone).
+      Bob is not designed to be sexually appealing (to anyone).
     </td>
   </tr>
   <tr class="responses">
@@ -975,7 +967,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is designed to appear overweight.
+      Bob is designed to appear overweight.
     </td>
   </tr>
   <tr class="responses">
@@ -989,7 +981,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is designed to appear thin/skinny.
+      Bob is designed to appear thin/skinny.
     </td>
   </tr>
   <tr class="responses">
@@ -1003,7 +995,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's design emphasizes Lili's youth.
+      Bob's design emphasizes Bob's youth.
     </td>
   </tr>
   <tr class="responses">
@@ -1017,7 +1009,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's design emphasizes Lili's old age.
+      Bob's design emphasizes Bob's old age.
     </td>
   </tr>
   <tr class="responses">
@@ -1031,7 +1023,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's clothing is designed to increase Lili's sex appeal.
+      Bob's clothing is designed to increase Bob's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1045,7 +1037,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's clothing does not emphasize Lili's sex appeal.
+      Bob's clothing does not emphasize Bob's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1059,7 +1051,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's clothing is something that someone might wear in real life.
+      Bob's clothing is something that someone might wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -1073,7 +1065,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's clothing is something that nobody would wear in real life.
+      Bob's clothing is something that nobody would wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -1097,7 +1089,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili could be a good role-model.
+      Bob could be a good role-model.
     </td>
   </tr>
   <tr class="responses">
@@ -1111,7 +1103,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is someone that nobody should aspire to be like.
+      Bob is someone that nobody should aspire to be like.
     </td>
   </tr>
   <tr class="responses">
@@ -1125,7 +1117,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's appearance, quote, and/or description makes Lili's race/ethnicity clear.
+      Bob's appearance, quote, and/or description makes Bob's race/ethnicity clear.
     </td>
   </tr>
   <tr class="responses">
@@ -1139,7 +1131,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's clothing alone suggests Lili's race/ethnicity.
+      Bob's clothing alone suggests Bob's race/ethnicity.
     </td>
   </tr>
   <tr class="responses">
@@ -1153,7 +1145,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is a positive representation of Lili's racial/ethnic group.
+      Bob is a positive representation of Bob's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1167,7 +1159,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's design encourages misleading assumptions about people from Lili's racial/ethnic group.
+      Bob's design encourages misleading assumptions about people from Bob's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1181,7 +1173,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is a positive representation of women.
+      Bob is a positive representation of men.
     </td>
   </tr>
   <tr class="responses">
@@ -1195,7 +1187,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili's design encourages misleading assumptions about women.
+      Bob's design encourages misleading assumptions about men.
     </td>
   </tr>
   <tr class="responses">
@@ -1219,7 +1211,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Lili is similar to me.
+      Bob is similar to me.
     </td>
   </tr>
   <tr class="responses">
@@ -1233,7 +1225,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      My race/ethnicity is similar to Lili's.
+      My race/ethnicity is similar to Bob's.
     </td>
   </tr>
   <tr class="responses">
@@ -1247,7 +1239,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with Lili's racial/ethnic group.
+      I am very familiar with Bob's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1262,21 +1254,22 @@ fieldset {
 </table>
 </div>
 
-<div id="cammy" class="single_character">
-<input type="hidden" name="id_3" value="cammy">
+<div id="rashid" class="single_character">
+<input type="hidden" name="id_3" value="rashid">
+<input type="hidden" name="gender_3" value="male">
 <div class="character">
   <table class="character-images">
     <tr>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_cs_cammy.jpg" alt="Cammy on the character select screen."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_oa_cammy.jpg" alt="Official art of Cammy."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_ig_cammy.jpg" alt="Cammy in-game."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_cs_rashid.jpg" alt="Rashid on the character select screen."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_oa_rashid.jpg" alt="Official art of Rashid."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_ig_rashid.jpg" alt="Rashid in-game."> </td>
     </tr>
   </table>
   <table class="character-info">
-    <tr><td class="character-name" colspan=2>Cammy</td></tr>
-    <tr><td>Country:</td><td class="nationality">United Kingdom</td></tr>
-    <tr><td>Quote:</td><td class="quote">&ldquo;I fight for those I want to protect!&rdquo;</td></tr>
-    <tr><td>Description:</td><td class="quote">Once a mindless doll under the control of Shadaloo, Cammy broke free of her brainwashing and joined a Special Forces unit called Delta Red. Her former codename was Killer Bee. She also has a fondness for cats.</td></tr>
+    <tr><td class="character-name" colspan=2>Rashid</td></tr>
+    <tr><td>Country:</td><td class="nationality">Middle East</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;I'm Rashid of the turbulent wind. Remember the name well.&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">Much like Dee Jay before him, Rashid is an enthusiastic fighter who's rarely seen without a smile on his face. He's also something of a gadget lover, as can be seen by the tornado-firing rucksack he carries on his back.</td></tr>
   </table>
 </div>
 
@@ -1292,7 +1285,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy has a realistic body.
+      Rashid has a realistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -1306,7 +1299,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy has an exaggerated or unrealistic body.
+      Rashid has an exaggerated or unrealistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -1320,7 +1313,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is designed to appear attractive.
+      Rashid is designed to appear attractive.
     </td>
   </tr>
   <tr class="responses">
@@ -1334,7 +1327,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is designed to appear ugly.
+      Rashid is designed to appear ugly.
     </td>
   </tr>
   <tr class="responses">
@@ -1348,7 +1341,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's design emphasizes Cammy's muscles.
+      Rashid's design emphasizes Rashid's muscles.
     </td>
   </tr>
   <tr class="responses">
@@ -1362,7 +1355,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's muscles are hidden or not-well-defined.
+      Rashid's muscles are hidden or not-well-defined.
     </td>
   </tr>
   <tr class="responses">
@@ -1376,7 +1369,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's design emphasizes Cammy's sex appeal.
+      Rashid's design emphasizes Rashid's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1390,7 +1383,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is not designed to be sexually appealing (to anyone).
+      Rashid is not designed to be sexually appealing (to anyone).
     </td>
   </tr>
   <tr class="responses">
@@ -1414,7 +1407,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is designed to appear overweight.
+      Rashid is designed to appear overweight.
     </td>
   </tr>
   <tr class="responses">
@@ -1428,7 +1421,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is designed to appear thin/skinny.
+      Rashid is designed to appear thin/skinny.
     </td>
   </tr>
   <tr class="responses">
@@ -1442,7 +1435,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's design emphasizes Cammy's youth.
+      Rashid's design emphasizes Rashid's youth.
     </td>
   </tr>
   <tr class="responses">
@@ -1456,7 +1449,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's design emphasizes Cammy's old age.
+      Rashid's design emphasizes Rashid's old age.
     </td>
   </tr>
   <tr class="responses">
@@ -1470,7 +1463,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's clothing is designed to increase Cammy's sex appeal.
+      Rashid's clothing is designed to increase Rashid's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1484,7 +1477,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's clothing does not emphasize Cammy's sex appeal.
+      Rashid's clothing does not emphasize Rashid's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1498,7 +1491,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's clothing is something that someone might wear in real life.
+      Rashid's clothing is something that someone might wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -1512,7 +1505,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's clothing is something that nobody would wear in real life.
+      Rashid's clothing is something that nobody would wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -1536,7 +1529,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy could be a good role-model.
+      Rashid could be a good role-model.
     </td>
   </tr>
   <tr class="responses">
@@ -1550,7 +1543,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is someone that nobody should aspire to be like.
+      Rashid is someone that nobody should aspire to be like.
     </td>
   </tr>
   <tr class="responses">
@@ -1564,7 +1557,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's appearance, quote, and/or description makes Cammy's race/ethnicity clear.
+      Rashid's appearance, quote, and/or description makes Rashid's race/ethnicity clear.
     </td>
   </tr>
   <tr class="responses">
@@ -1578,7 +1571,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's clothing alone suggests Cammy's race/ethnicity.
+      Rashid's clothing alone suggests Rashid's race/ethnicity.
     </td>
   </tr>
   <tr class="responses">
@@ -1592,7 +1585,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is a positive representation of Cammy's racial/ethnic group.
+      Rashid is a positive representation of Rashid's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1606,7 +1599,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's design encourages misleading assumptions about people from Cammy's racial/ethnic group.
+      Rashid's design encourages misleading assumptions about people from Rashid's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1620,7 +1613,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is a positive representation of women.
+      Rashid is a positive representation of men.
     </td>
   </tr>
   <tr class="responses">
@@ -1634,7 +1627,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy's design encourages misleading assumptions about women.
+      Rashid's design encourages misleading assumptions about men.
     </td>
   </tr>
   <tr class="responses">
@@ -1658,7 +1651,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Cammy is similar to me.
+      Rashid is similar to me.
     </td>
   </tr>
   <tr class="responses">
@@ -1672,7 +1665,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      My race/ethnicity is similar to Cammy's.
+      My race/ethnicity is similar to Rashid's.
     </td>
   </tr>
   <tr class="responses">
@@ -1686,7 +1679,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with Cammy's racial/ethnic group.
+      I am very familiar with Rashid's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -1701,21 +1694,22 @@ fieldset {
 </table>
 </div>
 
-<div id="vega" class="single_character">
-<input type="hidden" name="id_4" value="vega">
+<div id="xiaoyu" class="single_character">
+<input type="hidden" name="id_4" value="xiaoyu">
+<input type="hidden" name="gender_4" value="female">
 <div class="character">
   <table class="character-images">
     <tr>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_cs_vega.jpg" alt="Vega on the character select screen."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_oa_vega.jpg" alt="Official art of Vega."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_ig_vega.jpg" alt="Vega in-game."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_cs_xiaoyu.jpg" alt="Xiaoyu on the character select screen."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_pr_xiaoyu.png" alt="Official art of Xiaoyu."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_ig_xiaoyu.jpg" alt="Xiaoyu in-game."> </td>
     </tr>
   </table>
   <table class="character-info">
-    <tr><td class="character-name" colspan=2>Vega</td></tr>
-    <tr><td>Country:</td><td class="nationality">Spain</td></tr>
-    <tr><td>Quote:</td><td class="quote">&ldquo;Let my beauty intoxicate you.&rdquo;</td></tr>
-    <tr><td>Description:</td><td class="quote">As perhaps the most narcissistic man in the Street Fighter universe, Vega dresses like a matador but fights like a ninja. He cares only for beauty and despises anyone he considers ugly.</td></tr>
+    <tr><td class="character-name" colspan=2>Ling Xiaoyu</td></tr>
+    <tr><td>Country:</td><td class="nationality">China</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;I'm going to stop Jin!&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">Ling Xiaoyu infiltrated the Mishima Zaibatsu building in search of information relating to Jin Kazama's disappearance. Creeping deeper into the enemy territory under the guards' noses, she eventually hears Heihachi Mishima's voice coming from a room; he was giving orders about locating Jin. Just as Xiaoyu was about to sneak into the room, a man dressed all in white emerged and pushed her back. 'Take me to Jin!' Xiaoyu demanded, unflinching. The man stood there for a moment, before ordering Xiaoyu to follow him. He led her to the roof, then silently turned toward her, and readied himself to fight. Xiaoyu took up her fighting stance, and said, 'So that's how it is... If you think I'm just some little girl, you're sadly mistaken.'</td></tr>
   </table>
 </div>
 
@@ -1731,7 +1725,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega has a realistic body.
+      Xiaoyu has a realistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -1745,7 +1739,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega has an exaggerated or unrealistic body.
+      Xiaoyu has an exaggerated or unrealistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -1759,7 +1753,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is designed to appear attractive.
+      Xiaoyu is designed to appear attractive.
     </td>
   </tr>
   <tr class="responses">
@@ -1773,7 +1767,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is designed to appear ugly.
+      Xiaoyu is designed to appear ugly.
     </td>
   </tr>
   <tr class="responses">
@@ -1787,7 +1781,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's design emphasizes Vega's muscles.
+      Xiaoyu's design emphasizes Xiaoyu's muscles.
     </td>
   </tr>
   <tr class="responses">
@@ -1801,7 +1795,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's muscles are hidden or not-well-defined.
+      Xiaoyu's muscles are hidden or not-well-defined.
     </td>
   </tr>
   <tr class="responses">
@@ -1815,7 +1809,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's design emphasizes Vega's sex appeal.
+      Xiaoyu's design emphasizes Xiaoyu's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1829,7 +1823,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is not designed to be sexually appealing (to anyone).
+      Xiaoyu is not designed to be sexually appealing (to anyone).
     </td>
   </tr>
   <tr class="responses">
@@ -1853,7 +1847,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is designed to appear overweight.
+      Xiaoyu is designed to appear overweight.
     </td>
   </tr>
   <tr class="responses">
@@ -1867,7 +1861,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is designed to appear thin/skinny.
+      Xiaoyu is designed to appear thin/skinny.
     </td>
   </tr>
   <tr class="responses">
@@ -1881,7 +1875,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's design emphasizes Vega's youth.
+      Xiaoyu's design emphasizes Xiaoyu's youth.
     </td>
   </tr>
   <tr class="responses">
@@ -1895,7 +1889,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's design emphasizes Vega's old age.
+      Xiaoyu's design emphasizes Xiaoyu's old age.
     </td>
   </tr>
   <tr class="responses">
@@ -1909,7 +1903,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's clothing is designed to increase Vega's sex appeal.
+      Xiaoyu's clothing is designed to increase Xiaoyu's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1923,7 +1917,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's clothing does not emphasize Vega's sex appeal.
+      Xiaoyu's clothing does not emphasize Xiaoyu's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -1937,7 +1931,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's clothing is something that someone might wear in real life.
+      Xiaoyu's clothing is something that someone might wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -1951,7 +1945,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's clothing is something that nobody would wear in real life.
+      Xiaoyu's clothing is something that nobody would wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -1975,7 +1969,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega could be a good role-model.
+      Xiaoyu could be a good role-model.
     </td>
   </tr>
   <tr class="responses">
@@ -1989,7 +1983,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is someone that nobody should aspire to be like.
+      Xiaoyu is someone that nobody should aspire to be like.
     </td>
   </tr>
   <tr class="responses">
@@ -2003,7 +1997,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's appearance, quote, and/or description makes Vega's race/ethnicity clear.
+      Xiaoyu's appearance, quote, and/or description makes Xiaoyu's race/ethnicity clear.
     </td>
   </tr>
   <tr class="responses">
@@ -2017,7 +2011,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's clothing alone suggests Vega's race/ethnicity.
+      Xiaoyu's clothing alone suggests Xiaoyu's race/ethnicity.
     </td>
   </tr>
   <tr class="responses">
@@ -2031,7 +2025,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is a positive representation of Vega's racial/ethnic group.
+      Xiaoyu is a positive representation of Xiaoyu's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -2045,7 +2039,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's design encourages misleading assumptions about people from Vega's racial/ethnic group.
+      Xiaoyu's design encourages misleading assumptions about people from Xiaoyu's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -2059,7 +2053,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is a positive representation of men.
+      Xiaoyu is a positive representation of women.
     </td>
   </tr>
   <tr class="responses">
@@ -2073,7 +2067,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega's design encourages misleading assumptions about men.
+      Xiaoyu's design encourages misleading assumptions about women.
     </td>
   </tr>
   <tr class="responses">
@@ -2097,7 +2091,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      Vega is similar to me.
+      Xiaoyu is similar to me.
     </td>
   </tr>
   <tr class="responses">
@@ -2111,7 +2105,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      My race/ethnicity is similar to Vega's.
+      My race/ethnicity is similar to Xiaoyu's.
     </td>
   </tr>
   <tr class="responses">
@@ -2125,7 +2119,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with Vega's racial/ethnic group.
+      I am very familiar with Xiaoyu's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -2140,21 +2134,22 @@ fieldset {
 </table>
 </div>
 
-<div id="r_mika" class="single_character">
-<input type="hidden" name="id_5" value="r_mika">
+<div id="lars" class="single_character">
+<input type="hidden" name="id_5" value="lars">
+<input type="hidden" name="gender_5" value="male">
 <div class="character">
   <table class="character-images">
     <tr>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_cs_r_mika.jpg" alt="R. Mika on the character select screen."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_oa_r_mika.jpg" alt="Official art of R. Mika."> </td>
-      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/sfv_ig_r_mika.jpg" alt="R. Mika in-game."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_cs_lars.jpg" alt="Lars on the character select screen."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_pr_lars.png" alt="Official art of Lars."> </td>
+      <td> <img src="http://web.mit.edu/pmwh/www/enfreakment-images/clean/tk7_ig_lars.jpg" alt="Lars in-game."> </td>
     </tr>
   </table>
   <table class="character-info">
-    <tr><td class="character-name" colspan=2>R. Mika</td></tr>
-    <tr><td>Country:</td><td class="nationality">Japan</td></tr>
-    <tr><td>Quote:</td><td class="quote">&ldquo;I'll kick your ass! All right! Let's begiiiin!!!&rdquo;</td></tr>
-    <tr><td>Description:</td><td class="quote">First appearing in Street Fighter Alpha 3, Rainbow Mika is a pro wrestler who idolises Zangief. Many of her special moves are exaggerated versions of real-life wrestling techniques.</td></tr>
+    <tr><td class="character-name" colspan=2>Lars Alexandersson</td></tr>
+    <tr><td>Country:</td><td class="nationality">Sweden</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;Think you can stop me?&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">A former officer of the Mishima Zaibatsu's special military unit, the Tekken Force, Lars enacted a coup d'état and rebelled against his former employer. Lars continues to fight despite the loss of his fallen comrades, and his bloody rebellion is nowhere near finished.</td></tr>
   </table>
 </div>
 
@@ -2170,7 +2165,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika has a realistic body.
+      Lars has a realistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -2184,7 +2179,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika has an exaggerated or unrealistic body.
+      Lars has an exaggerated or unrealistic body.
     </td>
   </tr>
   <tr class="responses">
@@ -2198,7 +2193,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is designed to appear attractive.
+      Lars is designed to appear attractive.
     </td>
   </tr>
   <tr class="responses">
@@ -2212,7 +2207,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is designed to appear ugly.
+      Lars is designed to appear ugly.
     </td>
   </tr>
   <tr class="responses">
@@ -2226,7 +2221,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's design emphasizes R. Mika's muscles.
+      Lars's design emphasizes Lars's muscles.
     </td>
   </tr>
   <tr class="responses">
@@ -2240,7 +2235,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's muscles are hidden or not-well-defined.
+      Lars's muscles are hidden or not-well-defined.
     </td>
   </tr>
   <tr class="responses">
@@ -2254,7 +2249,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's design emphasizes R. Mika's sex appeal.
+      Lars's design emphasizes Lars's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -2268,7 +2263,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is not designed to be sexually appealing (to anyone).
+      Lars is not designed to be sexually appealing (to anyone).
     </td>
   </tr>
   <tr class="responses">
@@ -2292,7 +2287,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is designed to appear overweight.
+      Lars is designed to appear overweight.
     </td>
   </tr>
   <tr class="responses">
@@ -2306,7 +2301,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is designed to appear thin/skinny.
+      Lars is designed to appear thin/skinny.
     </td>
   </tr>
   <tr class="responses">
@@ -2320,7 +2315,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's design emphasizes R. Mika's youth.
+      Lars's design emphasizes Lars's youth.
     </td>
   </tr>
   <tr class="responses">
@@ -2334,7 +2329,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's design emphasizes R. Mika's old age.
+      Lars's design emphasizes Lars's old age.
     </td>
   </tr>
   <tr class="responses">
@@ -2348,7 +2343,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's clothing is designed to increase R. Mika's sex appeal.
+      Lars's clothing is designed to increase Lars's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -2362,7 +2357,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's clothing does not emphasize R. Mika's sex appeal.
+      Lars's clothing does not emphasize Lars's sex appeal.
     </td>
   </tr>
   <tr class="responses">
@@ -2376,7 +2371,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's clothing is something that someone might wear in real life.
+      Lars's clothing is something that someone might wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -2390,7 +2385,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's clothing is something that nobody would wear in real life.
+      Lars's clothing is something that nobody would wear in real life.
     </td>
   </tr>
   <tr class="responses">
@@ -2414,7 +2409,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika could be a good role-model.
+      Lars could be a good role-model.
     </td>
   </tr>
   <tr class="responses">
@@ -2428,7 +2423,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is someone that nobody should aspire to be like.
+      Lars is someone that nobody should aspire to be like.
     </td>
   </tr>
   <tr class="responses">
@@ -2442,7 +2437,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's appearance, quote, and/or description makes R. Mika's race/ethnicity clear.
+      Lars's appearance, quote, and/or description makes Lars's race/ethnicity clear.
     </td>
   </tr>
   <tr class="responses">
@@ -2456,7 +2451,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's clothing alone suggests R. Mika's race/ethnicity.
+      Lars's clothing alone suggests Lars's race/ethnicity.
     </td>
   </tr>
   <tr class="responses">
@@ -2470,7 +2465,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is a positive representation of R. Mika's racial/ethnic group.
+      Lars is a positive representation of Lars's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -2484,7 +2479,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's design encourages misleading assumptions about people from R. Mika's racial/ethnic group.
+      Lars's design encourages misleading assumptions about people from Lars's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">
@@ -2498,7 +2493,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is a positive representation of women.
+      Lars is a positive representation of men.
     </td>
   </tr>
   <tr class="responses">
@@ -2512,7 +2507,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika's design encourages misleading assumptions about women.
+      Lars's design encourages misleading assumptions about men.
     </td>
   </tr>
   <tr class="responses">
@@ -2536,7 +2531,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      R. Mika is similar to me.
+      Lars is similar to me.
     </td>
   </tr>
   <tr class="responses">
@@ -2550,7 +2545,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      My race/ethnicity is similar to R. Mika's.
+      My race/ethnicity is similar to Lars's.
     </td>
   </tr>
   <tr class="responses">
@@ -2564,7 +2559,7 @@ fieldset {
   </tr>
   <tr class="question">
     <td colspan=7>
-      I am very familiar with R. Mika's racial/ethnic group.
+      I am very familiar with Lars's racial/ethnic group.
     </td>
   </tr>
   <tr class="responses">

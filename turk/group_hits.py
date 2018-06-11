@@ -22,8 +22,9 @@ FLAG_URL = "http://web.mit.edu/pmwh/www/enfreakment-images/flags/{}.png"
 
 GENDER_GROUPS = {
   "male": "men",
-  "female": "women"
-  # TODO: Add more as necessary
+  "female": "women",
+  "ambiguous_male": "men", # official male pronouns
+  "ambiguous_female": "women", # official female pronouns
 }
 
 groups = []
@@ -74,23 +75,23 @@ nr = len(rows)
 
 head = (
   "id1,name1,shortname1,namepossessive1,imageA1,imageB1,imageC1,"
-  "country1,gendergroup1,bio1,quote1,"
+  "country1,gender1,gendergroup1,bio1,quote1,"
 )
 head += (
   "id2,name2,shortname2,namepossessive2,imageA2,imageB2,imageC2,"
-  "country2,gendergroup2,bio2,quote2,"
+  "country2,gender2,gendergroup2,bio2,quote2,"
 )
 head += (
   "id3,name3,shortname3,namepossessive3,imageA3,imageB3,imageC3,"
-  "country3,gendergroup3,bio3,quote3,"
+  "country3,gender3,gendergroup3,bio3,quote3,"
 )
 head += (
   "id4,name4,shortname4,namepossessive4,imageA4,imageB4,imageC4,"
-  "country4,gendergroup4,bio4,quote4,"
+  "country4,gender4,gendergroup4,bio4,quote4,"
 )
 head += (
   "id5,name5,shortname5,namepossessive5,imageA5,imageB5,imageC5,"
-  "country5,gendergroup5,bio5,quote5"
+  "country5,gender5,gendergroup5,bio5,quote5"
 )
 
 print(head)
@@ -107,7 +108,7 @@ for gr in groups:
       print("Error: Character '{}' does not exist!".format(cid))
     iubase = IMAGE_URLS[selected["game"]]
     line+=(
-      '{id},{fn},{nm},{np},{imA},{imB},{imC},{co},{gg},"{bi}","{qu}",'
+      '{id},{fn},{nm},{np},{imA},{imB},{imC},{co},{gd},{gg},"{bi}","{qu}",'
     ).format(
       id=selected["id"],
       fn=selected["name"],
@@ -117,6 +118,7 @@ for gr in groups:
       imB=iubase["B"].format(selected["id"]), # official art
       imC=iubase["C"].format(selected["id"]), # in-game
       co=selected["country"],
+      gd=selected["gender"],
       gg=GENDER_GROUPS[selected["gender"]],
       bi=selected["bio"],
       qu=selected["quote"]

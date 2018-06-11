@@ -1,6 +1,16 @@
 .PHONY: default
 default: report.txt
 
+%-workers.lst: %.csv
+	grep -v Rejected $< | cut -d'"' -f32 | tail -n+2 > $@
+
+participants.lst: batches/batch-1-workers.lst batches/batch-2-workers.lst batches/batch-3-workers.lst
+	cat $^ | sort | uniq -c | sort > $@
+
+pids.tsv: participants.lst Makefile
+	echo "id	submissions	worker_id" > pids.tsv
+	awk '{ print FNR "\t" $$1 "\t" $$2; }' < participants.lst >> pids.tsv
+
 combined.csv: batches/batch-2.csv batches/batch-3.csv Makefile
 	cat batches/batch-2.csv > combined.csv
 	echo >> combined.csv

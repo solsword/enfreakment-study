@@ -16,7 +16,7 @@ sep_chars = ".:"
 
 ALIASES = properties.reverse_aliases()
 
-def get(row, index):
+def get(row, index, default=None):
   """
   Retrieve from  a row according to a string index.
   """
@@ -50,14 +50,15 @@ def get(row, index):
       else:
         sub = row[first]
       if sub != None:
-        return get(sub, rest)
+        return get(sub, rest, default)
       else:
-        return None
+        return default
     else:
       if isinstance(row, dict):
-        return row.get(first, None)
+        return row.get(first, default)
       else:
-        return row[first]
+        val = row[first]
+        return val if val != None else default
   except TypeError:
     raise ValueError("Invalid index: '{}'".format(index))
 
@@ -224,10 +225,37 @@ def colonizer_men(row):
 def participant_nonwhite(row):
   return get(row, ".participant.normalized_ethnicity.White") == None
 
-def participant_white(row):
-  return get(row, ".participant.normalized_ethnicity.White") == 1
+def ethnically_similar(row):
+  return get(row, ".personal_ratings:1", 4) > 4
+
+def participant_minority(row):
+  return any([
+    get(row, ".participant.normalized_ethnicity.Black"),
+    get(row, ".participant.normalized_ethnicity.Native American"),
+    get(row, ".participant.normalized_ethnicity.Hawaiian"),
+    get(row, ".participant.normalized_ethnicity.Latinx"),
+    get(row, ".participant.normalized_ethnicity.Hispanic"),
+    get(row, ".participant.normalized_ethnicity.Jewish"),
+    get(row, ".participant.normalized_ethnicity.African"),
+    get(row, ".participant.normalized_ethnicity.Puerto Rican"),
+    get(row, ".participant.normalized_ethnicity.Hindu"),
+    get(row, ".participant.normalized_ethnicity.Indian"),
+    get(row, ".participant.normalized_ethnicity.Chinese"),
+  ])
 
 novel_hypotheses = [
+  # Participant gender/frequency vs. gender perceptions:
+  ("Female-Raters:recognize-bad-gender-rep", ".constructs.positive_gender_rep", participant_female, None, "-", [".character.id"]),
+  ("Infrequent-Players:recognize-bad-gender-rep", ".constructs.positive_gender_rep", infrequent_player, None, "-", [".character.id"]),
+  ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "+", [".character.id"]),
+
+  # Participant ethnicity/frequency vs. ethnicity perceptions:
+  ("Similar-Ethnicity:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", ethnically_similar, None, "-", [".character.id"]),
+  ("Minority-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_minority, None, "-", [".character.id"]),
+  ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "-", [".character.id"]),
+  ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "-", [".character.id"]),
+  ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+", [".character.id"]),
+
   # Brute sub-components:
   ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, is_dark_skinned, "+"),
   ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, is_dark_skinned, "+"),
@@ -254,17 +282,6 @@ novel_hypotheses = [
   ("Colonizer:more-admirable", ".constructs.admirableness", colonizer_country, colonized_country, "+"),
   ("Colonizer:more-positive-ethnicity", ".constructs.positive_ethnic_rep", colonizer_country, colonized_country, "+"),
   ("Colonizer:more-positive-gender", ".constructs.positive_gender_rep", colonizer_country, colonized_country, "+"),
-
-  # Participant gender/frequency vs. gender perceptions:
-  ("Female-Raters:recognize-bad-gender-rep", ".constructs.positive_gender_rep", participant_female, None, "-"),
-  ("Infrequent-Players:recognize-bad-gender-rep", ".constructs.positive_gender_rep", infrequent_player, None, "-"),
-  ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "+"),
-
-  # Participant ethnicity/frequency vs. ethnicity perceptions:
-  ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "-"),
-  ("White-Raters:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_white, None, "+"),
-  ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "-"),
-  ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+"),
 
   # Intersections
   ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "+"),
@@ -329,10 +346,10 @@ framedata_hypotheses = [
   ("Agility:women-dash-farther", ".character.stats.dash_distance", character_female, character_male, '+'),
   ("Agility:women-faster", ".character.stats.speed", character_female, character_male, '+'),
   # Men hit harder & slower
-  ("Normals:men-more-damage", ".character.stats.normals.avg_hit_damage", character_male, character_female, '+'),
-  ("Attacks:men-more-damage", ".character.stats.all_moves.avg_hit_damage", character_male, character_female, '+'),
-  ("Normals:men-more-stun", ".character.stats.normals.avg_hit_stun", character_male, character_female, '+'),
-  ("Attacks:men-more-stun", ".character.stats.all_moves.avg_hit_stun", character_male, character_female, '+'),
+  ("Normals:men-more-damage", ".character.stats.normals.avg_damage_per_hit", character_male, character_female, '+'),
+  ("Attacks:men-more-damage", ".character.stats.all_moves.avg_damage_per_hit", character_male, character_female, '+'),
+  ("Normals:men-more-stun", ".character.stats.normals.avg_stun_per_hit", character_male, character_female, '+'),
+  ("Attacks:men-more-stun", ".character.stats.all_moves.avg_stun_per_hit", character_male, character_female, '+'),
   ("Normals:men-active-longer", ".character.stats.normals.avg_active_frames", character_male, character_female, '+'),
   ("Attacks:men-active-longer", ".character.stats.all_moves.avg_active_frames", character_male, character_female, '+'),
   ("Normals:women-hit-more", ".character.stats.normals.avg_hit_count", character_female, character_male, '+'),
@@ -341,6 +358,10 @@ framedata_hypotheses = [
   ("Attacks:men-slower", ".character.stats.all_moves.avg_frames_per_hit", character_male, character_female, '+'),
   ("Normals:men-more-delayed", ".character.stats.normals.avg_dead_frames", character_male, character_female, '+'),
   ("Attacks:men-more-delayed", ".character.stats.all_moves.avg_dead_frames", character_male, character_female, '+'),
+  ("Normals:men-more-hitstun", ".character.stats.normals.avg_hitstun", character_male, character_female, '+'),
+  ("Attacks:men-more-hitstun", ".character.stats.all_moves.avg_hitstun", character_male, character_female, '+'),
+  ("Normals:men-more-blockstun", ".character.stats.normals.avg_blockstun", character_male, character_female, '+'),
+  ("Attacks:men-more-blockstun", ".character.stats.all_moves.avg_blockstun", character_male, character_female, '+'),
   ("Normals:women-plus-on-hit", ".character.stats.normals.avg_hit_advantage", character_female, character_male, '+'),
   ("Attacks:women-plus-on-hit", ".character.stats.all_moves.avg_hit_advantage", character_female, character_male, '+'),
   ("Normals:women-plus-on-block", ".character.stats.normals.avg_block_advantage", character_female, character_male, '+'),
@@ -361,10 +382,10 @@ framedata_hypotheses = [
   # Fair-skinned characters are faster
   ("Agility:fair-men-faster", ".character.stats.speed", fair_skinned_men, dark_skinned_men, '+'),
   # Dark-skinned characters hit harder/slower
-  ("Normals:dark-men-more-damage", ".character.stats.normals.avg_hit_damage", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-damage", ".character.stats.all_moves.avg_hit_damage", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:dark-men-more-stun", ".character.stats.normals.avg_hit_stun", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-stun", ".character.stats.all_moves.avg_hit_stun", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:dark-men-more-damage", ".character.stats.normals.avg_damage_per_hit", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-damage", ".character.stats.all_moves.avg_damage_per_hit", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:dark-men-more-stun", ".character.stats.normals.avg_stun_per_hit", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-stun", ".character.stats.all_moves.avg_stun_per_hit", dark_skinned_men, fair_skinned_men, '+'),
   ("Normals:dark-men-active-longer", ".character.stats.normals.avg_active_frames", dark_skinned_men, fair_skinned_men, '+'),
   ("Attacks:dark-men-active-longer", ".character.stats.all_moves.avg_active_frames", dark_skinned_men, fair_skinned_men, '+'),
   ("Normals:fair-men-hit-more", ".character.stats.normals.avg_hit_count", fair_skinned_men, dark_skinned_men, '+'),
@@ -373,6 +394,10 @@ framedata_hypotheses = [
   ("Attacks:dark-men-slower", ".character.stats.all_moves.avg_frames_per_hit", dark_skinned_men, fair_skinned_men, '+'),
   ("Normals:dark-men-more-delayed", ".character.stats.normals.avg_dead_frames", dark_skinned_men, fair_skinned_men, '+'),
   ("Attacks:dark-men-more-delayed", ".character.stats.all_moves.avg_dead_frames", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:dark-men-more-hitstun", ".character.stats.normals.avg_hitstun", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-hitstun", ".character.stats.all_moves.avg_hitstun", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:dark-men-more-blockstun", ".character.stats.normals.avg_blockstun", dark_skinned_men, fair_skinned_men, '+'),
+  ("Attacks:dark-men-more-blockstun", ".character.stats.all_moves.avg_blockstun", dark_skinned_men, fair_skinned_men, '+'),
   ("Normals:fair-men-plus-on-hit", ".character.stats.normals.avg_hit_advantage", fair_skinned_men, dark_skinned_men, '+'),
   ("Attacks:fair-men-plus-on-hit", ".character.stats.all_moves.avg_hit_advantage", fair_skinned_men, dark_skinned_men, '+'),
   ("Normals:fair-men-plus-on-block", ".character.stats.normals.avg_block_advantage", fair_skinned_men, dark_skinned_men, '+'),
@@ -463,8 +488,9 @@ hgroups = {
     "Frequent-Players:ignore-bad-gender-rep",
   ],
   "Nonwhite and non-gamers more aware of racial stereotypes": [
+    "Similar-Ethnicity:recognize-bad-ethnic-rep",
+    "Minority-Raters:recognize-bad-ethnic-rep",
     "Nonwhite-Raters:recognize-bad-ethnic-rep",
-    "White-Raters:ignore-bad-ethnic-rep",
     "Infrequent-Players:recognize-bad-ethnic-rep",
     "Frequent-Players:ignore-bad-ethnic-rep",
   ],
@@ -540,6 +566,8 @@ hgroups = {
     "Normals:women-hit-more",
     "Normals:men-slower",
     "Normals:men-more-delayed",
+    "Normals:men-more-hitstun",
+    "Normals:men-more-blockstun",
     "Normals:women-plus-on-hit",
     "Normals:women-plus-on-block",
     "Normals:women-more-multihit",
@@ -554,6 +582,8 @@ hgroups = {
     "Attacks:women-hit-more",
     "Attacks:men-slower",
     "Attacks:men-more-delayed",
+    "Attacks:men-more-hitstun",
+    "Attacks:men-more-blockstun",
     "Attacks:women-plus-on-hit",
     "Attacks:women-plus-on-block",
     "Attacks:women-more-multihit",
@@ -576,6 +606,8 @@ hgroups = {
     "Normals:fair-men-hit-more",
     "Normals:dark-men-slower",
     "Normals:dark-men-more-delayed",
+    "Normals:dark-men-more-hitstun",
+    "Normals:dark-men-more-blockstun",
     "Normals:fair-men-plus-on-hit",
     "Normals:fair-men-plus-on-block",
     "Normals:fair-men-more-multihit",
@@ -589,6 +621,8 @@ hgroups = {
     "Attacks:fair-men-hit-more",
     "Attacks:dark-men-slower",
     "Attacks:dark-men-more-delayed",
+    "Attacks:dark-men-more-hitstun",
+    "Attacks:dark-men-more-blockstun",
     "Attacks:fair-men-plus-on-hit",
     "Attacks:fair-men-plus-on-block",
     "Attacks:fair-men-more-multihit",
@@ -624,6 +658,7 @@ def main(fin):
   tests = init_tests(rows, all_hypotheses, use)
   print()
   effects, expected = analyze_tests(rows, tests)
+  print('-'*80)
   summarize_tests(effects, expected, hgroups)
   print('-'*80)
   analyze_agreement(rows)
@@ -636,36 +671,46 @@ def bootstrap_test(
   index,
   pos_filter,
   alt_filter=None,
+  controls=None,
   trials=15000,
   seed=1081230891
 ):
+  controls = controls or []
   pos_mean = 0
   pos_count = 0
   alt_mean = 0
   alt_count = 0
-  vals = []
-  hits = []
-  alts = []
   nones = 0
+  groups = {}
   for i, row in enumerate(rows):
     val = get(row, index)
+    ident = '=' + "::".join(str(get(row, ctrl)) for ctrl in controls)
     if val == None:
       nones += 1
       continue
+    if ident not in groups:
+      groups[ident] = [[], [], []]
+    vals, hits, alts = groups[ident]
     vals.append(val)
     if pos_filter(row):
-      hits.append(i - nones)
+      hits.append(len(vals) - 1)
       pos_mean += val
       pos_count += 1
     elif alt_filter == None:
-      alts.append(i - nones)
+      alts.append(len(vals) - 1)
       alt_mean += val
       alt_count += 1
 
     if alt_filter != None and alt_filter(row):
-      alts.append(i - nones)
+      alts.append(len(vals) - 1)
       alt_mean += val
       alt_count += 1
+
+  if pos_count == 0:
+    return None, "No positive examples found!"
+
+  if alt_count == 0:
+    return None, "No alternate examples found!"
 
   pos_mean /= pos_count
   alt_mean /= alt_count
@@ -675,13 +720,15 @@ def bootstrap_test(
   random.seed(seed)
   as_diff = 0
   for t in range(trials):
-    random.shuffle(vals)
     pos_mean = 0
     alt_mean = 0
-    for i in hits:
-      pos_mean += vals[i]
-    for i in alts:
-      alt_mean += vals[i]
+    for g in groups:
+      vals, hits, alts = groups[g]
+      random.shuffle(vals)
+      for i in hits:
+        pos_mean += vals[i]
+      for i in alts:
+        alt_mean += vals[i]
     pos_mean /= pos_count
     alt_mean /= alt_count
     tmd = pos_mean - alt_mean
@@ -694,8 +741,10 @@ def t_test(
   rows,
   index,
   pos_filter,
-  alt_filter=None
+  alt_filter=None,
+  controls=None,
 ):
+  # TODO: Implement controls here!?!
   ingroup = []
   outgroup = []
   for row in rows:
@@ -726,11 +775,15 @@ def init_tests(rows, hypotheses, method=bootstrap_test):
   analyze_tests to process.
   """
   tests = []
-  for i, (name, index, pos_filter, alt_filter, direction) in enumerate(
-    hypotheses
-  ):
-    md, p = method(rows, index, pos_filter, alt_filter)
-    print("{}/{} done...".format(i, len(hypotheses)), end="\r")
+  for i, hyp in enumerate(hypotheses):
+    if len(hyp) == 5: # no controls
+      name, index, pos_filter, alt_filter, direction = hyp
+      controls = []
+    else: # has controls
+      name, index, pos_filter, alt_filter, direction, controls = hyp
+    md, p = method(rows, index, pos_filter, alt_filter, controls)
+    prg = "{}/{} done [{}]...".format(i, len(hypotheses), name)
+    print(prg, " "*(78 - len(prg)), end="\r")
     sys.stdout.flush()
 
     dword = {
@@ -740,7 +793,18 @@ def init_tests(rows, hypotheses, method=bootstrap_test):
 
     cond_name = pos_filter.__name__
 
-    if direction == "+":
+    if md == None: # test error
+      tests.append(
+        [
+          name,
+          None,
+          None,
+          1,
+          None,
+          "{} {} for {}? {}".format(index[12:], dword, cond_name, p)
+        ]
+      )
+    elif direction == "+":
       smsg = "== {} is greater for {}: {:+.3g}, p = {:.3g}".format(
         index[12:],
         cond_name,
@@ -813,9 +877,14 @@ def analyze_tests(rows, tests, threshold = 0.05):
     k = i + 1
     #th = threshold / (m - i) ## Holm-Bonferroni
     th = threshold * (k/m) # Benjamini-Hochberg
-    close = p < threshold
+    error = md == None
+    close = p < threshold if not isinstance(p, str) else False
     expected[name] = expd
-    if failed:
+    if error:
+      e = "ERR: {}".format(fmsg)
+      effects[name] = e
+      print(e)
+    elif failed:
       effects[name] = None
       print("{} {} ~ {:.3g}".format(" *"[close], fmsg, th))
     elif p > th:
@@ -833,13 +902,16 @@ def summarize_tests(effects, expected, hgroups):
     hypotheses = hgroups[name]
     print(name)
     for hyp in hypotheses:
-      print(
-        "  {} {}: {}".format(
-          ' ' if expected[hyp] else '!',
-          hyp,
-          "{:+.3g}".format(effects[hyp]) if effects[hyp] != None else '?'
+      if expected[hyp] == None:
+        print("  {}: {}".format(hyp, effects[hyp]))
+      else:
+        print(
+          "  {} {}: {}".format(
+            ' ' if expected[hyp] else '!',
+            hyp,
+            "{:+.3g}".format(effects[hyp]) if effects[hyp] != None else '?'
+          )
         )
-      )
 
 def analyze_agreement(rows):
   n_raters = len(rows)//5
@@ -848,35 +920,43 @@ def analyze_agreement(rows):
   for t in test_agreement:
     ratings = np.full((n_raters, n_characters), np.nan)
     bin_ratings = np.full((n_raters, n_characters), np.nan)
+    pidmap = {}
+    nextpid = 0
     for row in rows:
-      pid = int(get(row, ".participant.id")) - 1
+      pid = get(row, ".participant.id")
+      if pid in pidmap:
+        ipid = pidmap[pid]
+      else:
+        ipid = nextpid
+        pidmap[pid] = ipid
+        nextpid += 1
       ch = get(row, ".character.id")
       cid = charmap[ch]
-      if not np.isnan(ratings[pid, cid]):
+      if not np.isnan(ratings[ipid, cid]):
         print(
           "Double-fill: [{}, {}] was {} ? {}!".format(
-            pid,
+            ipid,
             ch,
-            ratings[pid, cid],
-            np.isnan(ratings[pid, cid])
+            ratings[ipid, cid],
+            np.isnan(ratings[ipid, cid])
           ),
           file=sys.stderr
         )
         print(row, file=sys.stderr)
       val = get(row, t)
-      ratings[pid,cid] = val
-      bin_ratings[pid,cid] = [-1,0,1][(val>3) + (val>4)] if val else None
+      ratings[ipid,cid] = val
+      bin_ratings[ipid,cid] = [-1,0,1][(val>3) + (val>4)] if val else None
     # DEBUG:
     """
     if "muscular" in t:
       rgrouped = {i: [] for i in range(len(characters))}
       bingrouped = {i: { -1: 0, 0: 0, 1: 0 } for i in range(len(characters))}
-      for pid in range(ratings.shape[0]):
+      for ipid in range(ratings.shape[0]):
         for cid in range(ratings.shape[1]):
-          if not np.isnan(ratings[pid,cid]):
-            rgrouped[cid].append(ratings[pid,cid])
-          if not np.isnan(bin_ratings[pid,cid]):
-            bingrouped[cid][bin_ratings[pid,cid]] += 1
+          if not np.isnan(ratings[ipid,cid]):
+            rgrouped[cid].append(ratings[ipid,cid])
+          if not np.isnan(bin_ratings[ipid,cid]):
+            bingrouped[cid][bin_ratings[ipid,cid]] += 1
       for i, ch in enumerate(characters):
         print(
           "{:>12s}: {} :: {}/{}/{}".format(

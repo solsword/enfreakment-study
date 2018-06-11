@@ -15,15 +15,23 @@ group_count(N) :- count(X), N = (X * per_item) / group_size.
 
 group(1..N) :- group_count(N).
 
+pronoun(C, he) :- gender(C, male).
+pronoun(C, he) :- gender(C, ambiguous_male).
+pronoun(C, she) :- gender(C, female).
+pronoun(C, she) :- gender(C, ambiguous_female).
+
 gender_value(V) :- gender(C, V).
 origin_value(V) :- origin(C, V).
 game_value(V) :- game(C, V).
+pronoun_value(V) :- pronoun(C, V).
 
 % five items per group
 group_size = { assigned(G, C) : character(C) } :- group(G).
 
-% no group is homogeneous in terms of character genders, origins, or games:
+% no group is homogeneous in terms of character genders, pronouns, origins, or
+% games:
 :- group(G), 1 = { gender_value(V): assigned(G, C), gender(C, V) }.
+:- group(G), 1 = { pronoun_value(V): assigned(G, C), pronoun(C, V) }.
 :- group(G), 1 = { origin_value(V): assigned(G, C), origin(C, V) }.
 :- group(G), 1 = { game_value(V): assigned(G, C), game(C, V) }.
 

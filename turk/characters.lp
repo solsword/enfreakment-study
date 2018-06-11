@@ -195,7 +195,7 @@ gender(lee,male).
 origin(lee,jp).
 game(lee,tk7).
 character(leo).
-gender(leo,male).
+gender(leo,ambiguous_male).
 origin(leo,de).
 game(leo,tk7).
 character(lili).
