@@ -12,9 +12,18 @@ def process(source):
 
   rows = [rin for rin in reader]
 
-  for row in rows:
+  for rn, row in enumerate(rows):
     for (cns, _) in properties.constructs:
-      row["@" + cns] = properties.extract_construct(row, cns)
+      try:
+        row["@" + cns] = properties.extract_construct(row, cns)
+      except:
+        raise ValueError(
+          "Couldn't extract construct '{}' from line {}:\n{}".format(
+            cns,
+            rn + 2,
+            row
+          )
+        )
 
   characters = sorted(list(set(row["id"] for row in rows)))
   participants = sorted(list(set(row["participant"] for row in rows)))

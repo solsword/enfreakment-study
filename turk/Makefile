@@ -4,6 +4,11 @@
 %-instantiated.html: %.html instantiate.vim hits.csv
 	vim -T dumb -N -n -E -s -c 'set nomore' -c 'source instantiate.vim' -c'wq! $@' $<
 
+.PHONY: redo
+redo: template-likert-instantiated.html
+	head -n -2 $< > redo-tmp.html
+	cat top.html redo-tmp.html bottom.html > redo-`head -n3 instantiate.vim | tail -n1`.html
+
 # -T dumb → don't detect terminal type; use dumb
 # -N → nocompat mode
 # -u NONE → don't use a vimrc

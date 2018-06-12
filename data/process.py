@@ -171,7 +171,10 @@ def process(sources):
 
   for fn in sources:
     with open(fn, 'r') as fin:
-      reader = csv.DictReader(fin)
+      if fn.endswith(".tsv"):
+        reader = csv.DictReader(fin, dialect="excel-tab")
+      else:
+        reader = csv.DictReader(fin)
 
       for rin in reader:
         wid = rin["WorkerId"]

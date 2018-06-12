@@ -1,7 +1,6 @@
 " Open test file
 tabe hits.csv
-3
-"49
+10
 
 " Yank id1 and go back to other tab
 normal yt,f,l
