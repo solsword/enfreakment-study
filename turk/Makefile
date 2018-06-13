@@ -4,6 +4,14 @@
 %-instantiated.html: %.html instantiate.vim hits.csv
 	vim -T dumb -N -n -E -s -c 'set nomore' -c 'source instantiate.vim' -c'wq! $@' $<
 
+# TODO: HERE
+ALL_INST = $(shell: seq `wc -l hits.csv` | head -n -1)
+
+instantiate-%.vim: instantiate.vim
+	head -n2 instantiate.vim > $@
+	echo $* >> $@
+	tail -n+4 instantiate.vim >> $@
+
 .PHONY: redo
 redo: template-likert-instantiated.html
 	head -n -2 $< > redo-tmp.html

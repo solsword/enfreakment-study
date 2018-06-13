@@ -229,19 +229,29 @@ def ethnically_similar(row):
   return get(row, ".personal_ratings:1", 4) > 4
 
 def participant_minority(row):
-  return any([
-    get(row, ".participant.normalized_ethnicity.Black"),
-    get(row, ".participant.normalized_ethnicity.Native American"),
-    get(row, ".participant.normalized_ethnicity.Hawaiian"),
-    get(row, ".participant.normalized_ethnicity.Latinx"),
-    get(row, ".participant.normalized_ethnicity.Hispanic"),
-    get(row, ".participant.normalized_ethnicity.Jewish"),
-    get(row, ".participant.normalized_ethnicity.African"),
-    get(row, ".participant.normalized_ethnicity.Puerto Rican"),
-    get(row, ".participant.normalized_ethnicity.Hindu"),
-    get(row, ".participant.normalized_ethnicity.Indian"),
-    get(row, ".participant.normalized_ethnicity.Chinese"),
-  ])
+  return (get(row, ".participant.normalized_ethnicity.White") == None) and any(
+    [
+      get(row, ".participant.normalized_ethnicity.Black"),
+      get(row, ".participant.normalized_ethnicity.Native American"),
+      get(row, ".participant.normalized_ethnicity.Hawaiian"),
+      get(row, ".participant.normalized_ethnicity.Latinx"),
+      get(row, ".participant.normalized_ethnicity.Hispanic"),
+      get(row, ".participant.normalized_ethnicity.African"),
+      get(row, ".participant.normalized_ethnicity.Puerto Rican"),
+      get(row, ".participant.normalized_ethnicity.Hindu"),
+      get(row, ".participant.normalized_ethnicity.Indian"),
+      get(row, ".participant.normalized_ethnicity.Chinese"),
+      get(row, ".participant.normalized_ethnicity.Korean"),
+      get(row, ".participant.normalized_ethnicity.Persian"),
+      get(row, ".participant.normalized_ethnicity.West Indian"),
+      get(row, ".participant.normalized_ethnicity.Vietnamese"),
+      get(row, ".participant.normalized_ethnicity.Filipino"),
+      get(row, ".participant.normalized_ethnicity.Jewish"),
+      get(row, ".participant.normalized_ethnicity.Polish"),
+      get(row, ".participant.normalized_ethnicity.Finnish"),
+      get(row, ".participant.normalized_ethnicity.Irish"),
+    ]
+  )
 
 novel_hypotheses = [
   # Participant gender/frequency vs. gender perceptions:

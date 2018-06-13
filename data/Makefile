@@ -22,25 +22,6 @@ batches/filtered-batch-%.csv: batches/batch-%.csv Makefile
 		| sed "/^$$/d" \
 		> $@
 
-combined.csv: batches/batch-2.csv batches/batch-3.csv batches/batch-4.csv Makefile
-	cat batches/batch-2.csv > combined.csv
-	echo >> combined.csv
-	tail -n +2 batches/batch-3.csv >> combined.csv
-	echo >> combined.csv
-	tail -n +2 batches/batch-4.csv \
-		| sed "s/[^,]\"\"/'/g" \
-		| cut -d'"' -f 1-71,74-95,98-119,122-143,146-167,170-283,293- \
-		>> combined.csv
-
-filtered.csv: combined.csv reject.lst
-	cat combined.csv \
-		| grep -v Rejected \
-		| grep -vf reject.lst \
-		| sed "s/\\r$$//" \
-		| tr "\\r" " " \
-		| sed "/^$$/d" \
-		> filtered.csv
-
 batches/full-makeup-%.tsv: batches/makeup-%.tsv
 	sed "1s/\t/\tAnswer./g" $< > $@
 
@@ -67,4 +48,4 @@ report.txt: efr-aug-grp.json analyze.py
 
 .PHONY: clean
 clean:
-	rm -f combined.csv filtered.csv extras.csv extras.tsv efr.tsv efr-aug.tsv efr-aug-grp.json
+	rm -f efr.tsv efr-aug.tsv efr-aug-grp.json
