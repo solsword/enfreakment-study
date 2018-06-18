@@ -28,6 +28,8 @@ def process(source):
       "participant_personal",
       "constructs",
       "med_constructs",
+      "pers_constructs",
+      "med_pers_constructs",
       "enfreakments",
     ]
   )
@@ -51,7 +53,10 @@ def process(source):
     fields["character"] = { "id": row["id"] }
     for cp in properties.character_properties:
       key = "character_" + cp
-      fields["character"][cp] = row[key]
+      if cp == "motive":
+        fields["character"][cp] = { row[pp]: 1 }
+      else:
+        fields["character"][cp] = row[key]
 
     if row["id"] in ingame_stats:
       fields["character"]["stats"] = ingame_stats[row["id"]]
@@ -81,12 +86,18 @@ def process(source):
         for t in properties.enfreakment_types
     ]
 
-    if row["character_country"] == "Unknown":
+    country = row["character_country"]
+
+    if country == "Unknown":
       c_count = 1
     else:
-      c_count = sum(
-        1 for r in rows if r["character_country"] == row["character_country"]
-      ) // 7
+      c_count = len(
+        set(
+          r["id"]
+            for r in rows
+            if r["character_country"] == country
+        )
+      )
 
     fields["character"]["country_count"] = c_count
 
@@ -99,7 +110,13 @@ def process(source):
     fields["character"]["is_japanese"] = [
       "Other",
       "Japanese"
-    ][row["character_country"] == "Japan"]
+    ][country == "Japan"]
+
+    fields["character"]["market"] = (
+      "primary" if country in properties.primary_market_countries
+        else "secondary" if country in properties.secondary_market_countries
+        else "unknown"
+    )
 
     st = properties.skin_tones[row["id"]]
     ast = properties.alt_tones[row["id"]]
@@ -113,6 +130,15 @@ def process(source):
     fields["med_constructs"] = [
       properties.nv(row["med_@" + cns])
         for (cns, _) in properties.constructs
+    ]
+
+    fields["pers_constructs"] = [
+      properties.nv(row["@" + cns])
+        for (cns, _) in properties.pers_constructs
+    ]
+    fields["med_pers_constructs"] = [
+      properties.nv(row["med_@" + cns])
+        for (cns, _) in properties.pers_constructs
     ]
 
     nr = [ fields[k] for k in columns ]

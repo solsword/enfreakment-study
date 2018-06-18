@@ -132,68 +132,46 @@ def frequent_player(row):
   return get(row, ".participant.play_frequency") in ("daily", "weekly")
 
 original_hypotheses = [
-  ("Japanese:more-realistic", ".constructs.body_realism", is_japanese, None, "+"),
-  ("Women:less-muscular", ".constructs.muscles", character_female, None, "-"),
-  ("Japanese:thinner", ".constructs.thinness", is_japanese, None, "+"),
-  ("Women:thinner", ".constructs.thinness", character_female, None, "+"),
+  ("Japanese:more-realistic", ".constructs.body_realism", is_japanese, None, "+", [".participant.id"]),
+  ("Women:less-muscular", ".constructs.muscles", character_female, None, "-", [".participant.id"]),
+  ("Japanese:thinner", ".constructs.thinness", is_japanese, None, "+", [".participant.id"]),
+  ("Women:thinner", ".constructs.thinness", character_female, None, "+", [".participant.id"]),
 
-  ("Women:younger", ".constructs.youth", character_female, None, "+"),
+  ("Women:younger", ".constructs.youth", character_female, None, "+", [".participant.id"]),
 
-  ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "+"),
-  ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "+"),
-  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "+"),
-  ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "-"),
+  ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "+", [".participant.id"]),
+  ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "+", [".participant.id"]),
+  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "+", [".participant.id"]),
+  ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "-", [".participant.id"]),
 
-  ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"+"),
-  ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"+"),
+  ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"+", [".participant.id"]),
+  ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"+", [".participant.id"]),
 
-  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "-"),
-  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "+"),
-  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "+"),
-  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "-"),
+  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "-", [".participant.id"]),
+  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "+", [".participant.id"]),
+  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "+", [".participant.id"]),
+  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "-", [".participant.id"]),
 
-  ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"+"),
-  ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "-"),
-  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"-"),
-  ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "+"),
+  ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"+", [".participant.id"]),
+  ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "-", [".participant.id"]),
+  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"-", [".participant.id"]),
+  ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "+", [".participant.id"]),
 
-  ("Women:less-admirable", ".constructs.admirableness", character_female, None, "-"),
-  ("Japanese:more-admirable", ".constructs.admirableness", is_japanese, None, "+"),
+  ("Women:less-admirable", ".constructs.admirableness", character_female, None, "-", [".participant.id"]),
+  ("Japanese:more-admirable", ".constructs.admirableness", is_japanese, None, "+", [".participant.id"]),
 
-  ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "-"),
+  ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "-", [".participant.id"]),
 
-  ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "+"),
-  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+"),
-  ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "-"),
+  ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "+", [".participant.id"]),
+  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", [".participant.id"]),
+  ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "-", [".participant.id"]),
 ]
 
-def colonizer_country(row):
-  return get(row, ".character.country") in (
-    "Japan",
-    "United States of America",
-    "Canada",
-    "Germany",
-    "Italy",
-    "Spain",
-    "United Kingdom",
-    "Monaco",
-    "Russia",
-    "Sweden",
-  )
+def primary_market_country(row):
+  return get(row, ".character.market") == "primary"
 
-def colonized_country(row):
-  return get(row, ".character.country") in (
-    "Brazil",
-    "China",
-    "Egypt",
-    "India",
-    "Ireland",
-    "Mexico",
-    "Middle East",
-    "Philippines",
-    "Saudi Arabia",
-    "South Korea",
-  )
+def secondary_market_country(row):
+  return get(row, ".character.market") == "secondary"
 
 def unknown_country(row):
   return get(row, ".character.country") == "Unknown"
@@ -210,17 +188,17 @@ def dark_skinned_men(row):
 def fair_skinned_men(row):
   return not character_female(row) and get(row, ".character.skin_tone") =="fair"
 
-def colonized_women(row):
-  return character_female(row) and colonized_country(row)
+def secondary_market_women(row):
+  return character_female(row) and secondary_market_country(row)
 
-def colonizer_women(row):
-  return character_female(row) and colonizer_country(row)
+def primary_market_women(row):
+  return character_female(row) and primary_market_country(row)
 
-def colonized_men(row):
-  return not character_female(row) and colonized_country(row)
+def secondary_market_men(row):
+  return not character_female(row) and secondary_market_country(row)
 
-def colonizer_men(row):
-  return not character_female(row) and colonizer_country(row)
+def primary_market_men(row):
+  return not character_female(row) and primary_market_country(row)
 
 def participant_nonwhite(row):
   return get(row, ".participant.normalized_ethnicity.White") == None
@@ -261,88 +239,109 @@ novel_hypotheses = [
 
   # Participant ethnicity/frequency vs. ethnicity perceptions:
   ("Similar-Ethnicity:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", ethnically_similar, None, "-", [".character.id"]),
-  ("Minority-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_minority, None, "-", [".character.id"]),
   ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "-", [".character.id"]),
   ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "-", [".character.id"]),
   ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+", [".character.id"]),
 
   # Brute sub-components:
-  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, is_dark_skinned, "+"),
-  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, is_dark_skinned, "+"),
-  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, is_dark_skinned, "-"),
-  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, is_dark_skinned, "+"),
+  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
+  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
+  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, is_dark_skinned, "-", [".participant.id"]),
+  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
 
-  ("Colonizer:more-realistic", ".constructs.body_realism", colonizer_country, colonized_country, "+"),
-  ("Colonizer:more-attractive", ".constructs.attractiveness", colonizer_country, colonized_country, "+"),
-  ("Colonizer:less-muscular", ".constructs.muscles", colonizer_country, colonized_country, "-"),
-  ("Colonizer:thinner", ".constructs.thinness", colonizer_country, colonized_country, "+"),
+  ("Primary-Market:more-realistic", ".constructs.body_realism", primary_market_country, secondary_market_country, "+", [".participant.id"]),
+  ("Primary-Market:more-attractive", ".constructs.attractiveness", primary_market_country, secondary_market_country, "+", [".participant.id"]),
+  ("Primary-Market:less-muscular", ".constructs.muscles", primary_market_country, secondary_market_country, "-", [".participant.id"]),
+  ("Primary-Market:thinner", ".constructs.thinness", primary_market_country, secondary_market_country, "+", [".participant.id"]),
 
   # Ethnic sub-components (minus positive_ethnic_rep):
-  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, is_dark_skinned, "+"),
-  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, is_dark_skinned, "-"),
+  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
+  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, is_dark_skinned, "-", [".participant.id"]),
 
-  ("Colonizer:more-realistic-clothing", ".constructs.clothing_realism", colonizer_country, colonized_country, "+"),
-  ("Colonizer:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", colonizer_country, colonized_country, "-"),
+  ("Primary-Market:more-realistic-clothing", ".constructs.clothing_realism", primary_market_country, secondary_market_country, "+", [".participant.id"]),
+  ("Primary-Market:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", primary_market_country, secondary_market_country, "-", [".participant.id"]),
 
   # Villain sub-components
-  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, is_dark_skinned, "+"),
-  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, is_dark_skinned, "+"),
-  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, is_dark_skinned, "+"),
+  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
+  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
+  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
 
-  ("Colonizer:more-admirable", ".constructs.admirableness", colonizer_country, colonized_country, "+"),
-  ("Colonizer:more-positive-ethnicity", ".constructs.positive_ethnic_rep", colonizer_country, colonized_country, "+"),
-  ("Colonizer:more-positive-gender", ".constructs.positive_gender_rep", colonizer_country, colonized_country, "+"),
+  ("Primary-Market:more-admirable", ".constructs.admirableness", primary_market_country, secondary_market_country, "+", [".participant.id"]),
+  ("Primary-Market:more-positive-ethnicity", ".constructs.positive_ethnic_rep", primary_market_country, secondary_market_country, "+", [".participant.id"]),
+  ("Primary-Market:more-positive-gender", ".constructs.positive_gender_rep", primary_market_country, secondary_market_country, "+", [".participant.id"]),
 
   # Intersections
-  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "+"),
-  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "+"),
-  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "-"),
-  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "-"),
-  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "-"),
-  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "+"),
-  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "-"),
-  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "+"),
-  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "+"),
-  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "+"),
+  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
+  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
+  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
+  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
+  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
+  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
+  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
+  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
+  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
+  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
 
-  ("Colonizer-Women:more-realistic", ".constructs.body_realism", colonizer_women, colonized_women, "+"),
-  ("Colonizer-Women:more-attractive", ".constructs.attractiveness", colonizer_women, colonized_women, "+"),
-  ("Colonizer-Women:less-sexualized", ".constructs.sexualization", colonizer_women, colonized_women, "-"),
-  ("Colonizer-Women:less-attire-sexualized", ".constructs.attire_sexualization", colonizer_women, colonized_women, "-"),
-  ("Colonizer-Women:less-muscular", ".constructs.muscles", colonizer_women, colonized_women, "-"),
-  ("Colonizer-Women:thinner", ".constructs.thinness", colonizer_women, colonized_women, "+"),
-  ("Colonizer-Women:older", ".constructs.youth", colonizer_women, colonized_women, "-"),
-  ("Colonizer-Women:more-admirable", ".constructs.admirableness", colonizer_women, colonized_women, "+"),
-  ("Colonizer-Women:more-positive-gender", ".constructs.positive_gender_rep", colonizer_women, colonized_women, "+"),
-  ("Colonizer-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_women, colonized_women, "+"),
+  ("Primary-Market-Women:more-realistic", ".constructs.body_realism", primary_market_women, secondary_market_women, "+", [".participant.id"]),
+  ("Primary-Market-Women:more-attractive", ".constructs.attractiveness", primary_market_women, secondary_market_women, "+", [".participant.id"]),
+  ("Primary-Market-Women:less-sexualized", ".constructs.sexualization", primary_market_women, secondary_market_women, "-", [".participant.id"]),
+  ("Primary-Market-Women:less-attire-sexualized", ".constructs.attire_sexualization", primary_market_women, secondary_market_women, "-", [".participant.id"]),
+  ("Primary-Market-Women:less-muscular", ".constructs.muscles", primary_market_women, secondary_market_women, "-", [".participant.id"]),
+  ("Primary-Market-Women:thinner", ".constructs.thinness", primary_market_women, secondary_market_women, "+", [".participant.id"]),
+  ("Primary-Market-Women:older", ".constructs.youth", primary_market_women, secondary_market_women, "-", [".participant.id"]),
+  ("Primary-Market-Women:more-admirable", ".constructs.admirableness", primary_market_women, secondary_market_women, "+", [".participant.id"]),
+  ("Primary-Market-Women:more-positive-gender", ".constructs.positive_gender_rep", primary_market_women, secondary_market_women, "+", [".participant.id"]),
+  ("Primary-Market-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", primary_market_women, secondary_market_women, "+", [".participant.id"]),
 
-  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "+"),
-  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "+"),
-  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "-"),
-  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "+"),
-  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "-"),
-  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "+"),
-  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "+"),
-  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "+"),
+  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
+  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
+  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "-", [".participant.id"]),
+  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
+  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "-", [".participant.id"]),
+  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
+  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
+  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
 
-  ("Colonizer-Men:more-realistic", ".constructs.body_realism", colonizer_men, colonized_men, "+"),
-  ("Colonizer-Men:more-attractive", ".constructs.attractiveness", colonizer_men, colonized_men, "+"),
-  ("Colonizer-Men:less-muscular", ".constructs.muscles", colonizer_men, colonized_men, "-"),
-  ("Colonizer-Men:thinner", ".constructs.thinness", colonizer_men, colonized_men, "+"),
-  ("Colonizer-Men:older", ".constructs.youth", colonizer_men, colonized_men, "-"),
-  ("Colonizer-Men:more-admirable", ".constructs.admirableness", colonizer_men, colonized_men, "+"),
-  ("Colonizer-Men:more-positive-gender", ".constructs.positive_gender_rep", colonizer_men, colonized_men, "+"),
-  ("Colonizer-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", colonizer_men, colonized_men, "+"),
+  ("Primary-Market-Men:more-realistic", ".constructs.body_realism", primary_market_men, secondary_market_men, "+", [".participant.id"]),
+  ("Primary-Market-Men:more-attractive", ".constructs.attractiveness", primary_market_men, secondary_market_men, "+", [".participant.id"]),
+  ("Primary-Market-Men:less-muscular", ".constructs.muscles", primary_market_men, secondary_market_men, "-", [".participant.id"]),
+  ("Primary-Market-Men:thinner", ".constructs.thinness", primary_market_men, secondary_market_men, "+", [".participant.id"]),
+  ("Primary-Market-Men:older", ".constructs.youth", primary_market_men, secondary_market_men, "-", [".participant.id"]),
+  ("Primary-Market-Men:more-admirable", ".constructs.admirableness", primary_market_men, secondary_market_men, "+", [".participant.id"]),
+  ("Primary-Market-Men:more-positive-gender", ".constructs.positive_gender_rep", primary_market_men, secondary_market_men, "+", [".participant.id"]),
+  ("Primary-Market-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", primary_market_men, secondary_market_men, "+", [".participant.id"]),
 
   # Unknown dumping?
-  ("Unknown:less-realistic", ".constructs.body_realism", unknown_country, None, "-"),
-  ("Unknown:more-muscular", ".constructs.muscles", unknown_country, None, "+"),
-  ("Unknown:less-attractive", ".constructs.attractiveness", unknown_country, None, "-"),
-  ("Unknown:fatter", ".constructs.thinness", unknown_country, None, "-"),
-  ("Unknown:older", ".constructs.youth", unknown_country, None, "-"),
-  ("Unknown:less-admirable", ".constructs.admirableness", unknown_country, None, "-"),
-  ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "-"),
-  ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "-"),
+  ("Unknown:less-realistic", ".constructs.body_realism", unknown_country, None, "-", [".participant.id"]),
+  ("Unknown:more-muscular", ".constructs.muscles", unknown_country, None, "+", [".participant.id"]),
+  ("Unknown:less-attractive", ".constructs.attractiveness", unknown_country, None, "-", [".participant.id"]),
+  ("Unknown:fatter", ".constructs.thinness", unknown_country, None, "-", [".participant.id"]),
+  ("Unknown:older", ".constructs.youth", unknown_country, None, "-", [".participant.id"]),
+  ("Unknown:less-admirable", ".constructs.admirableness", unknown_country, None, "-", [".participant.id"]),
+  ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "-", [".participant.id"]),
+  ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "-", [".participant.id"]),
+
+  # Motive hypotheses
+  ("Women:less-antisocial", ".character.motive.Antisocial", character_female, None, '-'),
+  ("Women:less-dominant", ".character.motive.Dominance", character_female, None, '-'),
+  ("Women:less-dutiful", ".character.motive.For Duty", character_female, None, '-'),
+  ("Women:less-woman-motivated", ".character.motive.For a Female", character_female, None, '-'),
+  ("Women:more-man-motivated", ".character.motive.For a Male", character_female, None, '+'),
+  ("Women:less-heroic", ".character.motive.Save the World", character_female, None, '-'),
+
+  ("Primary-Market:less-antisocial", ".character.motive.Antisocial", primary_market_country, secondary_market_country, '-'),
+  ("Primary-Market:more-dominant", ".character.motive.Dominance", primary_market_country, secondary_market_country, '-'),
+  ("Primary-Market:more-dutiful", ".character.motive.For Duty", primary_market_country, secondary_market_country, '+'),
+  ("Primary-Market:less-woman-motivated", ".character.motive.For a Female", primary_market_country, secondary_market_country, '-'),
+  ("Primary-Market:less-man-motivated", ".character.motive.For a Male", primary_market_country, secondary_market_country, '-'),
+  ("Primary-Market:more-heroic", ".character.motive.Save the World", primary_market_country, secondary_market_country, '+'),
+
+  ("Fair-skinned:less-antisocial", ".character.motive.Antisocial", is_fair_skinned, is_dark_skinned, '-'),
+  ("Fair-skinned:more-dominant", ".character.motive.Dominance", is_fair_skinned, is_dark_skinned, '-'),
+  ("Fair-skinned:more-dutiful", ".character.motive.For Duty", is_fair_skinned, is_dark_skinned, '+'),
+  ("Fair-skinned:less-woman-motivated", ".character.motive.For a Female", is_fair_skinned, is_dark_skinned, '-'),
+  ("Fair-skinned:less-man-motivated", ".character.motive.For a Male", is_fair_skinned, is_dark_skinned, '-'),
+  ("Fair-skinned:more-heroic", ".character.motive.Save the World", is_fair_skinned, is_dark_skinned, '+'),
 ]
 
 framedata_hypotheses = [
@@ -468,29 +467,29 @@ hgroups = {
     "Fair:less-muscular",
     "Fair:thinner",
   ],
-  "Colonizer less brutish": [
-    "Colonizer:more-realistic",
-    "Colonizer:more-attractive",
-    "Colonizer:less-muscular",
-    "Colonizer:thinner",
+  "Primary-Market less brutish": [
+    "Primary-Market:more-realistic",
+    "Primary-Market:more-attractive",
+    "Primary-Market:less-muscular",
+    "Primary-Market:thinner",
   ],
   "Fair-skinned less exaggerated": [
     "Fair:more-realistic-clothing",
     "Fair:less-obvious-ethnicity",
   ],
-  "Colonizer less exaggerated": [
-    "Colonizer:more-realistic-clothing",
-    "Colonizer:less-obvious-ethnicity",
+  "Primary-Market less exaggerated": [
+    "Primary-Market:more-realistic-clothing",
+    "Primary-Market:less-obvious-ethnicity",
   ],
   "Fair-skinned less villainous": [
     "Fair:more-admirable",
     "Fair:more-positive-ethnicity",
     "Fair:more-positive-gender",
   ],
-  "Colonizer less villainous": [
-    "Colonizer:more-admirable",
-    "Colonizer:more-positive-ethnicity",
-    "Colonizer:more-positive-gender",
+  "Primary-Market less villainous": [
+    "Primary-Market:more-admirable",
+    "Primary-Market:more-positive-ethnicity",
+    "Primary-Market:more-positive-gender",
   ],
   "Women and non-gamers more aware of gender stereotypes": [
     "Female-Raters:recognize-bad-gender-rep",
@@ -516,17 +515,17 @@ hgroups = {
     "Fair-Women:more-positive-gender",
     "Fair-Women:more-positive-ethnic",
   ],
-  "Colonizer women more attractive/less sexualized than colonized women": [
-    "Colonizer-Women:more-realistic",
-    "Colonizer-Women:more-attractive",
-    "Colonizer-Women:less-sexualized",
-    "Colonizer-Women:less-attire-sexualized",
-    "Colonizer-Women:less-muscular",
-    "Colonizer-Women:thinner",
-    "Colonizer-Women:older",
-    "Colonizer-Women:more-admirable",
-    "Colonizer-Women:more-positive-gender",
-    "Colonizer-Women:more-positive-ethnic",
+  "Primary-Market women more attractive/less sexualized than Secondary-Market women": [
+    "Primary-Market-Women:more-realistic",
+    "Primary-Market-Women:more-attractive",
+    "Primary-Market-Women:less-sexualized",
+    "Primary-Market-Women:less-attire-sexualized",
+    "Primary-Market-Women:less-muscular",
+    "Primary-Market-Women:thinner",
+    "Primary-Market-Women:older",
+    "Primary-Market-Women:more-admirable",
+    "Primary-Market-Women:more-positive-gender",
+    "Primary-Market-Women:more-positive-ethnic",
   ],
   "Fair-skinned men less brutish than dark-skinned men": [
     "Fair-Men:more-realistic",
@@ -538,15 +537,15 @@ hgroups = {
     "Fair-Men:more-positive-gender",
     "Fair-Men:more-positive-ethnic",
   ],
-  "Colonizer men less brutish than colonized men": [
-    "Colonizer-Men:more-realistic",
-    "Colonizer-Men:more-attractive",
-    "Colonizer-Men:less-muscular",
-    "Colonizer-Men:thinner",
-    "Colonizer-Men:older",
-    "Colonizer-Men:more-admirable",
-    "Colonizer-Men:more-positive-gender",
-    "Colonizer-Men:more-positive-ethnic",
+  "Primary-Market men less brutish than Secondary-Market men": [
+    "Primary-Market-Men:more-realistic",
+    "Primary-Market-Men:more-attractive",
+    "Primary-Market-Men:less-muscular",
+    "Primary-Market-Men:thinner",
+    "Primary-Market-Men:older",
+    "Primary-Market-Men:more-admirable",
+    "Primary-Market-Men:more-positive-gender",
+    "Primary-Market-Men:more-positive-ethnic",
   ],
   "Unknown country used for villains/brutes": [
     "Unknown:less-realistic",

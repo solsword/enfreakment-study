@@ -20,6 +20,7 @@ batches/filtered-batch-%.csv: batches/batch-%.csv Makefile
 		| sed "s/\\r$$//" \
 		| tr "\\r" " " \
 		| sed "/^$$/d" \
+		| sed "s/Answer.identification_/Answer.similarity_/g" \
 		> $@
 
 batches/full-makeup-%.tsv: batches/makeup-%.tsv
@@ -31,11 +32,14 @@ jump: batches/filtered-batch-2.csv batches/filtered-batch-3.csv batches/filtered
 efr.tsv: jump batches/filtered-batch-*.csv jump batches/full-makeup-*.tsv pids.tsv process.py
 	./process.py batches/filtered-batch-*.csv batches/full-makeup-*.tsv > efr.tsv
 
+genders.lst: efr.tsv
+	cut -d"	" -f23 efr.tsv | tail -n +2 | sort | uniq > genders.lst
+
 ethnicities.lst: efr.tsv
-	cut -d"	" -f24 efr.tsv | tail -n +2 | sort | uniq > ethnicities.lst
+	cut -d"	" -f25 efr.tsv | tail -n +2 | sort | uniq > ethnicities.lst
 
 nationalities.lst: efr.tsv
-	cut -d"	" -f26 efr.tsv | tail -n +2 | sort | uniq > nationalities.lst
+	cut -d"	" -f27 efr.tsv | tail -n +2 | sort | uniq > nationalities.lst
 
 efr-aug.tsv: efr.tsv reprocess.py
 	./reprocess.py < efr.tsv > efr-aug.tsv

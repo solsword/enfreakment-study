@@ -24,6 +24,17 @@ def process(source):
             row
           )
         )
+    for (cns, _) in properties.pers_constructs:
+      try:
+        row["@" + cns] = properties.extract_construct(row, cns)
+      except:
+        raise ValueError(
+          "Couldn't extract construct '{}' from line {}:\n{}".format(
+            cns,
+            rn + 2,
+            row
+          )
+        )
 
   characters = sorted(list(set(row["id"] for row in rows)))
   participants = sorted(list(set(row["participant"] for row in rows)))
@@ -45,20 +56,32 @@ def process(source):
     properties.ratings
   + properties.personal_ratings
   + [ ("@" + cns) for (cns, _) in properties.constructs ]
+  + [ ("@" + cns) for (cns, _) in properties.pers_constructs ]
   )
 
-  group_by_participant = properties.personal_ratings
+  group_by_participant = (
+    properties.personal_ratings
+  + [ ("@" + cns) for (cns, _) in properties.pers_constructs ]
+  )
 
   for ch in forchar:
     ch_medians[ch] = []
     for rt in group_by_character:
-      pure = [int(row[rt]) for row in forchar[ch] if row[rt] not in ("", None)]
+      pure = [
+        float(row[rt])
+          for row in forchar[ch]
+          if row[rt] not in ("", None)
+      ]
       ch_medians[ch].append(np.median(pure))
 
   for part in forpart:
     pt_medians[part] = []
     for rt in group_by_participant:
-      pure = [ int(row[rt]) for row in forpart[part] if row[rt] != "" ]
+      pure = [
+        float(row[rt])
+          for row in forpart[part]
+          if row[rt] not in ("",None)
+      ]
       pt_medians[part].append(np.median(pure))
 
   result = []
@@ -69,6 +92,7 @@ def process(source):
   + properties.ratings
   + properties.personal_ratings
   + ["@" + cns for (cns, _) in properties.constructs]
+  + ["@" + cns for (cns, _) in properties.pers_constructs]
   + ["med_" + rt for rt in group_by_character]
   + ["participant_" + rt for rt in group_by_participant]
   )

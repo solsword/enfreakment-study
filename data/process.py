@@ -22,20 +22,30 @@ normalize_case = [
   "nationality_description"
 ]
 
+class Undefined:
+  pass
+
 # Note: Keep these in sync
 normalized_properties = [
   "any_suitable",
+  "normalized_gender",
   "normalized_ethnicity",
   "normalized_nationality"
 ]
-
-class Undefined:
-  pass
 
 normalize_map = {
   "suitable": {
     "": "",
     Undefined: "yes"
+  },
+  "gender_description":{
+    "Male": "Male",
+    "M": "Male",
+    "Female": "Female",
+    "Female.": "Female",
+    "Agender": "Agender",
+    "25": "Unknown",
+    None: "Unknown",
   },
   "ethnicity_description":{
     "No": "Unknown",
@@ -248,6 +258,25 @@ def define_pids():
       submissions = rin["submissions"]
       PIDS[wid] = (pid, submissions)
 
+WHY = None
+WHYFILE = "why.tsv"
+
+def define_why():
+  """
+  Defines motivations from the WHYFILE.
+  """
+  global WHY
+  WHY = {}
+  with open(WHYFILE, 'r') as fin:
+    reader = csv.DictReader(fin, dialect="excel-tab")
+    for rin in reader:
+      pid = rin["id"]
+      gender = rin["gender"]
+      origin = rin["origin"]
+      motive = rin["motive"]
+      motive_desc = rin["motive_description"]
+      WHY[pid] = (motive, motive_desc, gender, origin)
+
 def cheat_char_prop(cid, prp):
   """
   Cheats by looking up a character property from the definitions file.
@@ -264,6 +293,9 @@ def cheat_char_prop(cid, prp):
 def process(sources):
   if PIDS == None:
     define_pids()
+
+  if WHY == None:
+    define_why()
 
   results = []
   ext_part_props = []
@@ -302,10 +334,26 @@ def process(sources):
 
           for ch in properties.character_properties:
             ikey = "Input.{}{}".format(ch,n)
-            if ikey in rin:
+            if ch in properties.motive_properties:
+              if cid in WHY:
+                motive, motive_desc, gender, origin = WHY[cid]
+                if ch == "motive":
+                  val = motive
+                elif ch == "motive_description":
+                  val = motive_desc
+                else:
+                  raise ValueError("Unexpected motive property '{}'".format(ch))
+              else:
+                val = None
+                print(
+                  "Warning: Character '{}' doesn't have motives defined".format(
+                    cid
+                  ),
+                  file=sys.stderr
+                )
+            elif ikey in rin:
               val = rin[ikey]
             else:
-              cid = rin["Answer.id_{}".format(n)]
               val = cheat_char_prop(cid, ch)
 
             if ch == "gendergroup" and cid == "leo":

@@ -775,13 +775,13 @@ fieldset {
     </td>
   </tr>
   <tr class="responses">
-    <td>1 <br/><input type="radio" name="identification_1" value="1"></td>
-    <td>2 <br/><input type="radio" name="identification_1" value="2"></td>
-    <td>3 <br/><input type="radio" name="identification_1" value="3"></td>
-    <td>4 <br/><input type="radio" name="identification_1" value="4"></td>
-    <td>5 <br/><input type="radio" name="identification_1" value="5"></td>
-    <td>6 <br/><input type="radio" name="identification_1" value="6"></td>
-    <td>7 <br/><input type="radio" name="identification_1" value="7"></td>
+    <td>1 <br/><input type="radio" name="similarity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="similarity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="similarity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="similarity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="similarity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="similarity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="similarity_1" value="7"></td>
   </tr>
   <tr class="question">
     <td colspan=7>

@@ -4,10 +4,18 @@
 %-instantiated.html: %.html instantiate.vim hits.csv
 	vim -T dumb -N -n -E -s -c 'set nomore' -c 'source instantiate.vim' -c'wq! $@' $<
 
-# TODO: HERE
-ALL_INST = $(shell: seq `wc -l hits.csv` | head -n -1)
+batch/instance-%.html: batch/instantiate-%.vim template-likert.html hits.csv
+	vim -T dumb -N -n -E -s -c 'set nomore' -c 'source $<' -c'wq! $@' template-likert.html
 
-instantiate-%.vim: instantiate.vim
+ALL_INST=$(shell seq `wc -l hits.csv | cut -d' ' -f1` | head -n -1 | awk '{print "batch/instance-" $$1 ".html"}')
+
+.PHONY: allinst
+allinst: $(ALL_INST)
+
+batch:
+	mkdir -p batch
+
+batch/instantiate-%.vim: batch instantiate.vim
 	head -n2 instantiate.vim > $@
 	echo $* >> $@
 	tail -n+4 instantiate.vim >> $@
