@@ -132,39 +132,39 @@ def frequent_player(row):
   return get(row, ".participant.play_frequency") in ("daily", "weekly")
 
 original_hypotheses = [
-  ("Japanese:more-realistic", ".constructs.body_realism", is_japanese, None, "+", [".participant.id"]),
-  ("Women:less-muscular", ".constructs.muscles", character_female, None, "-", [".participant.id"]),
-  ("Japanese:thinner", ".constructs.thinness", is_japanese, None, "+", [".participant.id"]),
-  ("Women:thinner", ".constructs.thinness", character_female, None, "+", [".participant.id"]),
+  ("Japanese:more-realistic", ".constructs.body_realism", is_japanese, None, "+", {"controls": [".participant.id"]}),
+  ("Women:less-muscular", ".constructs.muscles", character_female, None, "-", {"controls": [".participant.id"]}),
+  ("Japanese:thinner", ".constructs.thinness", is_japanese, None, "+", {"controls": [".participant.id"]}),
+  ("Women:thinner", ".constructs.thinness", character_female, None, "+", {"controls": [".participant.id"]}),
 
-  ("Women:younger", ".constructs.youth", character_female, None, "+", [".participant.id"]),
+  ("Women:younger", ".constructs.youth", character_female, None, "+", {"controls": [".participant.id"]}),
 
-  ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "+", [".participant.id"]),
-  ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "+", [".participant.id"]),
-  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "+", [".participant.id"]),
-  ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "-", [".participant.id"]),
+  ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "+", {"controls": [".participant.id"]}),
+  ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "+", {"controls": [".participant.id"]}),
+  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "+", {"controls": [".participant.id"]}),
+  ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "-", {"controls": [".participant.id"]}),
 
-  ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"+", [".participant.id"]),
-  ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"+", [".participant.id"]),
+  ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"+", {"controls": [".participant.id"]}),
+  ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"+", {"controls": [".participant.id"]}),
 
-  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "-", [".participant.id"]),
-  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "+", [".participant.id"]),
-  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "+", [".participant.id"]),
-  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "-", [".participant.id"]),
+  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "-", {"controls": [".participant.id"]}),
+  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "+", {"controls": [".participant.id"]}),
+  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
+  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "-", {"controls": [".participant.id"]}),
 
-  ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"+", [".participant.id"]),
-  ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "-", [".participant.id"]),
-  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"-", [".participant.id"]),
-  ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "+", [".participant.id"]),
+  ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"+", {"controls": [".participant.id"]}),
+  ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "-", {"controls": [".participant.id"]}),
+  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"-", {"controls": [".participant.id"]}),
+  ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "+", {"controls": [".participant.id"]}),
 
-  ("Women:less-admirable", ".constructs.admirableness", character_female, None, "-", [".participant.id"]),
-  ("Japanese:more-admirable", ".constructs.admirableness", is_japanese, None, "+", [".participant.id"]),
+  ("Women:less-admirable", ".constructs.admirableness", character_female, None, "-", {"controls": [".participant.id"]}),
+  ("Japanese:more-admirable", ".constructs.admirableness", is_japanese, None, "+", {"controls": [".participant.id"]}),
 
-  ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "-", [".participant.id"]),
+  ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "-", {"controls": [".participant.id"]}),
 
-  ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "+", [".participant.id"]),
-  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", [".participant.id"]),
-  ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "-", [".participant.id"]),
+  ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "+", {"controls": [".participant.id"]}),
+  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
+  ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "-", {"controls": [".participant.id"]}),
 ]
 
 def primary_market_country(row):
@@ -233,115 +233,118 @@ def participant_minority(row):
 
 novel_hypotheses = [
   # Participant gender/frequency vs. gender perceptions:
-  ("Female-Raters:recognize-bad-gender-rep", ".constructs.positive_gender_rep", participant_female, None, "-", [".character.id"]),
-  ("Infrequent-Players:recognize-bad-gender-rep", ".constructs.positive_gender_rep", infrequent_player, None, "-", [".character.id"]),
-  ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "+", [".character.id"]),
+  ("Female-Raters:recognize-bad-gender-rep", ".constructs.positive_gender_rep", participant_female, None, "-", {"controls": [".character.id"]}),
+  ("Infrequent-Players:recognize-bad-gender-rep", ".constructs.positive_gender_rep", infrequent_player, None, "-", {"controls": [".character.id"]}),
+  ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "+", {"controls": [".character.id"]}),
 
   # Participant ethnicity/frequency vs. ethnicity perceptions:
-  ("Similar-Ethnicity:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", ethnically_similar, None, "-", [".character.id"]),
-  ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "-", [".character.id"]),
-  ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "-", [".character.id"]),
-  ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+", [".character.id"]),
+  ("Similar-Ethnicity:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", ethnically_similar, None, "-", {"controls": [".character.id"]}),
+  ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "-", {"controls": [".character.id"]}),
+  ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "-", {"controls": [".character.id"]}),
+  ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+", {"controls": [".character.id"]}),
 
   # Brute sub-components:
-  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
-  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
-  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, is_dark_skinned, "-", [".participant.id"]),
-  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
+  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, is_dark_skinned, "-", {"controls": [".participant.id"]}),
+  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
 
-  ("Primary-Market:more-realistic", ".constructs.body_realism", primary_market_country, secondary_market_country, "+", [".participant.id"]),
-  ("Primary-Market:more-attractive", ".constructs.attractiveness", primary_market_country, secondary_market_country, "+", [".participant.id"]),
-  ("Primary-Market:less-muscular", ".constructs.muscles", primary_market_country, secondary_market_country, "-", [".participant.id"]),
-  ("Primary-Market:thinner", ".constructs.thinness", primary_market_country, secondary_market_country, "+", [".participant.id"]),
+  ("Primary-Market:more-realistic", ".constructs.body_realism", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market:more-attractive", ".constructs.attractiveness", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market:less-muscular", ".constructs.muscles", primary_market_country, secondary_market_country, "-", {"controls": [".participant.id"]}),
+  ("Primary-Market:thinner", ".constructs.thinness", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
 
   # Ethnic sub-components (minus positive_ethnic_rep):
-  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
-  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, is_dark_skinned, "-", [".participant.id"]),
+  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, is_dark_skinned, "-", {"controls": [".participant.id"]}),
 
-  ("Primary-Market:more-realistic-clothing", ".constructs.clothing_realism", primary_market_country, secondary_market_country, "+", [".participant.id"]),
-  ("Primary-Market:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", primary_market_country, secondary_market_country, "-", [".participant.id"]),
+  ("Primary-Market:more-realistic-clothing", ".constructs.clothing_realism", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", primary_market_country, secondary_market_country, "-", {"controls": [".participant.id"]}),
 
   # Villain sub-components
-  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
-  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
-  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, is_dark_skinned, "+", [".participant.id"]),
+  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
 
-  ("Primary-Market:more-admirable", ".constructs.admirableness", primary_market_country, secondary_market_country, "+", [".participant.id"]),
-  ("Primary-Market:more-positive-ethnicity", ".constructs.positive_ethnic_rep", primary_market_country, secondary_market_country, "+", [".participant.id"]),
-  ("Primary-Market:more-positive-gender", ".constructs.positive_gender_rep", primary_market_country, secondary_market_country, "+", [".participant.id"]),
+  ("Primary-Market:more-admirable", ".constructs.admirableness", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market:more-positive-ethnicity", ".constructs.positive_ethnic_rep", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market:more-positive-gender", ".constructs.positive_gender_rep", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
 
   # Intersections
-  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
-  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
-  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
-  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
-  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
-  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
-  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "-", [".participant.id"]),
-  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
-  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
-  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "+", [".participant.id"]),
+  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
 
-  ("Primary-Market-Women:more-realistic", ".constructs.body_realism", primary_market_women, secondary_market_women, "+", [".participant.id"]),
-  ("Primary-Market-Women:more-attractive", ".constructs.attractiveness", primary_market_women, secondary_market_women, "+", [".participant.id"]),
-  ("Primary-Market-Women:less-sexualized", ".constructs.sexualization", primary_market_women, secondary_market_women, "-", [".participant.id"]),
-  ("Primary-Market-Women:less-attire-sexualized", ".constructs.attire_sexualization", primary_market_women, secondary_market_women, "-", [".participant.id"]),
-  ("Primary-Market-Women:less-muscular", ".constructs.muscles", primary_market_women, secondary_market_women, "-", [".participant.id"]),
-  ("Primary-Market-Women:thinner", ".constructs.thinness", primary_market_women, secondary_market_women, "+", [".participant.id"]),
-  ("Primary-Market-Women:older", ".constructs.youth", primary_market_women, secondary_market_women, "-", [".participant.id"]),
-  ("Primary-Market-Women:more-admirable", ".constructs.admirableness", primary_market_women, secondary_market_women, "+", [".participant.id"]),
-  ("Primary-Market-Women:more-positive-gender", ".constructs.positive_gender_rep", primary_market_women, secondary_market_women, "+", [".participant.id"]),
-  ("Primary-Market-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", primary_market_women, secondary_market_women, "+", [".participant.id"]),
+  ("Primary-Market-Women:more-realistic", ".constructs.body_realism", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:more-attractive", ".constructs.attractiveness", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:less-sexualized", ".constructs.sexualization", primary_market_women, secondary_market_women, "-", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:less-attire-sexualized", ".constructs.attire_sexualization", primary_market_women, secondary_market_women, "-", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:less-muscular", ".constructs.muscles", primary_market_women, secondary_market_women, "-", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:thinner", ".constructs.thinness", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:older", ".constructs.youth", primary_market_women, secondary_market_women, "-", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:more-admirable", ".constructs.admirableness", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:more-positive-gender", ".constructs.positive_gender_rep", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
 
-  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
-  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
-  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "-", [".participant.id"]),
-  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
-  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "-", [".participant.id"]),
-  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
-  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
-  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "+", [".participant.id"]),
+  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "-", {"controls": [".participant.id"]}),
+  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "-", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
 
-  ("Primary-Market-Men:more-realistic", ".constructs.body_realism", primary_market_men, secondary_market_men, "+", [".participant.id"]),
-  ("Primary-Market-Men:more-attractive", ".constructs.attractiveness", primary_market_men, secondary_market_men, "+", [".participant.id"]),
-  ("Primary-Market-Men:less-muscular", ".constructs.muscles", primary_market_men, secondary_market_men, "-", [".participant.id"]),
-  ("Primary-Market-Men:thinner", ".constructs.thinness", primary_market_men, secondary_market_men, "+", [".participant.id"]),
-  ("Primary-Market-Men:older", ".constructs.youth", primary_market_men, secondary_market_men, "-", [".participant.id"]),
-  ("Primary-Market-Men:more-admirable", ".constructs.admirableness", primary_market_men, secondary_market_men, "+", [".participant.id"]),
-  ("Primary-Market-Men:more-positive-gender", ".constructs.positive_gender_rep", primary_market_men, secondary_market_men, "+", [".participant.id"]),
-  ("Primary-Market-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", primary_market_men, secondary_market_men, "+", [".participant.id"]),
+  ("Primary-Market-Men:more-realistic", ".constructs.body_realism", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Men:more-attractive", ".constructs.attractiveness", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Men:less-muscular", ".constructs.muscles", primary_market_men, secondary_market_men, "-", {"controls": [".participant.id"]}),
+  ("Primary-Market-Men:thinner", ".constructs.thinness", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Men:older", ".constructs.youth", primary_market_men, secondary_market_men, "-", {"controls": [".participant.id"]}),
+  ("Primary-Market-Men:more-admirable", ".constructs.admirableness", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Men:more-positive-gender", ".constructs.positive_gender_rep", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
+  ("Primary-Market-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
 
   # Unknown dumping?
-  ("Unknown:less-realistic", ".constructs.body_realism", unknown_country, None, "-", [".participant.id"]),
-  ("Unknown:more-muscular", ".constructs.muscles", unknown_country, None, "+", [".participant.id"]),
-  ("Unknown:less-attractive", ".constructs.attractiveness", unknown_country, None, "-", [".participant.id"]),
-  ("Unknown:fatter", ".constructs.thinness", unknown_country, None, "-", [".participant.id"]),
-  ("Unknown:older", ".constructs.youth", unknown_country, None, "-", [".participant.id"]),
-  ("Unknown:less-admirable", ".constructs.admirableness", unknown_country, None, "-", [".participant.id"]),
-  ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "-", [".participant.id"]),
-  ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "-", [".participant.id"]),
+  ("Unknown:more-ethnic-cues", ".constructs.combined_ethnic_signals", unknown_country, None, "+", {"controls": [".participant.id"]}),
+  ("Unknown:less-realistic", ".constructs.body_realism", unknown_country, None, "-", {"controls": [".participant.id"]}),
+  ("Unknown:more-muscular", ".constructs.muscles", unknown_country, None, "+", {"controls": [".participant.id"]}),
+  ("Unknown:less-attractive", ".constructs.attractiveness", unknown_country, None, "-", {"controls": [".participant.id"]}),
+  ("Unknown:fatter", ".constructs.thinness", unknown_country, None, "-", {"controls": [".participant.id"]}),
+  ("Unknown:older", ".constructs.youth", unknown_country, None, "-", {"controls": [".participant.id"]}),
+  ("Unknown:less-admirable", ".constructs.admirableness", unknown_country, None, "-", {"controls": [".participant.id"]}),
+  ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "-", {"controls": [".participant.id"]}),
+  ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "-", {"controls": [".participant.id"]}),
+]
 
+motive_hypotheses = [
   # Motive hypotheses
-  ("Women:less-antisocial", ".character.motive.Antisocial", character_female, None, '-'),
-  ("Women:less-dominant", ".character.motive.Dominance", character_female, None, '-'),
-  ("Women:less-dutiful", ".character.motive.For Duty", character_female, None, '-'),
-  ("Women:less-woman-motivated", ".character.motive.For a Female", character_female, None, '-'),
-  ("Women:more-man-motivated", ".character.motive.For a Male", character_female, None, '+'),
-  ("Women:less-heroic", ".character.motive.Save the World", character_female, None, '-'),
+  ("Women:less-antisocial", ".character.motive.Antisocial", character_female, None, '-', {"missing": 0}),
+  ("Women:less-dominant", ".character.motive.Dominance", character_female, None, '-', {"missing": 0}),
+  ("Women:less-dutiful", ".character.motive.For Duty", character_female, None, '-', {"missing": 0}),
+  ("Women:less-woman-motivated", ".character.motive.For a Female", character_female, None, '-', {"missing": 0}),
+  ("Women:more-man-motivated", ".character.motive.For a Male", character_female, None, '+', {"missing": 0}),
+  ("Women:less-heroic", ".character.motive.Save the World", character_female, None, '-', {"missing": 0}),
 
-  ("Primary-Market:less-antisocial", ".character.motive.Antisocial", primary_market_country, secondary_market_country, '-'),
-  ("Primary-Market:more-dominant", ".character.motive.Dominance", primary_market_country, secondary_market_country, '-'),
-  ("Primary-Market:more-dutiful", ".character.motive.For Duty", primary_market_country, secondary_market_country, '+'),
-  ("Primary-Market:less-woman-motivated", ".character.motive.For a Female", primary_market_country, secondary_market_country, '-'),
-  ("Primary-Market:less-man-motivated", ".character.motive.For a Male", primary_market_country, secondary_market_country, '-'),
-  ("Primary-Market:more-heroic", ".character.motive.Save the World", primary_market_country, secondary_market_country, '+'),
+  ("Primary-Market:less-antisocial", ".character.motive.Antisocial", primary_market_country, secondary_market_country, '-', {"missing": 0}),
+  ("Primary-Market:more-dominant", ".character.motive.Dominance", primary_market_country, secondary_market_country, '-', {"missing": 0}),
+  ("Primary-Market:more-dutiful", ".character.motive.For Duty", primary_market_country, secondary_market_country, '+', {"missing": 0}),
+  ("Primary-Market:less-woman-motivated", ".character.motive.For a Female", primary_market_country, secondary_market_country, '-', {"missing": 0}),
+  ("Primary-Market:less-man-motivated", ".character.motive.For a Male", primary_market_country, secondary_market_country, '-', {"missing": 0}),
+  ("Primary-Market:more-heroic", ".character.motive.Save the World", primary_market_country, secondary_market_country, '+', {"missing": 0}),
 
-  ("Fair-skinned:less-antisocial", ".character.motive.Antisocial", is_fair_skinned, is_dark_skinned, '-'),
-  ("Fair-skinned:more-dominant", ".character.motive.Dominance", is_fair_skinned, is_dark_skinned, '-'),
-  ("Fair-skinned:more-dutiful", ".character.motive.For Duty", is_fair_skinned, is_dark_skinned, '+'),
-  ("Fair-skinned:less-woman-motivated", ".character.motive.For a Female", is_fair_skinned, is_dark_skinned, '-'),
-  ("Fair-skinned:less-man-motivated", ".character.motive.For a Male", is_fair_skinned, is_dark_skinned, '-'),
-  ("Fair-skinned:more-heroic", ".character.motive.Save the World", is_fair_skinned, is_dark_skinned, '+'),
+  ("Fair-skinned:less-antisocial", ".character.motive.Antisocial", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:more-dominant", ".character.motive.Dominance", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:more-dutiful", ".character.motive.For Duty", is_fair_skinned, is_dark_skinned, '+', {"missing": 0}),
+  ("Fair-skinned:less-woman-motivated", ".character.motive.For a Female", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:less-man-motivated", ".character.motive.For a Male", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:more-heroic", ".character.motive.Save the World", is_fair_skinned, is_dark_skinned, '+', {"missing": 0}),
 ]
 
 framedata_hypotheses = [
@@ -419,77 +422,143 @@ framedata_hypotheses = [
   ("Attacks:dark-men-more-knockdowns", ".character.stats.all_moves.knockdown_proportion", dark_skinned_men, fair_skinned_men, '+'),
 ]
 
-all_hypotheses = original_hypotheses + novel_hypotheses + framedata_hypotheses
+full_hypotheses = (
+  original_hypotheses
++ novel_hypotheses
+)
+
+# TODO: HERE?
+#character_hypotheses = (
+#  motive_hypotheses
+#+ framedata_hypotheses
+#)
+
+character_hypotheses = framedata_hypotheses
 
 hgroups = {
+  "Women's ethnicity exaggerated": [
+    "Women:less-realistic-clothes",
+    "Women:more-obvious-ethnicity",
+  ],
   "Women sexualized": [
     "Women:less-muscular",
-    "Women:younger",
     "Women:thinner",
+    "Women:younger",
     "Women:more-attractive",
     "Women:more-sexualized",
     "Women:more-attire-sexualized",
-  ],
-  "Women ethnicity exaggerated": [
-    "Women:less-realistic-clothes",
-    "Women:more-obvious-ethnicity",
   ],
   "Women disliked": [
     "Women:less-admirable",
     "Women:less-positive-gender",
   ],
-  "Japanese preferred": [
+  "Japanese more realistic": [
     "Japanese:more-realistic",
+    "Japanese:more-realistic-clothes",
+    "Japanese:less-obvious-ethnicity",
+  ],
+  "Japanese preferred": [
     "Japanese:thinner",
     "Japanese:more-attractive",
     "Japanese:more-admirable",
     "Japanese:more-positive-ethnicity",
   ],
-  "Japanese more realistic": [
-    "Japanese:more-realistic-clothes",
-    "Japanese:less-obvious-ethnicity",
+  "Primary-Market less exaggerated": [
+    "Primary-Market:more-realistic",
+    "Primary-Market:more-realistic-clothing",
+    "Primary-Market:less-obvious-ethnicity",
+  ],
+  "Primary-Market less brutish": [
+    "Primary-Market:less-muscular",
+    "Primary-Market:thinner",
+    "Primary-Market:more-attractive",
+  ],
+  "Primary-Market less villainous": [
+    "Primary-Market:more-admirable",
+    "Primary-Market:more-positive-ethnicity",
+    "Primary-Market:more-positive-gender",
   ],
   "Majority preferred/realistic": [
-    "Majority:more-attractive",
     "Majority:more-realistic-clothes",
     "Majority:less-obvious-ethnicity",
+    "Majority:more-attractive",
     "Majority:more-positive-ethnicity",
   ],
   "Token suppressed/unrealistic": [
-    "Token:less-attractive",
     "Token:less-realistic-clothes",
     "Token:more-obvious-ethnicity",
+    "Token:less-attractive",
     "Token:less-positive-ethnicity",
   ],
-  "Fair-skinned less brutish": [
-    "Fair:more-realistic",
-    "Fair:more-attractive",
-    "Fair:less-muscular",
-    "Fair:thinner",
-  ],
-  "Primary-Market less brutish": [
-    "Primary-Market:more-realistic",
-    "Primary-Market:more-attractive",
-    "Primary-Market:less-muscular",
-    "Primary-Market:thinner",
+  "Unknown country used for villains/brutes": [
+    "Unknown:more-ethnic-cues",
+    "Unknown:less-realistic",
+    "Unknown:more-muscular",
+    "Unknown:fatter",
+    "Unknown:older",
+    "Unknown:less-attractive",
+    "Unknown:less-admirable",
+    "Unknown:worse-gender-rep",
+    "Unknown:worse-ethnic-rep",
   ],
   "Fair-skinned less exaggerated": [
+    "Fair:more-realistic",
     "Fair:more-realistic-clothing",
     "Fair:less-obvious-ethnicity",
   ],
-  "Primary-Market less exaggerated": [
-    "Primary-Market:more-realistic-clothing",
-    "Primary-Market:less-obvious-ethnicity",
+  "Fair-skinned less brutish": [
+    "Fair:less-muscular",
+    "Fair:thinner",
+    "Fair:more-attractive",
   ],
   "Fair-skinned less villainous": [
     "Fair:more-admirable",
     "Fair:more-positive-ethnicity",
     "Fair:more-positive-gender",
   ],
-  "Primary-Market less villainous": [
-    "Primary-Market:more-admirable",
-    "Primary-Market:more-positive-ethnicity",
-    "Primary-Market:more-positive-gender",
+  "Fair-skinned women more attractive/less sexualized then dark-skinned women":[
+    "Fair-Women:more-realistic",
+    "Fair-Women:less-muscular",
+    "Fair-Women:thinner",
+    "Fair-Women:older",
+    "Fair-Women:more-attractive",
+    "Fair-Women:less-sexualized",
+    "Fair-Women:less-attire-sexualized",
+    "Fair-Women:more-admirable",
+    "Fair-Women:more-positive-gender",
+    "Fair-Women:more-positive-ethnic",
+  ],
+  "Primary-Market women more attractive/less sexualized than Secondary-Market women": [
+    "Primary-Market-Women:more-realistic",
+    "Primary-Market-Women:less-muscular",
+    "Primary-Market-Women:thinner",
+    "Primary-Market-Women:older",
+    "Primary-Market-Women:more-attractive",
+    "Primary-Market-Women:less-sexualized",
+    "Primary-Market-Women:less-attire-sexualized",
+    "Primary-Market-Women:more-admirable",
+    "Primary-Market-Women:more-positive-gender",
+    "Primary-Market-Women:more-positive-ethnic",
+  ],
+  "Fair-skinned men less brutish than dark-skinned men": [
+    "Fair-Men:more-realistic",
+    "Fair-Men:less-muscular",
+    "Fair-Men:thinner",
+    "Fair-Men:older",
+    "Fair-Men:more-attractive",
+    "Fair-Men:more-admirable",
+    "Fair-Men:more-positive-gender",
+    "Fair-Men:more-positive-ethnic",
+  ],
+  "Primary-Market men less brutish than Secondary-Market men": [
+    "Primary-Market-Men:more-realistic",
+    "Primary-Market-Men:less-muscular",
+    "Primary-Market-Men:thinner",
+    "Primary-Market-Men:older",
+    "Primary-Market-Men:more-attractive",
+    "Primary-Market-Men:more-admirable",
+    "Primary-Market-Men:more-positive-gender",
+    "Primary-Market-Men:more-positive-ethnic",
   ],
   "Women and non-gamers more aware of gender stereotypes": [
     "Female-Raters:recognize-bad-gender-rep",
@@ -498,65 +567,34 @@ hgroups = {
   ],
   "Nonwhite and non-gamers more aware of racial stereotypes": [
     "Similar-Ethnicity:recognize-bad-ethnic-rep",
-    "Minority-Raters:recognize-bad-ethnic-rep",
     "Nonwhite-Raters:recognize-bad-ethnic-rep",
     "Infrequent-Players:recognize-bad-ethnic-rep",
     "Frequent-Players:ignore-bad-ethnic-rep",
   ],
-  "Fair-skinned women more attractive/less sexualized then dark-skinned women":[
-    "Fair-Women:more-realistic",
-    "Fair-Women:more-attractive",
-    "Fair-Women:less-sexualized",
-    "Fair-Women:less-attire-sexualized",
-    "Fair-Women:less-muscular",
-    "Fair-Women:thinner",
-    "Fair-Women:older",
-    "Fair-Women:more-admirable",
-    "Fair-Women:more-positive-gender",
-    "Fair-Women:more-positive-ethnic",
-  ],
-  "Primary-Market women more attractive/less sexualized than Secondary-Market women": [
-    "Primary-Market-Women:more-realistic",
-    "Primary-Market-Women:more-attractive",
-    "Primary-Market-Women:less-sexualized",
-    "Primary-Market-Women:less-attire-sexualized",
-    "Primary-Market-Women:less-muscular",
-    "Primary-Market-Women:thinner",
-    "Primary-Market-Women:older",
-    "Primary-Market-Women:more-admirable",
-    "Primary-Market-Women:more-positive-gender",
-    "Primary-Market-Women:more-positive-ethnic",
-  ],
-  "Fair-skinned men less brutish than dark-skinned men": [
-    "Fair-Men:more-realistic",
-    "Fair-Men:more-attractive",
-    "Fair-Men:less-muscular",
-    "Fair-Men:thinner",
-    "Fair-Men:older",
-    "Fair-Men:more-admirable",
-    "Fair-Men:more-positive-gender",
-    "Fair-Men:more-positive-ethnic",
-  ],
-  "Primary-Market men less brutish than Secondary-Market men": [
-    "Primary-Market-Men:more-realistic",
-    "Primary-Market-Men:more-attractive",
-    "Primary-Market-Men:less-muscular",
-    "Primary-Market-Men:thinner",
-    "Primary-Market-Men:older",
-    "Primary-Market-Men:more-admirable",
-    "Primary-Market-Men:more-positive-gender",
-    "Primary-Market-Men:more-positive-ethnic",
-  ],
-  "Unknown country used for villains/brutes": [
-    "Unknown:less-realistic",
-    "Unknown:more-muscular",
-    "Unknown:less-attractive",
-    "Unknown:fatter",
-    "Unknown:older",
-    "Unknown:less-admirable",
-    "Unknown:worse-gender-rep",
-    "Unknown:worse-ethnic-rep",
-  ],
+#  "Women 'worse' motives":  [
+#    "Women:less-antisocial",
+#    "Women:less-dominant",
+#    "Women:less-dutiful",
+#    "Women:less-woman-motivated",
+#    "Women:more-man-motivated",
+#    "Women:less-heroic",
+#  ],
+#  "Primary-market 'better' motives":  [
+#    "Primary-Market:less-antisocial",
+#    "Primary-Market:more-dominant",
+#    "Primary-Market:more-dutiful",
+#    "Primary-Market:less-woman-motivated",
+#    "Primary-Market:less-man-motivated",
+#    "Primary-Market:more-heroic",
+#  ],
+#  "Fair-skinned 'worse' motives":  [
+#    "Fair-skinned:less-antisocial",
+#    "Fair-skinned:more-dominant",
+#    "Fair-skinned:more-dutiful",
+#    "Fair-skinned:less-woman-motivated",
+#    "Fair-skinned:less-man-motivated",
+#    "Fair-skinned:more-heroic",
+#  ],
   "Men are bulkier": [
     "Health:men-healthier",
     "Health:men-higher-stun",
@@ -659,14 +697,22 @@ def main(fin):
   #use = t_test
   use = bootstrap_test
   print(
-    "Testing {} hypotheses using {}...".format(
-      len(all_hypotheses),
+    "Testing {} full hypotheses using {}...".format(
+      len(full_hypotheses),
       use.__name__
     )
   )
-  tests = init_tests(rows, all_hypotheses, use)
-  print()
-  effects, expected = analyze_tests(rows, tests)
+  tests = init_tests(rows, full_hypotheses, use)
+  print('-'*80)
+  print(
+    "Testing {} character hypotheses using {}...".format(
+      len(character_hypotheses),
+      use.__name__
+    )
+  )
+  char_tests = init_tests(rows, character_hypotheses, use, char=True)
+  print('-'*80)
+  effects, expected = analyze_tests(rows, tests + char_tests)
   print('-'*80)
   summarize_tests(effects, expected, hgroups)
   print('-'*80)
@@ -675,16 +721,22 @@ def main(fin):
   print("...analysis complete.")
   print('='*80)
 
+class Undefined:
+  pass
+
 def bootstrap_test(
   rows,
   index,
   pos_filter,
   alt_filter=None,
-  controls=None,
+  extras=None,
   trials=15000,
   seed=1081230891
 ):
-  controls = controls or []
+  if not extras:
+    extras = {}
+  controls = extras.get("controls", [])
+  missing = extras.get("missing", Undefined)
   pos_mean = 0
   pos_count = 0
   alt_mean = 0
@@ -694,7 +746,9 @@ def bootstrap_test(
   for i, row in enumerate(rows):
     val = get(row, index)
     ident = '=' + "::".join(str(get(row, ctrl)) for ctrl in controls)
-    if val == None:
+    if val == None and missing != Undefined:
+      val = missing
+    elif val == None:
       nones += 1
       continue
     if ident not in groups:
@@ -726,6 +780,11 @@ def bootstrap_test(
 
   md = pos_mean - alt_mean
 
+  if (md == 0):
+    # no need to simulate anything; all trials would have
+    # abs(mean difference) >= 0
+    return 0, 1
+
   random.seed(seed)
   as_diff = 0
   for t in range(trials):
@@ -751,9 +810,9 @@ def t_test(
   index,
   pos_filter,
   alt_filter=None,
-  controls=None,
+  extras=None,
 ):
-  # TODO: Implement controls here!?!
+  # TODO: Implement extras here!?!
   ingroup = []
   outgroup = []
   for row in rows:
@@ -778,19 +837,30 @@ def t_test(
 
   return inmean - outmean, p
 
-def init_tests(rows, hypotheses, method=bootstrap_test):
+def init_tests(rows, hypotheses, method=bootstrap_test, char=False):
   """
   Constructs a bunch of test objects and returns a list of them for
   analyze_tests to process.
   """
   tests = []
+  if char: # simplify rows to one/character (just use first)
+    seen = set()
+    crows = []
+    for row in rows:
+      cid = get(row, ".character.id")
+      if cid not in seen:
+        seen.add(cid)
+        crows.append(row)
+      # else continue
+    rows = crows
+
   for i, hyp in enumerate(hypotheses):
-    if len(hyp) == 5: # no controls
+    if len(hyp) == 5: # no extras
       name, index, pos_filter, alt_filter, direction = hyp
-      controls = []
-    else: # has controls
-      name, index, pos_filter, alt_filter, direction, controls = hyp
-    md, p = method(rows, index, pos_filter, alt_filter, controls)
+      extras = {}
+    else: # has extras
+      name, index, pos_filter, alt_filter, direction, extras = hyp
+    md, p = method(rows, index, pos_filter, alt_filter, extras)
     prg = "{}/{} done [{}]...".format(i, len(hypotheses), name)
     print(prg, " "*(78 - len(prg)), end="\r")
     sys.stdout.flush()
@@ -802,6 +872,7 @@ def init_tests(rows, hypotheses, method=bootstrap_test):
 
     cond_name = pos_filter.__name__
 
+    iname = index.split('.')[-1]
     if md == None: # test error
       tests.append(
         [
@@ -810,29 +881,29 @@ def init_tests(rows, hypotheses, method=bootstrap_test):
           None,
           1,
           None,
-          "{} {} for {}? {}".format(index[12:], dword, cond_name, p)
+          "{} {} for {}? {}".format(iname, dword, cond_name, p)
         ]
       )
     elif direction == "+":
       smsg = "== {} is greater for {}: {:+.3g}, p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         md,
         p
       )
       fmsg = "-- {} is indistinguishable for {}: p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         p
       )
       qmsg = "!! {} is unexpectedly smaller for {}: {:+.3g}, p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         md,
         p
       )
       qfmsg = "-- {} is indistinguishable (& unexpectedly smaller) for {}: p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         p
       )
@@ -842,24 +913,24 @@ def init_tests(rows, hypotheses, method=bootstrap_test):
         tests.append([name, False, md, p, qmsg, qfmsg])
     elif direction == "-":
       smsg = "== {} is smaller for {}: {:+.3g}, p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         md,
         p
       )
       fmsg = "-- {} is indistinguishable for {}: p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         p
       )
       qmsg = "!! {} is unexpectedly greater for {}: {:+.3g}, p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         md,
         p
       )
       qfmsg = "-- {} is indistinguishable (& unexpectedly greater) for {}: p = {:.3g}".format(
-        index[12:],
+        iname,
         cond_name,
         p
       )

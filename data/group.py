@@ -54,7 +54,7 @@ def process(source):
     for cp in properties.character_properties:
       key = "character_" + cp
       if cp == "motive":
-        fields["character"][cp] = { row[pp]: 1 }
+        fields["character"][cp] = { row[key]: 1 }
       else:
         fields["character"][cp] = row[key]
 
