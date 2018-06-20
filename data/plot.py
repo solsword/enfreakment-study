@@ -218,9 +218,9 @@ value_orderings = {
     ("primary", "Primary school (8th grade)"),
     ("high", "High school (or equivalent, e.g., GED)"),
     ("some_high", "Some high school (no diploma)"),
-    ("some_college", "no degree"),
     ("technical", "Trade/technical/vocational training"),
     ("associate", "Associate degree"),
+    ("some_college", "Some college (no degree)"),
     ("bachelors", "Bachelor's degree"),
     ("masters", "Master's degree"),
     ("doctorate", "Doctorate degree"),
@@ -229,31 +229,58 @@ value_orderings = {
     ("daily", "Daily"),
     ("weekly", "Weekly"),
     ("monthly", "Monthly"),
-    ("infrequently", "Infrequently"),
+    ("infrequent", "Infrequently"),
     ("never", "Never"),
   ],
 }
+
+min_viable_height = 20
+min_viable_width = 20
+label_offset = 4
 
 def label_bars(ax, rects, labels, vert=False):
   for rect, label in zip(rects, labels):
     if vert:
       h = rect.get_height()
-      ax.text(
-        rect.get_x() + rect.get_width()/2,
-        1.05 * h,
-        label,
-        ha="center",
-        va="bottom"
-      )
+      if h > min_viable_height:
+        ax.text(
+          rect.get_x() + rect.get_width()/2,
+          h - label_offset,
+          label,
+          color="white",
+          ha="center",
+          va="top"
+        )
+      else:
+        ax.text(
+          rect.get_x() + rect.get_width()/2,
+          h + label_offset,
+          label,
+          color="black",
+          ha="center",
+          va="bottom"
+        )
     else:
       w = rect.get_width()
-      ax.text(
-        1.05 * w,
-        rect.get_y() + rect.get_height()/2,
-        label,
-        ha="left",
-        va="center"
-      )
+      if w > min_viable_width:
+        ax.text(
+          w - label_offset,
+          rect.get_y() + rect.get_height()/2,
+          label,
+          color="white",
+          ha="right",
+          va="center"
+        )
+      else:
+        ax.text(
+          w + label_offset,
+          rect.get_y() + rect.get_height()/2,
+          label,
+          color="black",
+          ha="left",
+          va="center"
+        )
+
 
 def plot_demographics(prows, style={}):
   """
@@ -313,7 +340,6 @@ def plot_demographics(prows, style={}):
         len([r for r in prows if get(r, pr) == v])
           for (v, d) in order
       ]
-    print(values, order)
 
     index = np.arange(len(values))
     bar_height = 0.8
@@ -328,10 +354,9 @@ def plot_demographics(prows, style={}):
     ax.set_ylabel(name)
     ax.set_yticks(index)
     ax.set_yticklabels([d for (v, d) in order])
-    # TODO: Pick one
-    #ax.set_xlabel("# of Participants")
     ax.get_xaxis().set_visible(False)
-    #ax.tight_layout()
+    fig.patch.set_visible(False)
+    plt.tight_layout()
 
   for name, fallbacks in compound_properties:
     pass
@@ -364,6 +389,8 @@ def main(fin):
     if pid not in seen:
       seen.add(pid)
       prows.append(r)
+
+  print(len(prows))
 
   plot_construct_by_group(
     crows,
