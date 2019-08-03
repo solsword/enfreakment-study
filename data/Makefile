@@ -27,7 +27,7 @@ batches/full-makeup-%.tsv: batches/makeup-%.tsv
 	sed "1s/\t/\tAnswer./g" $< > $@
 
 .PHONY: jump
-jump: batches/filtered-batch-2.csv batches/filtered-batch-3.csv batches/filtered-batch-4.csv batches/full-makeup-1.tsv batches/full-makeup-2.tsv batches/full-makeup-3.tsv batches/full-makeup-4.tsv
+jump: batches/filtered-batch-1.csv batches/filtered-batch-2.csv batches/filtered-batch-3.csv batches/filtered-batch-4.csv batches/full-makeup-1.tsv batches/full-makeup-2.tsv batches/full-makeup-3.tsv batches/full-makeup-4.tsv
 
 efr.tsv: jump batches/filtered-batch-*.csv jump batches/full-makeup-*.tsv pids.tsv process.py
 	./process.py batches/filtered-batch-*.csv batches/full-makeup-*.tsv > efr.tsv

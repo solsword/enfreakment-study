@@ -7,10 +7,21 @@
 batch/instance-%.html: batch/instantiate-%.vim template-likert.html hits.csv
 	vim -T dumb -N -n -E -s -c 'set nomore' -c 'source $<' -c'wq! $@' template-likert.html
 
-ALL_INST=$(shell seq `wc -l hits.csv | cut -d' ' -f1` | head -n -1 | awk '{print "batch/instance-" $$1 ".html"}')
+batch/instance-%-local.html: batch/instance-%.html
+	cat $^ \
+	| sed \
+	  "s/web.mit.edu\/pmwh\/www\/enfreakment-images/localhost:8000/g" \
+	> $@
+
+ALL_INST=$(shell seq `expr \`wc -l hits.csv | sed "s/^ *\([0-9]*\).*$$/\1/"\` - 1` | awk '{print "batch/instance-" $$1 ".html"}')
+
+ALL_LOCAL=$(shell seq `expr \`wc -l hits.csv | sed "s/^ *\([0-9]*\).*$$/\1/"\` - 1` | awk '{print "batch/instance-" $$1 "-local.html"}')
 
 .PHONY: allinst
 allinst: $(ALL_INST)
+
+.PHONY: alllocal
+alllocal: $(ALL_LOCAL)
 
 batch:
 	mkdir -p batch
@@ -36,8 +47,9 @@ redo: template-likert-instantiated.html
 report.lp: counterbalance.lp characters.lp
 	clingo --verbose=0 --quiet=1,2,2 counterbalance.lp characters.lp \
 		| head -n 1 \
+		| sed "s/) /)§/g" \
+		| tr "§" "\n" \
 		| sed "s/$$/./g" \
-		| sed "s/) /).\n/g" \
 		> $@
 
 .PHONY: report
@@ -45,17 +57,20 @@ report: report.lp post.lp
 	clingo --verbose=0 --quiet=1,2,2 report.lp post.lp \
 		| head -n 1 \
 		| sed "s/$$/./g" \
-		| sed "s/) /).\n/g" \
+		| sed "s/) /)§/g" \
+		| tr "§" "\n" \
 		| sort
 
 groups.csv: report.lp post.lp shuffle_columns.py
 	clingo --verbose=0 --quiet=1,2,2 report.lp post.lp \
 		| head -n 1 \
 		| sed "s/$$/./g" \
-		| sed "s/) /).\n/g" \
+		| sed "s/) /)§/g" \
+		| tr "§" "\n" \
 		| grep group \
 		| sed "s/^group(g("// \
 		| sed "s/))\.$$"// \
+		| tr -d ')' \
 		| ./shuffle_columns.py \
 		> $@
 
@@ -87,3 +102,18 @@ test/missing: unique_urls.csv
 
 .PHONY: default
 default: template-likert-instantiated.html
+
+.DEFAULT_TARGET := default
+
+.PHONY: clean-images
+clean-images:
+	rm -Rf clean/
+	mkdir -p clean
+	for f in `ls images/sfv/clean`; do cp images/sfv/clean/$$f clean/; done
+	for f in `ls images/tk7/clean`; do cp images/tk7/clean/$$f clean/; done
+
+template-local.html: template-likert-instantiated.html clean-images
+	cat template-likert-instantiated.html \
+	| sed \
+	  "s/web.mit.edu\/pmwh\/www\/enfreakment-images/localhost:8000/g" \
+	> $@

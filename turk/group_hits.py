@@ -5,6 +5,7 @@ into Amazon Mechanical Turk to instantiate template-likert.html.
 """
 
 import csv
+import sys
 
 IMAGE_URLS = {
   "sfv": {
@@ -60,7 +61,8 @@ for raw_row in raw[1:]:
         len(bits),
         len(keys),
         ','.join(bits)
-      )
+      ),
+      file=sys.stderr
     )
   rows.append({})
   for i in range(len(keys)):
@@ -105,7 +107,10 @@ for gr in groups:
         selected = r
         break
     if selected == None:
-      print("Error: Character '{}' does not exist!".format(cid))
+      print(
+        "Error: Character '{}' does not exist!".format(cid),
+        file=sys.stderr
+      )
     iubase = IMAGE_URLS[selected["game"]]
     line+=(
       '{id},{fn},{nm},{np},{imA},{imB},{imC},{co},{gd},{gg},"{bi}","{qu}",'

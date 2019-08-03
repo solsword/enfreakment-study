@@ -1,5 +1,6 @@
 #!/bin/sh
 IFS=$'\n'
+mkdir -p clean
 for f in `ls TEKKEN™7/*_cs_*.jpg`
 do
   #echo convert "$f" -crop 960x1080+0+0 clean/`basename "$f"`
