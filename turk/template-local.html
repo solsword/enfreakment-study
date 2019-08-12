@@ -1,0 +1,2819 @@
+<!-- vim: set syntax=html filetype=html: -->
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" /> </script>
+<script type="text/javascript">
+// Interaction setup
+$(document).ready(function() {
+  $(".responses input").on("click", function(event) {
+    var cell = $(this).parent();
+    var row = cell.parent();
+    row.addClass("touched");
+    row.children('td').each(function (i, el) {
+      $(el).removeClass("selected");
+    });
+    cell.addClass("selected");
+  });
+  $(".question_answers .answer input").on("click", function(event) {
+    var ans = $(this).parent();
+    var area = ans.parent();
+    area.addClass("touched");
+    area.children(".answer").each(function (i, el) {
+      $(el).removeClass("selected");
+    });
+    ans.addClass("selected");
+  });
+  $("div .associated_text").on("click keypress", function(event) {
+    var group = $(this).parent();
+    group.children(".associated_radio").prop("checked", true);
+  });
+  $("td .associated_text").on("click keypress", function(event) {
+    var row = $(this).parent().parent();
+    row.children("td").each(function(i, cell) {
+      $(cell).children(".associated_radio").prop("checked", true);
+    });
+  });
+  var tq_inputs = $(".text_question input[type=text]");
+  tq_inputs = tq_inputs.add($(".text_question textarea"));
+  tq_inputs.on("click keypress", function(event) {
+    var here = $(this);
+    while(!here.hasClass("text_question")) {
+      here = here.parent();
+    }
+    here.addClass("touched");
+  });
+  $("#ethnicity_questions input").on("click keypress", function(event) {
+    var cell = $(this).parent();
+    var row = cell.parent();
+    var table = row.parent().parent();
+    var bin = table.parent();
+    bin.addClass("touched");
+    var checkbox = row.find("input:checked");
+    if (checkbox.length > 0) {
+      row.addClass("selected");
+    } else {
+      row.removeClass("selected");
+    }
+  });
+});
+</script>
+<style type="text/css">
+
+textarea {
+  width: 80%;
+  margin: 4pt;
+}
+
+body {
+  font-size: 14pt !important;
+}
+
+table {
+  font-size: 14pt !important;
+}
+
+.important {
+  font-weight: bold;
+  color: #f00;
+}
+
+.panel {
+  margin: 16px 0px 16px 0px;
+}
+
+.question-input {
+  padding-left: 2em;
+}
+
+fieldset {
+  padding: 10px;
+  background:#eee;
+  border-radius:0.6em;
+  margin-bottom:5px;
+}
+
+.single_character {
+  margin-top: 7ex;
+  margin-bottom: 7ex;
+}
+
+.character {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2ex;
+  background: #ccc;
+  border-radius: 0.6em;
+  padding: 8pt;
+}
+
+.character-images {
+  text-align: center;
+}
+
+.character-images tr td {
+  width: 32%;
+  padding: 0;
+}
+
+.character-images tr td:first-child {
+  padding: 0 2% 0 0;
+}
+
+.character-images tr td:last-child {
+  padding: 0 0 0 2%;
+}
+
+.character-images img {
+  width: 100%;
+  border-radius: 0.3em;
+  /*background: #000;*/
+  /*background: #1a344b; /* Grabbed from Tekken 7 character select screen */
+  background: #888; /* 50% gray */
+  color: #eee;
+}
+
+.character-info {
+  width: 86%;
+  margin: 8pt auto 8pt auto;
+  border-collapse: collapse;
+}
+
+.character-info tr td {
+  padding: 4pt;
+}
+
+.character-info tr:first-child td {
+  padding-top: 6pt;
+}
+
+.character-info tr:last-child td {
+  padding-bottom: 6pt;
+}
+
+.character-info tr td:first-child {
+  text-align: right;
+  width: 8em;
+}
+
+.character-info tr td:nth-child(2) {
+  text-align: left;
+}
+
+.character-info tr td:first-child.character-name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.flag {
+  height: 16pt;
+}
+
+.character-questions {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.question td {
+  padding: 8pt;
+  padding-top: 16pt;
+  text-align: center;
+  font-weight: bold;
+}
+
+.spacer {
+  height: 8pt;
+}
+
+.header {
+  text-align: center;
+  border-bottom: 1pt solid #888;
+  border-top: 1pt solid #888;
+  /*background: #f8f8f8;*/
+}
+
+.header td {
+  padding: 4pt;
+}
+
+.header td:first-child {
+  border-top-left-radius: 0.6em;
+  border-bottom-left-radius: 0.6em;
+}
+
+.header td:last-child {
+  border-top-right-radius: 0.6em;
+  border-bottom-right-radius: 0.6em;
+}
+
+.responses {
+  /*border: 1pt solid black;*/
+  border-radius: 0.6em;
+  background: #eee;
+  padding: 10pt;
+  margin: 10pt;
+}
+
+.responses td:first-child {
+  border-top-left-radius: 0.6em;
+  border-bottom-left-radius: 0.6em;
+}
+
+.responses td:last-child {
+  border-top-right-radius: 0.6em;
+  border-bottom-right-radius: 0.6em;
+}
+
+.touched {
+  background: #bbeeff !important;
+}
+
+.selected {
+  background: #88ccee !important;
+}
+
+.question_answers {
+  border-radius:0.6em;
+  background: #eee;
+  padding: 4pt;
+}
+
+.answer {
+  padding: 0pt 2pt 0pt 2pt;
+  border-radius: 0.4em;
+}
+
+.responses td {
+  padding: 6pt;
+  width: 14.28%;
+  min-width: 14.28%;
+  text-align: center;
+}
+
+.options td {
+  padding: 10pt;
+  padding-bottom: 24pt;
+}
+
+.options td:nth-child(1) {
+  text-align: right;
+  padding-right: 24pt;
+}
+
+.options td:nth-child(2) {
+  text-align: left;
+  padding-left: 24pt;
+}
+
+.end_question {
+  margin-top: 12pt;
+}
+
+.end_question .question_text {
+  font-weight: bold;
+  padding-bottom: 8pt;
+}
+
+.lang_extra {
+  min-width: 20em;
+  width: 20em;
+  height: 6ex;
+}
+
+#ethnicity_questions {
+  width: 100%;
+  border-collapse: separate;
+}
+
+#ethnicity_questions tr td {
+  padding: 6pt;
+  padding-bottom: 12pt;
+}
+
+#ethnicity_questions tr td p {
+  margin: 0pt;
+  padding: 0pt;
+  padding-left: 5%;
+}
+
+#ethnicity_questions tr td:nth-child(1) {
+  width: 3%;
+  min-width: 16pt;
+  border-top-left-radius: 0.4em;
+  border-bottom-left-radius: 0.4em;
+}
+
+#ethnicity_questions tr td:nth-child(2) {
+  width: 57%;
+}
+
+#ethnicity_questions tr td:nth-child(3) {
+  width: 40%;
+  border-top-right-radius: 0.4em;
+  border-bottom-right-radius: 0.4em;
+}
+
+#ethnicity_questions tr td:nth-child(3) input {
+  width: 95%;
+}
+
+</style>
+<section class="container" id="Survey" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333;">
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Preliminaries</strong></div>
+
+<div class="panel-body">
+  <div style="font-weight: bold;">
+    <p>This is a survey HIT, so please do not complete more than one, including if you took one of the similar HITs titled "Survey on Fighting Game Characters" previously.</p>
+    <p class="important">If you already took this survey as part of a previous batch (or a similar survey as part of the pilot study), please return this HIT; your submission will be rejected.</p>
+    <p>If you're not sure whether you participated in an earlier batch, feel free to get in touch via email.</p>
+
+<p class="important">To avoid rejection, you need to do 2 things:</p>
+<ol>
+  <li>Answer every question to the best of your ability<br/>(there are no right answers, just don't leave anything blank or pick at random).</li>
+  <li>Confirm your age and consent in the text box below.</li>
+</ol>
+  </div>
+
+<p>This HIT is part of an MIT scientific research project, and should take about 25&ndash;35 minutes to complete (there are 135 survey questions plus 14 exit questions). Your decision to complete this HIT is voluntary. We will not collect identifying information about you beyond your worker ID, which we will not retain in stored copies of the data that we gather. The only information we will have, in addition to your responses, is the time at which you completed the survey. The results of the research may be presented at scientific meetings or published in scientific journals. Clicking on the 'SUBMIT' button at the bottom of this page indicates that you are at least 18 years of age and agree to complete this HIT voluntarily.</p>
+
+<p style="font-weight: bold;">You may only complete one HIT from this survey. If you complete multiple HITs from this survey, your subsequent HITs will be rejected.</p>
+
+<p>To provide useful data for this survey, you must be at least 18 years old and able to read English and clearly view the images on this page. If you don't meet these criterion, please click 'Return HIT' to avoid being rejected.</p>
+
+<p style="font-weight: bold;">To confirm that you meet these criteria, and consent to the use of your data, please write the word "yes" in the box below. </p>
+</div>
+</div><!-- End Instructions Box -->
+
+<fieldset class="text_question">
+  <label>I confirm that I am at least 18 years old, I can understand the text of this survey, and I can clearly view the images embedded below (after the survey instructions).</label>
+  <textarea name="suitable"></textarea>
+</fieldset>
+
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Survey Instructions</strong></div>
+
+<div class="panel-body">
+  <p>You will be presented with five fighting game characters, including three images, a country, a quote, and a short bio for each character. Please indicate your agreement (or disagreement) with each of the statements listed for each character using the following scale (the 25 statements are the same for each character, and the scale is repeated throughout the survey for reference):</p>
+
+<ol>
+  <li> Strongly disagree </li>
+  <li> Disagree </li>
+  <li> Somewhat disagree </li>
+  <li> Neutral </li>
+  <li> Somewhat agree </li>
+  <li> Agree </li>
+  <li> Strongly agree </li>
+</ol>
+
+<p>Make sure you also answer the final exit questions after completing all 5 character sections, and remember that your answers are anonymous and will be used for scientific purposes only. This survey should take you about 25&ndash;35 minutes to complete.</p>
+
+<p>Note: Each question will change color once you provide an answer to help make it obvious what you've already finished. There are no right or wrong answers.</p>
+</div>
+</div><!-- End Instructions Box -->
+
+<div id="ibuki" class="single_character">
+<input type="hidden" name="id_1" value="ibuki">
+<input type="hidden" name="gender_1" value="female">
+<div class="character">
+  <table class="character-images">
+    <tr>
+      <td> <img src="http://localhost:8000/clean/sfv_cs_ibuki.jpg" alt="Ibuki on the character select screen."> </td>
+      <td> <img src="http://localhost:8000/clean/sfv_oa_ibuki.jpg" alt="Official art of Ibuki."> </td>
+      <td> <img src="http://localhost:8000/clean/sfv_ig_ibuki.jpg" alt="Ibuki in-game."> </td>
+    </tr>
+  </table>
+  <table class="character-info">
+    <tr><td class="character-name" colspan=2>Ibuki</td></tr>
+    <tr><td>Country:</td><td class="nationality">Japan</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;I will finish this in no time!&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">First appearing in Street Fighter III: New Generation, Ibuki is a Japanese kunoichi and highschool student. She finds her ninja training tedious, preferring to slack off with her pet racoon dog, Don-chan.</td></tr>
+  </table>
+</div>
+
+<table class="character-questions">
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki has a realistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_body_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_body_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_body_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_body_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_body_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_body_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_body_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki has an exaggerated or unrealistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="exaggerated_body_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="exaggerated_body_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="exaggerated_body_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="exaggerated_body_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="exaggerated_body_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="exaggerated_body_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="exaggerated_body_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is designed to appear attractive.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attractive_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attractive_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attractive_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attractive_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attractive_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attractive_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attractive_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is designed to appear ugly.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ugly_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ugly_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ugly_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ugly_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ugly_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ugly_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ugly_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's design emphasizes Ibuki's muscles.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="muscular_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="muscular_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="muscular_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="muscular_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="muscular_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="muscular_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="muscular_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's muscles are hidden or not-well-defined.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="non_muscular_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="non_muscular_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="non_muscular_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="non_muscular_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="non_muscular_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="non_muscular_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="non_muscular_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's design emphasizes Ibuki's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="sexualized_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is not designed to be sexually appealing (to anyone).
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_sexualized_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is designed to appear overweight.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="chubby_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="chubby_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="chubby_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="chubby_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="chubby_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="chubby_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="chubby_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is designed to appear thin/skinny.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="skinny_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="skinny_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="skinny_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="skinny_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="skinny_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="skinny_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="skinny_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's design emphasizes Ibuki's youth.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="young_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="young_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="young_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="young_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="young_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="young_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="young_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's design emphasizes Ibuki's old age.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="old_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="old_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="old_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="old_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="old_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="old_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="old_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's clothing is designed to increase Ibuki's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_sexualized_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's clothing does not emphasize Ibuki's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_not_sexualized_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_not_sexualized_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_not_sexualized_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_not_sexualized_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_not_sexualized_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_not_sexualized_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_not_sexualized_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's clothing is something that someone might wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_clothing_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_clothing_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_clothing_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_clothing_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_clothing_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_clothing_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_clothing_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's clothing is something that nobody would wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="costume_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="costume_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="costume_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="costume_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="costume_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="costume_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="costume_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki could be a good role-model.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="role_model_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="role_model_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="role_model_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="role_model_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="role_model_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="role_model_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="role_model_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is someone that nobody should aspire to be like.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_role_model_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_role_model_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_role_model_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_role_model_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_role_model_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_role_model_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_role_model_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's appearance, quote, and/or description makes Ibuki's race/ethnicity clear.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="obv_ethnicity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="obv_ethnicity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="obv_ethnicity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="obv_ethnicity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="obv_ethnicity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="obv_ethnicity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="obv_ethnicity_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's clothing alone suggests Ibuki's race/ethnicity.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_ethnicity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_ethnicity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_ethnicity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_ethnicity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_ethnicity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_ethnicity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_ethnicity_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is a positive representation of Ibuki's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_ethnic_rep_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_ethnic_rep_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_ethnic_rep_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_ethnic_rep_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_ethnic_rep_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_ethnic_rep_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_ethnic_rep_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's design encourages misleading assumptions about people from Ibuki's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_stereotypes_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_stereotypes_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_stereotypes_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_stereotypes_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_stereotypes_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_stereotypes_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_stereotypes_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is a positive representation of women.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_gender_rep_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_gender_rep_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_gender_rep_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_gender_rep_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_gender_rep_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_gender_rep_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_gender_rep_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki's design encourages misleading assumptions about women.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="gender_stereotypes_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="gender_stereotypes_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="gender_stereotypes_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="gender_stereotypes_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="gender_stereotypes_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="gender_stereotypes_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="gender_stereotypes_1" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Ibuki is similar to me.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="identification_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="identification_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="identification_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="identification_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="identification_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="identification_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="identification_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      My race/ethnicity is similar to Ibuki's.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_match_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_match_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_match_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_match_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_match_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_match_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_match_1" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with Ibuki's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_1" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_1" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_1" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_1" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_1" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_1" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_1" value="7"></td>
+  </tr>
+</table>
+</div>
+
+<div id="urien" class="single_character">
+<input type="hidden" name="id_2" value="urien">
+<input type="hidden" name="gender_2" value="male">
+<div class="character">
+  <table class="character-images">
+    <tr>
+      <td> <img src="http://localhost:8000/clean/sfv_cs_urien.jpg" alt="Urien on the character select screen."> </td>
+      <td> <img src="http://localhost:8000/clean/sfv_oa_urien.jpg" alt="Official art of Urien."> </td>
+      <td> <img src="http://localhost:8000/clean/sfv_ig_urien.jpg" alt="Urien in-game."> </td>
+    </tr>
+  </table>
+  <table class="character-info">
+    <tr><td class="character-name" colspan=2>Urien</td></tr>
+    <tr><td>Country:</td><td class="nationality">Unknown</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;Don't worry. I'll end you quickly.&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">First introduced in Street Fighter III: Second Impact, Urien is the vice president of the Illuminati. Unlike his benevolent brother, this self-serving tyrant is only interested in furthering his own interests.</td></tr>
+  </table>
+</div>
+
+<table class="character-questions">
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien has a realistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_body_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_body_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_body_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_body_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_body_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_body_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_body_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien has an exaggerated or unrealistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="exaggerated_body_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="exaggerated_body_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="exaggerated_body_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="exaggerated_body_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="exaggerated_body_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="exaggerated_body_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="exaggerated_body_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is designed to appear attractive.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attractive_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="attractive_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="attractive_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="attractive_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="attractive_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="attractive_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="attractive_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is designed to appear ugly.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ugly_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="ugly_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="ugly_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="ugly_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="ugly_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="ugly_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="ugly_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's design emphasizes Urien's muscles.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="muscular_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="muscular_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="muscular_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="muscular_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="muscular_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="muscular_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="muscular_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's muscles are hidden or not-well-defined.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="non_muscular_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="non_muscular_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="non_muscular_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="non_muscular_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="non_muscular_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="non_muscular_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="non_muscular_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's design emphasizes Urien's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="sexualized_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="sexualized_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="sexualized_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="sexualized_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="sexualized_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="sexualized_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="sexualized_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is not designed to be sexually appealing (to anyone).
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_sexualized_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_sexualized_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_sexualized_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_sexualized_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_sexualized_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_sexualized_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_sexualized_2" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is designed to appear overweight.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="chubby_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="chubby_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="chubby_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="chubby_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="chubby_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="chubby_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="chubby_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is designed to appear thin/skinny.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="skinny_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="skinny_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="skinny_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="skinny_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="skinny_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="skinny_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="skinny_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's design emphasizes Urien's youth.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="young_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="young_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="young_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="young_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="young_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="young_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="young_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's design emphasizes Urien's old age.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="old_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="old_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="old_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="old_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="old_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="old_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="old_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's clothing is designed to increase Urien's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_sexualized_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_sexualized_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_sexualized_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_sexualized_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_sexualized_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_sexualized_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_sexualized_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's clothing does not emphasize Urien's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_not_sexualized_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_not_sexualized_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_not_sexualized_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_not_sexualized_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_not_sexualized_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_not_sexualized_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_not_sexualized_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's clothing is something that someone might wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_clothing_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_clothing_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_clothing_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_clothing_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_clothing_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_clothing_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_clothing_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's clothing is something that nobody would wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="costume_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="costume_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="costume_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="costume_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="costume_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="costume_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="costume_2" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien could be a good role-model.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="role_model_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="role_model_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="role_model_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="role_model_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="role_model_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="role_model_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="role_model_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is someone that nobody should aspire to be like.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_role_model_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_role_model_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_role_model_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_role_model_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_role_model_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_role_model_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_role_model_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's appearance, quote, and/or description makes Urien's race/ethnicity clear.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="obv_ethnicity_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="obv_ethnicity_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="obv_ethnicity_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="obv_ethnicity_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="obv_ethnicity_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="obv_ethnicity_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="obv_ethnicity_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's clothing alone suggests Urien's race/ethnicity.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_ethnicity_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_ethnicity_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_ethnicity_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_ethnicity_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_ethnicity_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_ethnicity_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_ethnicity_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is a positive representation of Urien's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_ethnic_rep_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_ethnic_rep_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_ethnic_rep_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_ethnic_rep_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_ethnic_rep_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_ethnic_rep_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_ethnic_rep_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's design encourages misleading assumptions about people from Urien's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_stereotypes_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_stereotypes_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_stereotypes_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_stereotypes_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_stereotypes_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_stereotypes_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_stereotypes_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is a positive representation of men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_gender_rep_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_gender_rep_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_gender_rep_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_gender_rep_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_gender_rep_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_gender_rep_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_gender_rep_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien's design encourages misleading assumptions about men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="gender_stereotypes_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="gender_stereotypes_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="gender_stereotypes_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="gender_stereotypes_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="gender_stereotypes_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="gender_stereotypes_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="gender_stereotypes_2" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Urien is similar to me.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="identification_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="identification_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="identification_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="identification_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="identification_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="identification_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="identification_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      My race/ethnicity is similar to Urien's.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_match_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_match_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_match_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_match_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_match_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_match_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_match_2" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with Urien's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_2" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_2" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_2" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_2" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_2" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_2" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_2" value="7"></td>
+  </tr>
+</table>
+</div>
+
+<div id="paul" class="single_character">
+<input type="hidden" name="id_3" value="paul">
+<input type="hidden" name="gender_3" value="male">
+<div class="character">
+  <table class="character-images">
+    <tr>
+      <td> <img src="http://localhost:8000/clean/tk7_cs_paul.jpg" alt="Paul on the character select screen."> </td>
+      <td> <img src="http://localhost:8000/clean/tk7_pr_paul.png" alt="Official art of Paul."> </td>
+      <td> <img src="http://localhost:8000/clean/tk7_ig_paul.jpg" alt="Paul in-game."> </td>
+    </tr>
+  </table>
+  <table class="character-info">
+    <tr><td class="character-name" colspan=2>Paul Phoenix</td></tr>
+    <tr><td>Country:</td><td class="nationality">United States of America</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;I'll show you the power of the strongest in the universe… but not for free!&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">When Paul Phoenix, the golden boy of the martial arts world, steps into the ring, the excitement in the crowd is palpable. But this time when his opponent's name rang over the arena's loudspeakers, he could only scratch his head in disbelief. It was Kuma… again! However, Kuma was nowhere to be seen. Word went round that the bear had dropped out of the tournament. The ring announcer informed the spectators of a last-minute change to the fight card. Relieved, Paul awaits the entrance of his long-anticipated human opponent…</td></tr>
+  </table>
+</div>
+
+<table class="character-questions">
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul has a realistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_body_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_body_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_body_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_body_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_body_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_body_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_body_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul has an exaggerated or unrealistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="exaggerated_body_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="exaggerated_body_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="exaggerated_body_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="exaggerated_body_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="exaggerated_body_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="exaggerated_body_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="exaggerated_body_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is designed to appear attractive.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attractive_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="attractive_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="attractive_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="attractive_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="attractive_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="attractive_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="attractive_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is designed to appear ugly.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ugly_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="ugly_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="ugly_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="ugly_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="ugly_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="ugly_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="ugly_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's design emphasizes Paul's muscles.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="muscular_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="muscular_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="muscular_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="muscular_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="muscular_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="muscular_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="muscular_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's muscles are hidden or not-well-defined.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="non_muscular_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="non_muscular_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="non_muscular_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="non_muscular_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="non_muscular_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="non_muscular_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="non_muscular_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's design emphasizes Paul's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="sexualized_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="sexualized_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="sexualized_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="sexualized_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="sexualized_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="sexualized_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="sexualized_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is not designed to be sexually appealing (to anyone).
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_sexualized_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_sexualized_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_sexualized_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_sexualized_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_sexualized_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_sexualized_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_sexualized_3" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is designed to appear overweight.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="chubby_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="chubby_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="chubby_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="chubby_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="chubby_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="chubby_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="chubby_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is designed to appear thin/skinny.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="skinny_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="skinny_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="skinny_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="skinny_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="skinny_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="skinny_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="skinny_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's design emphasizes Paul's youth.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="young_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="young_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="young_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="young_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="young_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="young_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="young_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's design emphasizes Paul's old age.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="old_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="old_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="old_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="old_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="old_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="old_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="old_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's clothing is designed to increase Paul's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_sexualized_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_sexualized_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_sexualized_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_sexualized_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_sexualized_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_sexualized_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_sexualized_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's clothing does not emphasize Paul's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_not_sexualized_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_not_sexualized_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_not_sexualized_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_not_sexualized_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_not_sexualized_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_not_sexualized_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_not_sexualized_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's clothing is something that someone might wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_clothing_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_clothing_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_clothing_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_clothing_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_clothing_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_clothing_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_clothing_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's clothing is something that nobody would wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="costume_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="costume_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="costume_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="costume_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="costume_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="costume_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="costume_3" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul could be a good role-model.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="role_model_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="role_model_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="role_model_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="role_model_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="role_model_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="role_model_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="role_model_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is someone that nobody should aspire to be like.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_role_model_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_role_model_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_role_model_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_role_model_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_role_model_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_role_model_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_role_model_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's appearance, quote, and/or description makes Paul's race/ethnicity clear.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="obv_ethnicity_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="obv_ethnicity_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="obv_ethnicity_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="obv_ethnicity_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="obv_ethnicity_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="obv_ethnicity_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="obv_ethnicity_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's clothing alone suggests Paul's race/ethnicity.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_ethnicity_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_ethnicity_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_ethnicity_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_ethnicity_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_ethnicity_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_ethnicity_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_ethnicity_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is a positive representation of Paul's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_ethnic_rep_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_ethnic_rep_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_ethnic_rep_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_ethnic_rep_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_ethnic_rep_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_ethnic_rep_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_ethnic_rep_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's design encourages misleading assumptions about people from Paul's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_stereotypes_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_stereotypes_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_stereotypes_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_stereotypes_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_stereotypes_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_stereotypes_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_stereotypes_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is a positive representation of men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_gender_rep_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_gender_rep_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_gender_rep_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_gender_rep_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_gender_rep_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_gender_rep_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_gender_rep_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul's design encourages misleading assumptions about men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="gender_stereotypes_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="gender_stereotypes_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="gender_stereotypes_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="gender_stereotypes_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="gender_stereotypes_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="gender_stereotypes_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="gender_stereotypes_3" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Paul is similar to me.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="identification_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="identification_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="identification_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="identification_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="identification_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="identification_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="identification_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      My race/ethnicity is similar to Paul's.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_match_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_match_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_match_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_match_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_match_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_match_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_match_3" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with Paul's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_3" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_3" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_3" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_3" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_3" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_3" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_3" value="7"></td>
+  </tr>
+</table>
+</div>
+
+<div id="eddy" class="single_character">
+<input type="hidden" name="id_4" value="eddy">
+<input type="hidden" name="gender_4" value="male">
+<div class="character">
+  <table class="character-images">
+    <tr>
+      <td> <img src="http://localhost:8000/clean/tk7_cs_eddy.jpg" alt="Eddy on the character select screen."> </td>
+      <td> <img src="http://localhost:8000/clean/tk7_pr_eddy.png" alt="Official art of Eddy."> </td>
+      <td> <img src="http://localhost:8000/clean/tk7_ig_eddy.jpg" alt="Eddy in-game."> </td>
+    </tr>
+  </table>
+  <table class="character-info">
+    <tr><td class="character-name" colspan=2>Eddy Gordo</td></tr>
+    <tr><td>Country:</td><td class="nationality">Brazil</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;Don't think I'll go easy on you.&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">Eddy Gordo went to G Corporation to exact revenge on Kazuya Mishima for murdering his father. After he'd taken out a crowd of guards, a young girl in a strange outfit stood before him, and struck a pose. 'You're not getting past me, old man! Teehee!' What did she mean by 'old man'? Confused and irritated by her appearance and disrespectful tone, but aware of the threat she posed, Eddy prepared to fight.</td></tr>
+  </table>
+</div>
+
+<table class="character-questions">
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy has a realistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_body_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_body_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_body_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_body_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_body_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_body_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_body_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy has an exaggerated or unrealistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="exaggerated_body_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="exaggerated_body_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="exaggerated_body_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="exaggerated_body_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="exaggerated_body_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="exaggerated_body_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="exaggerated_body_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is designed to appear attractive.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attractive_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="attractive_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="attractive_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="attractive_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="attractive_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="attractive_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="attractive_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is designed to appear ugly.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ugly_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="ugly_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="ugly_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="ugly_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="ugly_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="ugly_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="ugly_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's design emphasizes Eddy's muscles.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="muscular_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="muscular_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="muscular_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="muscular_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="muscular_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="muscular_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="muscular_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's muscles are hidden or not-well-defined.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="non_muscular_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="non_muscular_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="non_muscular_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="non_muscular_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="non_muscular_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="non_muscular_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="non_muscular_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's design emphasizes Eddy's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="sexualized_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="sexualized_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="sexualized_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="sexualized_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="sexualized_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="sexualized_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="sexualized_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is not designed to be sexually appealing (to anyone).
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_sexualized_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_sexualized_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_sexualized_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_sexualized_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_sexualized_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_sexualized_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_sexualized_4" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is designed to appear overweight.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="chubby_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="chubby_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="chubby_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="chubby_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="chubby_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="chubby_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="chubby_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is designed to appear thin/skinny.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="skinny_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="skinny_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="skinny_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="skinny_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="skinny_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="skinny_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="skinny_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's design emphasizes Eddy's youth.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="young_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="young_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="young_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="young_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="young_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="young_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="young_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's design emphasizes Eddy's old age.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="old_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="old_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="old_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="old_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="old_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="old_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="old_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's clothing is designed to increase Eddy's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_sexualized_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_sexualized_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_sexualized_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_sexualized_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_sexualized_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_sexualized_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_sexualized_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's clothing does not emphasize Eddy's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_not_sexualized_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_not_sexualized_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_not_sexualized_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_not_sexualized_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_not_sexualized_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_not_sexualized_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_not_sexualized_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's clothing is something that someone might wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_clothing_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_clothing_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_clothing_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_clothing_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_clothing_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_clothing_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_clothing_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's clothing is something that nobody would wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="costume_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="costume_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="costume_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="costume_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="costume_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="costume_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="costume_4" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy could be a good role-model.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="role_model_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="role_model_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="role_model_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="role_model_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="role_model_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="role_model_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="role_model_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is someone that nobody should aspire to be like.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_role_model_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_role_model_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_role_model_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_role_model_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_role_model_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_role_model_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_role_model_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's appearance, quote, and/or description makes Eddy's race/ethnicity clear.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="obv_ethnicity_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="obv_ethnicity_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="obv_ethnicity_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="obv_ethnicity_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="obv_ethnicity_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="obv_ethnicity_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="obv_ethnicity_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's clothing alone suggests Eddy's race/ethnicity.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_ethnicity_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_ethnicity_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_ethnicity_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_ethnicity_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_ethnicity_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_ethnicity_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_ethnicity_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is a positive representation of Eddy's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_ethnic_rep_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_ethnic_rep_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_ethnic_rep_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_ethnic_rep_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_ethnic_rep_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_ethnic_rep_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_ethnic_rep_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's design encourages misleading assumptions about people from Eddy's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_stereotypes_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_stereotypes_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_stereotypes_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_stereotypes_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_stereotypes_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_stereotypes_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_stereotypes_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is a positive representation of men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_gender_rep_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_gender_rep_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_gender_rep_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_gender_rep_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_gender_rep_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_gender_rep_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_gender_rep_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy's design encourages misleading assumptions about men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="gender_stereotypes_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="gender_stereotypes_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="gender_stereotypes_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="gender_stereotypes_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="gender_stereotypes_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="gender_stereotypes_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="gender_stereotypes_4" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Eddy is similar to me.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="identification_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="identification_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="identification_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="identification_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="identification_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="identification_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="identification_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      My race/ethnicity is similar to Eddy's.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_match_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_match_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_match_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_match_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_match_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_match_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_match_4" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with Eddy's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_4" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_4" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_4" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_4" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_4" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_4" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_4" value="7"></td>
+  </tr>
+</table>
+</div>
+
+<div id="hwoarang" class="single_character">
+<input type="hidden" name="id_5" value="hwoarang">
+<input type="hidden" name="gender_5" value="male">
+<div class="character">
+  <table class="character-images">
+    <tr>
+      <td> <img src="http://localhost:8000/clean/tk7_cs_hwoarang.jpg" alt="Hwoarang on the character select screen."> </td>
+      <td> <img src="http://localhost:8000/clean/tk7_pr_hwoarang.png" alt="Official art of Hwoarang."> </td>
+      <td> <img src="http://localhost:8000/clean/tk7_ig_hwoarang.jpg" alt="Hwoarang in-game."> </td>
+    </tr>
+  </table>
+  <table class="character-info">
+    <tr><td class="character-name" colspan=2>Hwoarang</td></tr>
+    <tr><td>Country:</td><td class="nationality">South Korea</td></tr>
+    <tr><td>Quote:</td><td class="quote">&ldquo;Come at me! I'll take you down.&rdquo;</td></tr>
+    <tr><td>Description:</td><td class="quote">Hwoarang sees one man as his rival: Jin Kazama. Jin, CEO of the Mishima Zaibatsu, declared war against the world, and in the ensuing turmoil vanished suddenly, without a trace. Suspecting there is more to Jin's disappearance than meets the eye, Hwoarang vowed to track him down. With only a shred of reliable information at hand, he headed to the Middle East. After a series of dead leads, Hwoarang heard word that a demon had appeared in a town. Without a second thought, he got on his motorcycle and hammered down there. When he arrived, the place had been deserted, save for Jin Kazama in his devil form.</td></tr>
+  </table>
+</div>
+
+<table class="character-questions">
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang has a realistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_body_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_body_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_body_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_body_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_body_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_body_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_body_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang has an exaggerated or unrealistic body.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="exaggerated_body_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="exaggerated_body_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="exaggerated_body_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="exaggerated_body_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="exaggerated_body_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="exaggerated_body_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="exaggerated_body_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is designed to appear attractive.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attractive_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="attractive_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="attractive_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="attractive_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="attractive_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="attractive_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="attractive_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is designed to appear ugly.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ugly_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="ugly_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="ugly_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="ugly_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="ugly_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="ugly_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="ugly_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's design emphasizes Hwoarang's muscles.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="muscular_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="muscular_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="muscular_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="muscular_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="muscular_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="muscular_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="muscular_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's muscles are hidden or not-well-defined.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="non_muscular_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="non_muscular_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="non_muscular_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="non_muscular_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="non_muscular_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="non_muscular_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="non_muscular_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's design emphasizes Hwoarang's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="sexualized_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="sexualized_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="sexualized_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="sexualized_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="sexualized_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="sexualized_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="sexualized_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is not designed to be sexually appealing (to anyone).
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_sexualized_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_sexualized_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_sexualized_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_sexualized_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_sexualized_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_sexualized_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_sexualized_5" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is designed to appear overweight.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="chubby_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="chubby_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="chubby_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="chubby_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="chubby_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="chubby_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="chubby_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is designed to appear thin/skinny.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="skinny_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="skinny_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="skinny_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="skinny_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="skinny_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="skinny_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="skinny_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's design emphasizes Hwoarang's youth.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="young_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="young_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="young_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="young_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="young_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="young_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="young_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's design emphasizes Hwoarang's old age.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="old_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="old_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="old_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="old_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="old_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="old_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="old_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's clothing is designed to increase Hwoarang's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_sexualized_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_sexualized_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_sexualized_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_sexualized_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_sexualized_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_sexualized_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_sexualized_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's clothing does not emphasize Hwoarang's sex appeal.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_not_sexualized_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_not_sexualized_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_not_sexualized_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_not_sexualized_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_not_sexualized_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_not_sexualized_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_not_sexualized_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's clothing is something that someone might wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="realistic_clothing_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="realistic_clothing_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="realistic_clothing_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="realistic_clothing_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="realistic_clothing_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="realistic_clothing_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="realistic_clothing_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's clothing is something that nobody would wear in real life.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="costume_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="costume_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="costume_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="costume_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="costume_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="costume_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="costume_5" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang could be a good role-model.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="role_model_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="role_model_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="role_model_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="role_model_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="role_model_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="role_model_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="role_model_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is someone that nobody should aspire to be like.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="not_role_model_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="not_role_model_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="not_role_model_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="not_role_model_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="not_role_model_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="not_role_model_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="not_role_model_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's appearance, quote, and/or description makes Hwoarang's race/ethnicity clear.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="obv_ethnicity_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="obv_ethnicity_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="obv_ethnicity_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="obv_ethnicity_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="obv_ethnicity_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="obv_ethnicity_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="obv_ethnicity_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's clothing alone suggests Hwoarang's race/ethnicity.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="attire_ethnicity_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="attire_ethnicity_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="attire_ethnicity_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="attire_ethnicity_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="attire_ethnicity_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="attire_ethnicity_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="attire_ethnicity_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is a positive representation of Hwoarang's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_ethnic_rep_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_ethnic_rep_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_ethnic_rep_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_ethnic_rep_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_ethnic_rep_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_ethnic_rep_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_ethnic_rep_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's design encourages misleading assumptions about people from Hwoarang's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_stereotypes_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_stereotypes_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_stereotypes_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_stereotypes_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_stereotypes_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_stereotypes_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_stereotypes_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is a positive representation of men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="pos_gender_rep_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="pos_gender_rep_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="pos_gender_rep_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="pos_gender_rep_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="pos_gender_rep_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="pos_gender_rep_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="pos_gender_rep_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang's design encourages misleading assumptions about men.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="gender_stereotypes_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="gender_stereotypes_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="gender_stereotypes_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="gender_stereotypes_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="gender_stereotypes_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="gender_stereotypes_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="gender_stereotypes_5" value="7"></td>
+  </tr>
+  <tr class="spacer"></tr>
+  <tr class="header">
+    <td>Strongly disagree</td>
+    <td>Disagree </td>
+    <td>Somewhat disagree </td>
+    <td>Neutral </td>
+    <td>Somewhat agree </td>
+    <td>Agree </td>
+    <td>Strongly agree </td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      Hwoarang is similar to me.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="identification_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="identification_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="identification_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="identification_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="identification_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="identification_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="identification_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      My race/ethnicity is similar to Hwoarang's.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_match_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_match_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_match_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_match_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_match_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_match_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_match_5" value="7"></td>
+  </tr>
+  <tr class="question">
+    <td colspan=7>
+      I am very familiar with Hwoarang's racial/ethnic group.
+    </td>
+  </tr>
+  <tr class="responses">
+    <td>1 <br/><input type="radio" name="ethnic_familiarity_5" value="1"></td>
+    <td>2 <br/><input type="radio" name="ethnic_familiarity_5" value="2"></td>
+    <td>3 <br/><input type="radio" name="ethnic_familiarity_5" value="3"></td>
+    <td>4 <br/><input type="radio" name="ethnic_familiarity_5" value="4"></td>
+    <td>5 <br/><input type="radio" name="ethnic_familiarity_5" value="5"></td>
+    <td>6 <br/><input type="radio" name="ethnic_familiarity_5" value="6"></td>
+    <td>7 <br/><input type="radio" name="ethnic_familiarity_5" value="7"></td>
+  </tr>
+</table>
+</div>
+
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Exit Questions</strong></div>
+
+<div class="panel-body">
+<p>Thank you for helping us understand more about the character design in fighting games.</p>
+
+<p>In order to better contextualize your responses, please answer the following questions about your background and gaming experience:</p>
+</div>
+</div><!-- End Instructions Box -->
+
+<div class="end_question">
+<div class="question_text">Have you played "Street Fighter V" or "Tekken 7" before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_specific" value="both"> Yes, both.
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_specific" value="sfv"> Yes, just "Street Fighter V."
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_specific" value="tk7"> Yes, just "Tekken 7."
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_specific" value="no"> No, neither.
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you played other Street Fighter or Tekken games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="both"> Yes, games from both franchises.
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="sfv"> Yes, just (a) Street Fighter game(s).
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="tk7"> Yes, just (a) Tekken game(s).
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_franchise" value="no"> No, neither franchise.
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you played other fighting games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_fighting" value="yes"> Yes 
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_fighting" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you played any other videogames before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="played_any" value="yes"> Yes 
+  </div>
+  <div class="answer">
+    <input type="radio" name="played_any" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">How often do you play videogames?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="daily"> Almost every day. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="weekly"> At least once per week. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="monthly"> At least once per month. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="infrequent"> Less than once per month. 
+  </div>
+  <div class="answer">
+    <input type="radio" name="play_frequency" value="never"> I don't play videogames. 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you watched other people play Street Fighter or Tekken games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="watched_franchise" value="often"> Yes, often 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_franchise" value="occasionally"> Yes, occasionally 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_franchise" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">Have you watched other people play any other fighting games before?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="watched_fighting" value="often"> Yes, often 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_fighting" value="occasionally"> Yes, occasionally 
+  </div>
+  <div class="answer">
+    <input type="radio" name="watched_fighting" value="no"> No 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">How old are you?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="age" value="18-24"> 18&ndash;24 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="25-34"> 25&ndash;34 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="35-44"> 35&ndash;44 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="45-54"> 45&ndash;54 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="55-64"> 55&ndash;64 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="65-74"> 65&ndash;74 years old 
+  </div>
+  <div class="answer">
+    <input type="radio" name="age" value="75+"> 75 years old or older 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What is the highest degree or level of school you have completed?</div>
+<div class="question_answers">
+  <div class="answer">
+    <input type="radio" name="education" value="none"> None of the below 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="primary"> Primary school (8th grade) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="some_high"> Some high school (no diploma) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="high"> High school (or equivalent, e.g., GED) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="some_college"> Some college (no degree) 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="technical"> Trade/technical/vocational training 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="associate"> Associate degree 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="bachelors"> Bachelor's degree 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="masters"> Master's degree 
+  </div>
+  <div class="answer">
+    <input type="radio" name="education" value="doctorate"> Doctorate degree 
+  </div>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What language(s) do you use for everyday conversation in your community, home, school, and/or workplace? (please list in order of frequency of use)</div>
+<div class="question_answers text_question">
+Language 1: <input type="text" name="lang_primary"> <br />
+Language 2: <input type="text" name="lang_secondary"> <br />
+Language 3: <input type="text" name="lang_tertiary"> <br />
+Additional language(s): <br />
+<textarea name="lang_extra" class="lang_extra"></textarea>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What is your gender?</div>
+<div class="question_answers text_question">
+<textarea name="gender_description"></textarea>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">
+What racial/ethnic group(s) do you consider yourself a part of? <br/>
+(Be as specific as possible, and list multiple if appropriate.)
+</div>
+<div class="question_answers text_question">
+<textarea name="ethnicity_description"></textarea>
+</div>
+</div>
+
+<div class="end_question">
+<div class="question_text">What is your nationality?</div>
+<div class="question_answers text_question">
+<textarea name="nationality_description"></textarea>
+</div>
+</div>
+
+
+<div class="end_question">
+<div class="question_text">(optional) Do you have any other feedback about the content of this survey? Were there any questions that were particularly difficult to answer or that didn't seem to make sense? Were the instructions confusing or contradictory?</div>
+<div class="question_answers text_question">
+<textarea name="feedback" rows=6>
+</textarea>
+</div>
+</div>
+
+<!-- Instructions Box -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>The End</strong></div>
+
+<div class="panel-body">
+  <p class="important">Reminder: Did you fill out the consent text box at the beginning of the survey? If not, your HIT may be rejected!</p>
+  <p>Thanks for taking the time to fill out our survey. If you have further questions about the survey or are interested in the results once they are available, you can contact the study coordinator at: <a href="mailto:pmawhorter@gmail.com">pmawhorter@gmail.com</a>.</p>
+
+</div>
+</div><!-- End Instructions Box -->
+
+<!-- End Survey Body -->
+</section>
+<!-- close container -->

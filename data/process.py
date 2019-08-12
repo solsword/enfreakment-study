@@ -392,7 +392,7 @@ def process(sources):
           for c in properties.ratings + properties.personal_ratings:
             val = rin["Answer.{}_{}".format(c, n)]
 
-            if val in ("{}", ""):
+            if val in ("{}", "", ' '):
               val = None
             else:
               try:

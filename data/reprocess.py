@@ -13,7 +13,7 @@ def process(source):
   rows = [rin for rin in reader]
 
   for rn, row in enumerate(rows):
-    for (cns, _) in properties.constructs:
+    for cns in properties.construct_list:
       try:
         row["@" + cns] = properties.extract_construct(row, cns)
       except:
@@ -24,7 +24,7 @@ def process(source):
             row
           )
         )
-    for (cns, _) in properties.pers_constructs:
+    for cns in properties.pers_construct_list:
       try:
         row["@" + cns] = properties.extract_construct(row, cns)
       except:
@@ -55,34 +55,38 @@ def process(source):
   group_by_character = (
     properties.ratings
   + properties.personal_ratings
-  + [ ("@" + cns) for (cns, _) in properties.constructs ]
-  + [ ("@" + cns) for (cns, _) in properties.pers_constructs ]
+  + [ ("@" + cns) for cns in properties.construct_list ]
+  + [ ("@" + cns) for cns in properties.pers_construct_list ]
   )
 
   group_by_participant = (
     properties.personal_ratings
-  + [ ("@" + cns) for (cns, _) in properties.pers_constructs ]
+  + [ ("@" + cns) for cns in properties.pers_construct_list ]
   )
 
   for ch in forchar:
     ch_medians[ch] = []
     for rt in group_by_character:
-      pure = [
-        float(row[rt])
-          for row in forchar[ch]
-          if row[rt] not in ("", None)
-      ]
-      ch_medians[ch].append(np.median(pure))
+      pure = list(filter(
+        lambda x: x != None,
+        [ properties.nv(row[rt]) for row in forchar[ch] ]
+      ))
+      if pure:
+        ch_medians[ch].append(np.median(pure))
+      else:
+        ch_medians[ch].append(None)
 
   for part in forpart:
     pt_medians[part] = []
     for rt in group_by_participant:
-      pure = [
-        float(row[rt])
-          for row in forpart[part]
-          if row[rt] not in ("",None)
-      ]
-      pt_medians[part].append(np.median(pure))
+      pure = list(filter(
+        lambda x: x != None,
+        [ properties.nv(row[rt]) for row in forpart[part] ]
+      ))
+      if pure:
+        pt_medians[part].append(np.median(pure))
+      else:
+        pt_medians[part].append(None)
 
   result = []
   result.append(
@@ -91,8 +95,8 @@ def process(source):
   + properties.participant_properties
   + properties.ratings
   + properties.personal_ratings
-  + ["@" + cns for (cns, _) in properties.constructs]
-  + ["@" + cns for (cns, _) in properties.pers_constructs]
+  + ["@" + cns for cns in properties.construct_list]
+  + ["@" + cns for cns in properties.pers_construct_list]
   + ["med_" + rt for rt in group_by_character]
   + ["participant_" + rt for rt in group_by_participant]
   )

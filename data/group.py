@@ -125,20 +125,20 @@ def process(source):
 
     fields["constructs"] = [
       properties.nv(row["@" + cns])
-        for (cns, _) in properties.constructs
+        for cns in properties.construct_list
     ]
     fields["med_constructs"] = [
       properties.nv(row["med_@" + cns])
-        for (cns, _) in properties.constructs
+        for cns in properties.construct_list
     ]
 
     fields["pers_constructs"] = [
       properties.nv(row["@" + cns])
-        for (cns, _) in properties.pers_constructs
+        for cns in properties.pers_construct_list
     ]
     fields["med_pers_constructs"] = [
       properties.nv(row["med_@" + cns])
-        for (cns, _) in properties.pers_constructs
+        for cns in properties.pers_construct_list
     ]
 
     nr = [ fields[k] for k in columns ]
