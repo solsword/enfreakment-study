@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+"""
+process.py
+
+Processes data from all_chars.csv and characterData.json to test hypotheses
+about character design bias in frame data.
+
+Get characterData.json from:
+  https://fullmeter.com/fatonline/lib/characterData.json
+
+Full app that we're using data from:
+  https://fullmeter.com/fatonline/#/framedata/
+"""
 
 import json
 import csv
@@ -47,76 +59,102 @@ normals = [
     for button in buttons
 ]
 
+columns = [
+  "id",
+  "health",
+  "stun",
+  "jump_height",
+  "jump_distance",
+  "dash_distance",
+  "speed",
+  "throw_range",
+
+  "avg_hit_damage",
+  "avg_hit_stun",
+  "avg_active_frames",
+
+  "avg_hit_count",
+  "avg_frames_per_hit",
+  "avg_dead_frames",
+  "avg_hit_advantage",
+  "avg_block_advantage",
+
+  "multihit_proportion",
+  "combo_proportion",
+  "unsafe_proportion",
+  "knockdown_proportion",
+]
+
 skin_tones = {
-  "abigail": "fair",
-  "akuma": "dark",
-  "alex": "fair",
-  "balrog": "dark",
-  "birdie": "dark",
-  "cammy": "fair",
-  "chun_li": "fair",
-  "dhalsim": "dark",
-  "ed": "fair",
-  "f_a_n_g": "fair",
-  "guile": "fair",
-  "ibuki": "fair",
-  "juri": "fair",
-  "karin": "fair",
-  "ken": "fair",
-  "kolin": "fair",
-  "laura": "dark",
-  "m_bison": "fair",
-  "menat": "dark",
-  "nash": "fair",
-  "necalli": "dark",
-  "rashid": "fair",
-  "r_mika": "fair",
-  "ryu": "fair",
-  "urien": "dark",
-  "vega": "fair",
-  "zangief": "fair",
-  "zeku": "fair",
+  "abigail": "lighter",
+  "akuma": "darker",
+  "alex": "lighter",
+  "balrog": "darker",
+  "birdie": "darker",
+  "cammy": "lighter",
+  "chun_li": "lighter",
+  "dhalsim": "darker",
+  "ed": "lighter",
+  "f_a_n_g": "lighter",
+  "guile": "lighter",
+  "ibuki": "lighter",
+  "juri": "lighter",
+  "karin": "lighter",
+  "ken": "lighter",
+  "kolin": "lighter",
+  "laura": "darker",
+  "m_bison": "lighter",
+  "menat": "darker",
+  "nash": "lighter",
+  "necalli": "darker",
+  "rashid": "lighter",
+  "r_mika": "lighter",
+  "ryu": "lighter",
+  "urien": "darker",
+  "vega": "lighter",
+  "zangief": "lighter",
+  "zeku": "lighter",
 }
 
 alt_tones = {
-  "ryu": "fair",
-  "chun_li": "fair",
-  "nash": "fair",
-  "m_bison": "fair",
-  "cammy": "fair",
-  "birdie": "fair",
-  "ken": "fair",
-  "necalli": "dark",
-  "vega": "fair",
-  "r_mika": "fair",
-  "rashid": "dark",
-  "karin": "fair",
-  "zangief": "fair",
-  "laura": "dark",
-  "dhalsim": "dark",
-  "f_a_n_g": "fair",
-  "alex": "fair",
-  "guile": "fair",
-  "ibuki": "fair",
-  "balrog": "dark",
-  "juri": "fair",
-  "urien": "dark",
-  "akuma": "dark",
-  "kolin": "fair",
-  "ed": "fair",
-  "abigail": "fair",
-  "menat": "dark",
-  "zeku": "dark",
+  "ryu": "lighter",
+  "chun_li": "lighter",
+  "nash": "lighter",
+  "m_bison": "lighter",
+  "cammy": "lighter",
+  "birdie": "lighter",
+  "ken": "lighter",
+  "necalli": "darker",
+  "vega": "lighter",
+  "r_mika": "lighter",
+  "rashid": "darker",
+  "karin": "lighter",
+  "zangief": "lighter",
+  "laura": "darker",
+  "dhalsim": "darker",
+  "f_a_n_g": "lighter",
+  "alex": "lighter",
+  "guile": "lighter",
+  "ibuki": "lighter",
+  "balrog": "darker",
+  "juri": "lighter",
+  "urien": "darker",
+  "akuma": "darker",
+  "kolin": "lighter",
+  "ed": "lighter",
+  "abigail": "lighter",
+  "menat": "darker",
+  "zeku": "darker",
 }
 
 def men(x):
   return x["gender"] == "male"
 def women(x):
   return x["gender"] == "female"
-def fair_skinned(x):
-  return x["skin_tone"] == "fair"
-def dark_skinned(x):
-  return x["skin_tone"] == "dark"
+def lighter_skinned(x):
+  return x["skin_tone"] == "lighter"
+def darker_skinned(x):
+  return x["skin_tone"] == "darker"
 
 hypotheses = [
   # Men are more healthy
@@ -144,28 +182,28 @@ hypotheses = [
   # Men have safer attacks
   ["unsafe_proportion", women, men],
   # Dark-skinned characters are beefier
-  ["health", dark_skinned, fair_skinned],
-  ["stun", dark_skinned, fair_skinned],
+  ["health", darker_skinned, lighter_skinned],
+  ["stun", darker_skinned, lighter_skinned],
   # Dark-skinned characters hit harder/slower
-  ["speed", fair_skinned, dark_skinned],
-  ["avg_hit_damage", dark_skinned, fair_skinned],
-  ["avg_hit_stun", dark_skinned, fair_skinned],
-  ["avg_active_frames", dark_skinned, fair_skinned],
-  ["avg_hit_count", fair_skinned, dark_skinned],
-  ["avg_frames_per_hit", dark_skinned, fair_skinned],
-  ["avg_dead_frames", dark_skinned, fair_skinned],
-  ["avg_hit_advantage", fair_skinned, dark_skinned],
-  ["avg_block_advantage", fair_skinned, dark_skinned],
-  ["multihit_proportion", fair_skinned, dark_skinned],
-  ["combo_proportion", fair_skinned, dark_skinned],
-  ["knockdown_proportion", dark_skinned, fair_skinned],
+  ["speed", lighter_skinned, darker_skinned],
+  ["avg_hit_damage", darker_skinned, lighter_skinned],
+  ["avg_hit_stun", darker_skinned, lighter_skinned],
+  ["avg_active_frames", darker_skinned, lighter_skinned],
+  ["avg_hit_count", lighter_skinned, darker_skinned],
+  ["avg_frames_per_hit", darker_skinned, lighter_skinned],
+  ["avg_dead_frames", darker_skinned, lighter_skinned],
+  ["avg_hit_advantage", lighter_skinned, darker_skinned],
+  ["avg_block_advantage", lighter_skinned, darker_skinned],
+  ["multihit_proportion", lighter_skinned, darker_skinned],
+  ["combo_proportion", lighter_skinned, darker_skinned],
+  ["knockdown_proportion", darker_skinned, lighter_skinned],
 ]
 
 
 combined_tones = {
   k: (
-    ["dark", "indeterminate", "fair"][
-      int(skin_tones[k] == "fair") + int(alt_tones[k] == "fair")
+    ["darker", "indeterminate", "lighter"][
+      int(skin_tones[k] == "lighter") + int(alt_tones[k] == "lighter")
     ]
   )
     for k in skin_tones.keys()
@@ -173,6 +211,8 @@ combined_tones = {
 
 CPROPS = None
 CPFILE = "all_chars.csv"
+
+OUTFILE = "framedata.tsv"
 
 def define_cprops():
   """
@@ -308,6 +348,9 @@ def active_frames(x):
         norm = x.replace(")", "_").replace("(", "_")
         bits = norm.split("_")
         for i, b in enumerate(bits):
+          if b == '' and i == len(bits) - 1:
+            # ignore blank at end
+            continue
           if i % 2 == 0:
             active.append(float(b))
           else:
@@ -519,6 +562,13 @@ def main():
     result["gender"] = CPROPS[ch]["gender"]
     result["skin_tone"] = combined_tones[ch]
     chstats[ch] = result
+
+  print("Writing TSV...")
+  with open(OUTFILE, 'w') as fout:
+    writer = csv.writer(fout, dialect="excel-tab")
+    writer.writerow(columns)
+    for ch in sorted(idmap):
+      writer.writerow([chstats[ch][col] for col in columns])
 
   print("Testing hypotheses...")
   for index, pos, alt in hypotheses:

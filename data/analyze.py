@@ -120,11 +120,11 @@ def participant_female(row):
 def infrequent_player(row):
   return get(row, ".participant.play_frequency") in ("never", "infrequent")
 
-def is_fair_skinned(row):
-  return get(row, ".character.skin_tone") == "fair"
+def is_lighter_skinned(row):
+  return get(row, ".character.skin_tone") == "lighter"
 
-def is_dark_skinned(row):
-  return get(row, ".character.skin_tone") == "dark"
+def is_darker_skinned(row):
+  return get(row, ".character.skin_tone") == "darker"
 
 # monthly players aren't in either group
 
@@ -176,17 +176,17 @@ def secondary_market_country(row):
 def unknown_country(row):
   return get(row, ".character.country") == "Unknown"
 
-def dark_skinned_women(row):
-  return character_female(row) and get(row, ".character.skin_tone") == "dark"
+def darker_skinned_women(row):
+  return character_female(row) and get(row, ".character.skin_tone") == "darker"
 
-def fair_skinned_women(row):
-  return character_female(row) and get(row, ".character.skin_tone") == "fair"
+def lighter_skinned_women(row):
+  return character_female(row) and get(row, ".character.skin_tone") == "lighter"
 
-def dark_skinned_men(row):
-  return not character_female(row) and get(row, ".character.skin_tone") =="dark"
+def darker_skinned_men(row):
+  return not character_female(row) and get(row, ".character.skin_tone") =="darker"
 
-def fair_skinned_men(row):
-  return not character_female(row) and get(row, ".character.skin_tone") =="fair"
+def lighter_skinned_men(row):
+  return not character_female(row) and get(row, ".character.skin_tone") =="lighter"
 
 def secondary_market_women(row):
   return character_female(row) and secondary_market_country(row)
@@ -244,10 +244,10 @@ novel_hypotheses = [
   ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+", {"controls": [".character.id"]}),
 
   # Brute sub-components:
-  ("Fair:more-realistic", ".constructs.body_realism", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:more-attractive", ".constructs.attractiveness", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:less-muscular", ".constructs.muscles", is_fair_skinned, is_dark_skinned, "-", {"controls": [".participant.id"]}),
-  ("Fair:thinner", ".constructs.thinness", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-realistic", ".constructs.body_realism", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-attractive", ".constructs.attractiveness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:less-muscular", ".constructs.muscles", is_lighter_skinned, is_darker_skinned, "-", {"controls": [".participant.id"]}),
+  ("Fair:thinner", ".constructs.thinness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
 
   ("Primary-Market:more-realistic", ".constructs.body_realism", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
   ("Primary-Market:more-attractive", ".constructs.attractiveness", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
@@ -255,32 +255,32 @@ novel_hypotheses = [
   ("Primary-Market:thinner", ".constructs.thinness", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
 
   # Ethnic sub-components (minus positive_ethnic_rep):
-  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_fair_skinned, is_dark_skinned, "-", {"controls": [".participant.id"]}),
+  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_lighter_skinned, is_darker_skinned, "-", {"controls": [".participant.id"]}),
 
   ("Primary-Market:more-realistic-clothing", ".constructs.clothing_realism", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
   ("Primary-Market:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", primary_market_country, secondary_market_country, "-", {"controls": [".participant.id"]}),
 
   # Villain sub-components
-  ("Fair:more-admirable", ".constructs.admirableness", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_fair_skinned, is_dark_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-admirable", ".constructs.admirableness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
 
   ("Primary-Market:more-admirable", ".constructs.admirableness", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
   ("Primary-Market:more-positive-ethnicity", ".constructs.positive_ethnic_rep", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
   ("Primary-Market:more-positive-gender", ".constructs.positive_gender_rep", primary_market_country, secondary_market_country, "+", {"controls": [".participant.id"]}),
 
   # Intersections
-  ("Fair-Women:more-realistic", ".constructs.body_realism", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-attractive", ".constructs.attractiveness", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:less-sexualized", ".constructs.sexualization", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:less-muscular", ".constructs.muscles", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:thinner", ".constructs.thinness", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:older", ".constructs.youth", fair_skinned_women, dark_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-admirable", ".constructs.admirableness", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_women, dark_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-realistic", ".constructs.body_realism", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-attractive", ".constructs.attractiveness", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:less-sexualized", ".constructs.sexualization", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:less-muscular", ".constructs.muscles", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:thinner", ".constructs.thinness", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:older", ".constructs.youth", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-admirable", ".constructs.admirableness", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
 
   ("Primary-Market-Women:more-realistic", ".constructs.body_realism", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
   ("Primary-Market-Women:more-attractive", ".constructs.attractiveness", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
@@ -293,14 +293,14 @@ novel_hypotheses = [
   ("Primary-Market-Women:more-positive-gender", ".constructs.positive_gender_rep", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
   ("Primary-Market-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", primary_market_women, secondary_market_women, "+", {"controls": [".participant.id"]}),
 
-  ("Fair-Men:more-realistic", ".constructs.body_realism", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-attractive", ".constructs.attractiveness", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:less-muscular", ".constructs.muscles", fair_skinned_men, dark_skinned_men, "-", {"controls": [".participant.id"]}),
-  ("Fair-Men:thinner", ".constructs.thinness", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:older", ".constructs.youth", fair_skinned_men, dark_skinned_men, "-", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-admirable", ".constructs.admirableness", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", fair_skinned_men, dark_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-realistic", ".constructs.body_realism", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-attractive", ".constructs.attractiveness", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:less-muscular", ".constructs.muscles", lighter_skinned_men, darker_skinned_men, "-", {"controls": [".participant.id"]}),
+  ("Fair-Men:thinner", ".constructs.thinness", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:older", ".constructs.youth", lighter_skinned_men, darker_skinned_men, "-", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-admirable", ".constructs.admirableness", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
 
   ("Primary-Market-Men:more-realistic", ".constructs.body_realism", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
   ("Primary-Market-Men:more-attractive", ".constructs.attractiveness", primary_market_men, secondary_market_men, "+", {"controls": [".participant.id"]}),
@@ -339,12 +339,12 @@ motive_hypotheses = [
   ("Primary-Market:less-man-motivated", ".character.motive.For a Male", primary_market_country, secondary_market_country, '-', {"missing": 0}),
   ("Primary-Market:more-heroic", ".character.motive.Save the World", primary_market_country, secondary_market_country, '+', {"missing": 0}),
 
-  ("Fair-skinned:less-antisocial", ".character.motive.Antisocial", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:more-dominant", ".character.motive.Dominance", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:more-dutiful", ".character.motive.For Duty", is_fair_skinned, is_dark_skinned, '+', {"missing": 0}),
-  ("Fair-skinned:less-woman-motivated", ".character.motive.For a Female", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:less-man-motivated", ".character.motive.For a Male", is_fair_skinned, is_dark_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:more-heroic", ".character.motive.Save the World", is_fair_skinned, is_dark_skinned, '+', {"missing": 0}),
+  ("Fair-skinned:less-antisocial", ".character.motive.Antisocial", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:more-dominant", ".character.motive.Dominance", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:more-dutiful", ".character.motive.For Duty", is_lighter_skinned, is_darker_skinned, '+', {"missing": 0}),
+  ("Fair-skinned:less-woman-motivated", ".character.motive.For a Female", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:less-man-motivated", ".character.motive.For a Male", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Fair-skinned:more-heroic", ".character.motive.Save the World", is_lighter_skinned, is_darker_skinned, '+', {"missing": 0}),
 ]
 
 framedata_hypotheses = [
@@ -388,38 +388,38 @@ framedata_hypotheses = [
   ("Normals:men-safer", ".character.stats.normals.unsafe_proportion", character_female, character_male, '+'),
   ("Attacks:men-safer", ".character.stats.all_moves.unsafe_proportion", character_female, character_male, '+'),
   # Dark-skinned characters are bulkier
-  ("Health:dark-men-healthier", ".character.stats.health", dark_skinned_men, fair_skinned_men, '+'),
-  ("Health:dark-men-higher-stun", ".character.stats.stun", dark_skinned_men, fair_skinned_men, '+'),
-  ("Size:dark-men-grab-farther", ".character.stats.throw_range", dark_skinned_men, fair_skinned_men, '+'),
+  ("Health:darker-men-healthier", ".character.stats.health", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Health:darker-men-higher-stun", ".character.stats.stun", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Size:darker-men-grab-farther", ".character.stats.throw_range", darker_skinned_men, lighter_skinned_men, '+'),
   # Fair-skinned characters are faster
-  ("Agility:fair-men-faster", ".character.stats.speed", fair_skinned_men, dark_skinned_men, '+'),
+  ("Agility:lighter-men-faster", ".character.stats.speed", lighter_skinned_men, darker_skinned_men, '+'),
   # Dark-skinned characters hit harder/slower
-  ("Normals:dark-men-more-damage", ".character.stats.normals.avg_damage_per_hit", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-damage", ".character.stats.all_moves.avg_damage_per_hit", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:dark-men-more-stun", ".character.stats.normals.avg_stun_per_hit", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-stun", ".character.stats.all_moves.avg_stun_per_hit", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:dark-men-active-longer", ".character.stats.normals.avg_active_frames", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-active-longer", ".character.stats.all_moves.avg_active_frames", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:fair-men-hit-more", ".character.stats.normals.avg_hit_count", fair_skinned_men, dark_skinned_men, '+'),
-  ("Attacks:fair-men-hit-more", ".character.stats.all_moves.avg_hit_count", fair_skinned_men, dark_skinned_men, '+'),
-  ("Normals:dark-men-slower", ".character.stats.normals.avg_frames_per_hit", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-slower", ".character.stats.all_moves.avg_frames_per_hit", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:dark-men-more-delayed", ".character.stats.normals.avg_dead_frames", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-delayed", ".character.stats.all_moves.avg_dead_frames", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:dark-men-more-hitstun", ".character.stats.normals.avg_hitstun", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-hitstun", ".character.stats.all_moves.avg_hitstun", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:dark-men-more-blockstun", ".character.stats.normals.avg_blockstun", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-blockstun", ".character.stats.all_moves.avg_blockstun", dark_skinned_men, fair_skinned_men, '+'),
-  ("Normals:fair-men-plus-on-hit", ".character.stats.normals.avg_hit_advantage", fair_skinned_men, dark_skinned_men, '+'),
-  ("Attacks:fair-men-plus-on-hit", ".character.stats.all_moves.avg_hit_advantage", fair_skinned_men, dark_skinned_men, '+'),
-  ("Normals:fair-men-plus-on-block", ".character.stats.normals.avg_block_advantage", fair_skinned_men, dark_skinned_men, '+'),
-  ("Attacks:fair-men-plus-on-block", ".character.stats.all_moves.avg_block_advantage", fair_skinned_men, dark_skinned_men, '+'),
-  ("Normals:fair-men-more-multihit", ".character.stats.normals.multihit_proportion", fair_skinned_men, dark_skinned_men, '+'),
-  ("Attacks:fair-men-more-multihit", ".character.stats.all_moves.multihit_proportion", fair_skinned_men, dark_skinned_men, '+'),
-  ("Normals:fair-men-more-combos", ".character.stats.normals.combo_proportion", fair_skinned_men, dark_skinned_men, '+'),
-  ("Attacks:fair-men-more-combos", ".character.stats.all_moves.combo_proportion", fair_skinned_men, dark_skinned_men, '+'),
-  ("Normals:dark-men-more-knockdowns", ".character.stats.normals.knockdown_proportion", dark_skinned_men, fair_skinned_men, '+'),
-  ("Attacks:dark-men-more-knockdowns", ".character.stats.all_moves.knockdown_proportion", dark_skinned_men, fair_skinned_men, '+'),
+  ("Normals:darker-men-more-damage", ".character.stats.normals.avg_damage_per_hit", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-more-damage", ".character.stats.all_moves.avg_damage_per_hit", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Normals:darker-men-more-stun", ".character.stats.normals.avg_stun_per_hit", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-more-stun", ".character.stats.all_moves.avg_stun_per_hit", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Normals:darker-men-active-longer", ".character.stats.normals.avg_active_frames", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-active-longer", ".character.stats.all_moves.avg_active_frames", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Normals:lighter-men-hit-more", ".character.stats.normals.avg_hit_count", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Attacks:lighter-men-hit-more", ".character.stats.all_moves.avg_hit_count", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Normals:darker-men-slower", ".character.stats.normals.avg_frames_per_hit", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-slower", ".character.stats.all_moves.avg_frames_per_hit", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Normals:darker-men-more-delayed", ".character.stats.normals.avg_dead_frames", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-more-delayed", ".character.stats.all_moves.avg_dead_frames", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Normals:darker-men-more-hitstun", ".character.stats.normals.avg_hitstun", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-more-hitstun", ".character.stats.all_moves.avg_hitstun", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Normals:darker-men-more-blockstun", ".character.stats.normals.avg_blockstun", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-more-blockstun", ".character.stats.all_moves.avg_blockstun", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Normals:lighter-men-plus-on-hit", ".character.stats.normals.avg_hit_advantage", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Attacks:lighter-men-plus-on-hit", ".character.stats.all_moves.avg_hit_advantage", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Normals:lighter-men-plus-on-block", ".character.stats.normals.avg_block_advantage", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Attacks:lighter-men-plus-on-block", ".character.stats.all_moves.avg_block_advantage", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Normals:lighter-men-more-multihit", ".character.stats.normals.multihit_proportion", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Attacks:lighter-men-more-multihit", ".character.stats.all_moves.multihit_proportion", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Normals:lighter-men-more-combos", ".character.stats.normals.combo_proportion", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Attacks:lighter-men-more-combos", ".character.stats.all_moves.combo_proportion", lighter_skinned_men, darker_skinned_men, '+'),
+  ("Normals:darker-men-more-knockdowns", ".character.stats.normals.knockdown_proportion", darker_skinned_men, lighter_skinned_men, '+'),
+  ("Attacks:darker-men-more-knockdowns", ".character.stats.all_moves.knockdown_proportion", darker_skinned_men, lighter_skinned_men, '+'),
 ]
 
 full_hypotheses = (
@@ -516,7 +516,7 @@ hgroups = {
     "Fair:more-positive-ethnicity",
     "Fair:more-positive-gender",
   ],
-  "Fair-skinned women more attractive/less sexualized then dark-skinned women":[
+  "Fair-skinned women more attractive/less sexualized then darker-skinned women":[
     "Fair-Women:more-realistic",
     "Fair-Women:less-muscular",
     "Fair-Women:thinner",
@@ -540,7 +540,7 @@ hgroups = {
     "Primary-Market-Women:more-positive-gender",
     "Primary-Market-Women:more-positive-ethnic",
   ],
-  "Fair-skinned men less brutish than dark-skinned men": [
+  "Fair-skinned men less brutish than darker-skinned men": [
     "Fair-Men:more-realistic",
     "Fair-Men:less-muscular",
     "Fair-Men:thinner",
@@ -639,42 +639,42 @@ hgroups = {
     "Attacks:men-safer",
   ],
   "Darker-skinned men are bulkier": [
-    "Health:dark-men-healthier",
-    "Health:dark-men-higher-stun",
-    "Size:dark-men-grab-farther",
+    "Health:darker-men-healthier",
+    "Health:darker-men-higher-stun",
+    "Size:darker-men-grab-farther",
   ],
   "Darker-skinned men are less agile": [
-    "Agility:fair-men-faster",
+    "Agility:lighter-men-faster",
   ],
   "Darker-skinned men have slower/stronger normals": [
-    "Normals:dark-men-more-damage",
-    "Normals:dark-men-more-stun",
-    "Normals:dark-men-active-longer",
-    "Normals:fair-men-hit-more",
-    "Normals:dark-men-slower",
-    "Normals:dark-men-more-delayed",
-    "Normals:dark-men-more-hitstun",
-    "Normals:dark-men-more-blockstun",
-    "Normals:fair-men-plus-on-hit",
-    "Normals:fair-men-plus-on-block",
-    "Normals:fair-men-more-multihit",
-    "Normals:fair-men-more-combos",
-    "Normals:dark-men-more-knockdowns",
+    "Normals:darker-men-more-damage",
+    "Normals:darker-men-more-stun",
+    "Normals:darker-men-active-longer",
+    "Normals:lighter-men-hit-more",
+    "Normals:darker-men-slower",
+    "Normals:darker-men-more-delayed",
+    "Normals:darker-men-more-hitstun",
+    "Normals:darker-men-more-blockstun",
+    "Normals:lighter-men-plus-on-hit",
+    "Normals:lighter-men-plus-on-block",
+    "Normals:lighter-men-more-multihit",
+    "Normals:lighter-men-more-combos",
+    "Normals:darker-men-more-knockdowns",
   ],
   "Darker-skinned men have slower/stronger attacks": [
-    "Attacks:dark-men-more-damage",
-    "Attacks:dark-men-more-stun",
-    "Attacks:dark-men-active-longer",
-    "Attacks:fair-men-hit-more",
-    "Attacks:dark-men-slower",
-    "Attacks:dark-men-more-delayed",
-    "Attacks:dark-men-more-hitstun",
-    "Attacks:dark-men-more-blockstun",
-    "Attacks:fair-men-plus-on-hit",
-    "Attacks:fair-men-plus-on-block",
-    "Attacks:fair-men-more-multihit",
-    "Attacks:fair-men-more-combos",
-    "Attacks:dark-men-more-knockdowns",
+    "Attacks:darker-men-more-damage",
+    "Attacks:darker-men-more-stun",
+    "Attacks:darker-men-active-longer",
+    "Attacks:lighter-men-hit-more",
+    "Attacks:darker-men-slower",
+    "Attacks:darker-men-more-delayed",
+    "Attacks:darker-men-more-hitstun",
+    "Attacks:darker-men-more-blockstun",
+    "Attacks:lighter-men-plus-on-hit",
+    "Attacks:lighter-men-plus-on-block",
+    "Attacks:lighter-men-more-multihit",
+    "Attacks:lighter-men-more-combos",
+    "Attacks:darker-men-more-knockdowns",
   ],
 }
 

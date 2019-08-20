@@ -39,20 +39,23 @@ batches/filtered-batch-%.csv: batches/batch-%.csv reject.lst Makefile
 jump: batches/filtered-batch-1.csv batches/filtered-batch-2.csv batches/filtered-batch-3.csv
 #jump: batches/filtered-batch-1.csv batches/filtered-batch-2.csv batches/filtered-batch-3.csv batches/full-makeup-1.tsv batches/full-makeup-2.tsv batches/full-makeup-3.tsv
 
-#efr.tsv: jump batches/filtered-batch-*.csv batches/full-makeup-*.tsv pids.tsv process.py
+#efr.tsv: jump pids.tsv process.py
 #	./process.py batches/filtered-batch-*.csv batches/full-makeup-*.tsv > efr.tsv
 
-efr.tsv: jump batches/filtered-batch-*.csv pids.tsv process.py
+efr.tsv: jump pids.tsv process.py
 	./process.py batches/filtered-batch-*.csv > efr.tsv
 
 genders.lst: efr.tsv
-	cut -d"	" -f23 efr.tsv | tail -n +2 | sort | uniq > genders.lst
+	cut -d"	" -f25 efr.tsv | tail -n +2 | sort | uniq -c > genders.lst
 
 ethnicities.lst: efr.tsv
-	cut -d"	" -f25 efr.tsv | tail -n +2 | sort | uniq > ethnicities.lst
+	cut -d"	" -f27 efr.tsv | tail -n +2 | sort | uniq -c > ethnicities.lst
+
+multiethnic.txt: ethnicities.lst multiethnic.py
+	./multiethnic.py < $< > $@
 
 nationalities.lst: efr.tsv
-	cut -d"	" -f27 efr.tsv | tail -n +2 | sort | uniq > nationalities.lst
+	cut -d"	" -f29 efr.tsv | tail -n +2 | sort | uniq -c > nationalities.lst
 
 efr-aug.tsv: efr.tsv reprocess.py
 	./reprocess.py < efr.tsv > efr-aug.tsv

@@ -1,0 +1,15 @@
+__pycache__
+batches
+efr-aug-grp-processed.json
+efr-aug-grp.json
+efr-aug.tsv
+efr.tsv
+ethnicities.lst
+framedata.tsv
+genders.lst
+multiethnic.txt
+nationalities.lst
+participants.lst
+pids.tsv
+reject.lst
+report.txt

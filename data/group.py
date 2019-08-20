@@ -119,7 +119,7 @@ def process(source):
     )
 
     st = properties.skin_tones[row["id"]]
-    ast = properties.alt_tones[row["id"]]
+    ast = properties.alt_skin_tones[row["id"]]
     fields["character"]["skin_tones"] = [ st, ast ]
     fields["character"]["skin_tone"] = st if st == ast else "indeterminate"
 
