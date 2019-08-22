@@ -5,7 +5,9 @@ efr-aug-grp.json
 efr-aug.tsv
 efr.tsv
 ethnicities.lst
+ethnicities.txt
 framedata.tsv
+framedata.json
 genders.lst
 multiethnic.txt
 nationalities.lst

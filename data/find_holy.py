@@ -10,7 +10,7 @@ total number of answer columns, and the HIT status for each row.
 import sys
 import csv
 
-THRESHOLD = 0.1
+THRESHOLD = 0.15
 
 def main(filenames):
   for f in filenames:

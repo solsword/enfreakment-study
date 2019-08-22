@@ -48,6 +48,7 @@ normalize_map = {
     None: "Unknown",
   },
   "ethnicity_description":{
+    "": "Unknown",
     "No": "Unknown",
     "Yes": "Unknown",
     "Nothing": "Unknown",
@@ -62,7 +63,7 @@ normalize_map = {
     "Latino": "Latinx",
     "Latina": "Latinx",
     "I Am A White Latino": "Latinx + White",
-    "Mexican American": "Hispanic + American",
+    "Mexican American": "Mexican + American",
     "Mixed-Black/White/Latino": "Black + Latinx + White",
     "Hispanic And White": "Hispanic + White",
     "White, Hispanic": "Hispanic + White",
@@ -73,8 +74,8 @@ normalize_map = {
     "Hispanic-Mexican American": "Hispanic + Mexican + American",
     "Black": "Black",
     "I Am Black Racial Group": "Black",
-    "African American": "Black",
-    "Black African American": "Black",
+    "African American": "American + Black",
+    "Black African American": "American + Black",
     "Caucasian": "White",
     "Caucasian, White": "White",
     "Caucasian / White , Non Hispanic": "White",
@@ -97,7 +98,7 @@ normalize_map = {
     "White Caucasian": "White",
     "White-Caucasian": "White",
     "White/Caucasian, West European Descent": "White",
-    "I Am Half German And Half English. I Just Consider Myself To Be Anglo/Saxon Or Just White.": "White",
+    "I Am Half German And Half English. I Just Consider Myself To Be Anglo/Saxon Or Just White.": "German + English + White",
     "White American": "American + White",
     "American White Caucasian": "American + White",
     "White/American/Non-Hispanic": "American + White",
@@ -108,16 +109,16 @@ normalize_map = {
     "European Caucasian": "European + White",
     "European White": "European + White",
     "European, Caucasian": "European + White",
-    "European - German, Uk, Irish": "European + German + Irish + English + White",
+    "European - German, Uk, Irish": "European + German + Irish + English",
     "European American White": "European + American + White",
     "Caucasian / European": "European + White",
     "Caucasian (European)": "European + White",
     "White/Caucasian/European": "European + White",
     "White European": "European + White",
-    "White, European-American": "European + White",
+    "White, European-American": "European + American + White",
     "White European Decent": "European + White",
     "Euro-White": "European + White",
-    "White (European American) Non-Hispanic": "European + White",
+    "White (European American) Non-Hispanic": "European + American + White",
     "Asian, Hispanic, White": "Asian + Hispanic + White",
     "Asian": "Asian",
     "Asian.": "Asian",
@@ -137,7 +138,7 @@ normalize_map = {
     "Black & White": "Black + White",
     "Black And White (Biracial)": "Black + White",
     "American, Hawaiian, Native American": "American + Hawaiian + Native American",
-    "Caucasian (Irish, Scottish, English, French), Native American": "Native American + White",
+    "Caucasian (Irish, Scottish, English, French), Native American": "Native American + White + Irish + Scottish + English + French",
     "Native American": "Native American",
     "American Indian": "Native American",
     "White And Cherokee": "Native American + White",
@@ -177,6 +178,7 @@ normalize_map = {
     "Irish, English And Russian": "Irish + English + Russian",
     "Irish, German, Swedish, English": "Irish + German + Swedish + English",
     "Irish & Italian": "Irish + Italian",
+    "White Mid-Western Protestant": "American + White + Protestant",
     None: None,
   },
   "nationality_description":{
@@ -362,8 +364,12 @@ def process(sources):
             rout.append(val)
 
           for p in properties.participant_properties:
+
             if p in normalized_properties:
+              # There's no input data for these, but their base property will
+              # output two values
               continue
+
             pkey = "Answer.{}".format(p)
             if pkey in rin:
               val = rin[pkey]
@@ -387,6 +393,7 @@ def process(sources):
                 nval = nm[Undefined]
               else:
                 nval = "<{}>".format(orig_val)
+              # We output a second column containing the normalized value
               rout.append(nval)
 
           for c in properties.ratings + properties.personal_ratings:

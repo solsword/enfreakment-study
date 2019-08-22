@@ -112,11 +112,11 @@ def process(source):
       "Japanese"
     ][country == "Japan"]
 
-    fields["character"]["market"] = (
-      "primary" if country in properties.primary_market_countries
-        else "secondary" if country in properties.secondary_market_countries
-        else "unknown"
-    )
+    #fields["character"]["market"] = (
+    #  "primary" if country in properties.primary_market_countries
+    #    else "secondary" if country in properties.secondary_market_countries
+    #    else "unknown"
+    #)
 
     st = properties.skin_tones[row["id"]]
     ast = properties.alt_skin_tones[row["id"]]

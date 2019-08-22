@@ -37,6 +37,7 @@ participant_properties = [
  "lang_tertiary",
  "lang_extra",
  "gender_description",
+ "normalized_gender",
  "ethnicity_description",
  "normalized_ethnicity",
  "nationality_description",
@@ -195,10 +196,10 @@ enfreakments = {
   ),
 }
 
-def combine_values(row, *constructs):
-  sum = 0
+def combine_values(row, *components):
+  total = 0
   n = 0
-  for c in constructs:
+  for c in components:
     if c[0] == '-':
       key = c[1:]
     else:
@@ -208,12 +209,12 @@ def combine_values(row, *constructs):
       continue
     n += 1
     if c[0] == '-':
-      sum += 8 - val
+      total += 8 - val
     else:
-      sum += val
+      total += val
 
   if n > 0:
-    return sum / n
+    return total / n
   else:
     return None
 
@@ -372,11 +373,36 @@ alt_skin_tones = {
 
 def construct_aliases():
   """
-  Creates aliases for each construct so that we can store them as a list.
+  Creates aliases for the items that are stored as arrays:
+
+    ratings
+    personal_ratings
+    med_ratings
+    med_personal
+    participant_personal
+    constructs
+    med_constructs
+    pers_constructs
+    med_pers_constructs
+    enfreakments
+
   """
   result = {}
+  for i, r in enumerate(ratings):
+    result[".ratings:{}".format(i)] = "R:{}".format(r)
+    result[".med_ratings:{}".format(i)] = "~R:{}".format(r)
+  for i, r in enumerate(personal_ratings):
+    result[".personal_ratings:{}".format(i)] = "PR:{}".format(r)
+    result[".med_personal_ratings:{}".format(i)] = "c~PR:{}".format(r)
+    result[".participant_personal:{}".format(i)] = "p~PR:{}".format(r)
   for i, c in enumerate(construct_list):
     result[".constructs:{}".format(i)] = "C:{}".format(c)
+    result[".med_constructs:{}".format(i)] = "~C:{}".format(c)
+  for i, pc in enumerate(pers_construct_list):
+    result[".pers_constructs:{}".format(i)] = "PC:{}".format(pc)
+    result[".med_pers_constructs:{}".format(i)] = "~PC:{}".format(pc)
+  for i, e in enumerate(enfreakment_types):
+    result[".enfreakments:{}".format(i)] = "E:{}".format(e)
   return result
 
 def nv(x):
@@ -386,20 +412,16 @@ def nv(x):
     return None
   return result
 
-primary_market_countries = [
-  # TODO
-]
-
-secondary_market_countries = [
-  # TODO
-]
-
 def reverse_aliases():
   """
   Returns the reverse mapping from construct alias names to indices in the
   constructs list.
   """
   result = {}
-  for i, c in enumerate(construct_list):
-    result[".{}".format(c)] = ":{}".format(i)
+  aliases = construct_aliases()
+  for key in aliases:
+    cat, idx = key.split(':')
+    prp = ':'.join(aliases[key].split(':')[1:])
+    # TODO TODO
+    result[cat + '.' + prp] = cat + ':' + idx
   return result

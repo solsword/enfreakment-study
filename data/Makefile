@@ -1,5 +1,4 @@
-.PHONY: default
-default: report.txt
+.DEFAULT_GOAL=report.txt
 
 %-workers.lst: %.csv
 	grep -v Rejected $< | cut -d'"' -f32 | tail -n+2 > $@
@@ -12,11 +11,12 @@ participants.lst: batches/batch-1-workers.lst batches/batch-2-workers.lst batche
 	cat $^ | sort | uniq -c | sort > $@
 
 # Filter out workers from the pilots and workers with multiple submissions
-reject.lst: participants.lst batches/pilot-1-workers.lst batches/pilot-2-workers.lst
+reject.lst: participants.lst batches/pilot-1-workers.lst batches/pilot-2-workers.lst find_holy.py
 	cat batches/pilot-*-workers.lst > reject.lst
 	grep -v "^ *1 " participants.lst \
 		| awk '{ print $$2; }' \
 		>> reject.lst
+	./find_holy.py batches/batch-*.csv | cut -d'	' -f1 >> reject.lst
 
 pids.tsv: participants.lst Makefile
 	echo "id	submissions	worker_id" > pids.tsv
@@ -51,8 +51,8 @@ genders.lst: efr.tsv
 ethnicities.lst: efr.tsv
 	cut -d"	" -f27 efr.tsv | tail -n +2 | sort | uniq -c > ethnicities.lst
 
-multiethnic.txt: ethnicities.lst multiethnic.py
-	./multiethnic.py < $< > $@
+ethnicities.txt: ethnicities.lst ethnicities.py
+	./ethnicities.py < $< > $@
 
 nationalities.lst: efr.tsv
 	cut -d"	" -f29 efr.tsv | tail -n +2 | sort | uniq -c > nationalities.lst
