@@ -17,6 +17,9 @@ import csv
 import sys
 import random
 
+#P_THRESHOLD = 0.2
+P_THRESHOLD = 0.05
+
 idmap = {
   "abigail": "Abigail",
   "akuma": "Akuma",
@@ -62,7 +65,7 @@ normals = [
 columns = [
   "id",
   "health",
-  "stun",
+  "dizzy",
   "jump_height",
   "jump_distance",
   "dash_distance",
@@ -70,12 +73,14 @@ columns = [
   "throw_range",
 
   "normals.avg_hit_damage",
-  "normals.avg_hit_stun",
+  "normals.avg_hit_dizzy",
   "normals.avg_active_frames",
 
   "normals.avg_hit_count",
   "normals.avg_frames_per_hit",
   "normals.avg_dead_frames",
+  "normals.avg_hit_stun",
+  "normals.avg_block_stun",
   "normals.avg_hit_advantage",
   "normals.avg_block_advantage",
 
@@ -86,12 +91,14 @@ columns = [
   "normals.knockdown_count",
 
   "all_moves.avg_hit_damage",
-  "all_moves.avg_hit_stun",
+  "all_moves.avg_hit_dizzy",
   "all_moves.avg_active_frames",
 
   "all_moves.avg_hit_count",
   "all_moves.avg_frames_per_hit",
   "all_moves.avg_dead_frames",
+  "all_moves.avg_hit_stun",
+  "all_moves.avg_block_stun",
   "all_moves.avg_hit_advantage",
   "all_moves.avg_block_advantage",
 
@@ -179,7 +186,7 @@ def darker_skinned(x):
 hypotheses = [
   # Men are more healthy
   ["health", men, women],
-  ["stun", men, women],
+  ["dizzy", men, women],
   # Women are more agile
   ["jump_height", women, men],
   ["jump_distance", women, men],
@@ -189,7 +196,7 @@ hypotheses = [
   ["throw_range", men, women],
   # Men hit harder & slower
   ["normals.avg_hit_damage", men, women],
-  ["normals.avg_hit_stun", men, women],
+  ["normals.avg_hit_dizzy", men, women],
   ["normals.avg_active_frames", men, women],
   ["normals.avg_hit_count", women, men],
   ["normals.avg_frames_per_hit", men, women],
@@ -203,11 +210,11 @@ hypotheses = [
   ["normals.unsafe_proportion", women, men],
   # Dark-skinned characters are beefier
   ["health", darker_skinned, lighter_skinned],
-  ["stun", darker_skinned, lighter_skinned],
+  ["dizzy", darker_skinned, lighter_skinned],
   # Dark-skinned characters hit harder/slower
   ["speed", lighter_skinned, darker_skinned],
   ["normals.avg_hit_damage", darker_skinned, lighter_skinned],
-  ["normals.avg_hit_stun", darker_skinned, lighter_skinned],
+  ["normals.avg_hit_dizzy", darker_skinned, lighter_skinned],
   ["normals.avg_active_frames", darker_skinned, lighter_skinned],
   ["normals.avg_hit_count", lighter_skinned, darker_skinned],
   ["normals.avg_frames_per_hit", darker_skinned, lighter_skinned],
@@ -292,14 +299,16 @@ def bootstrap_test(
 
   if pos_count == 0:
     raise ValueError(
-      "No positive examples for '{}' vs. '{}'".format(
+      "No positive examples for '{}' ('{}' vs. '{}')".format(
+        index,
         pos_filter.__name__,
         '<rest>' if alt_filter == None else alt_filter.__name__
       )
     )
   if alt_count == 0:
     raise ValueError(
-      "No alternate examples for '{}' vs. '{}'".format(
+      "No alternate examples for '{}' ('{}' vs. '{}')".format(
+        index,
         pos_filter.__name__,
         '<rest>' if alt_filter == None else alt_filter.__name__
       )
@@ -474,16 +483,18 @@ def move_info(data):
     knockdown = True
     onblock = None
   dmg = damage_values(data["damage"]) if "damage" in data else None
-  stn = damage_values(data["stun"]) if "stun" in data else None
+  dzy = damage_values(data["stun"]) if "stun" in data else None
   hits = len(dmg) if dmg else 0
   return {
     "hits": hits,
     "multihit": hits > 1,
     "damage": dmg,
-    "stun": stn,
+    "dizzy": dzy,
     "frames_per_hit": div([sum_missing(*([st, rec or 0] + act + gaps)), hits]),
     "dead_frames": sum_missing(st, rec or 0),
     "active_frames": act,
+    "block_stun": None if (onblock is None or rec is None) else rec + onblock,
+    "hit_stun": None if (onhit is None or rec is None) else rec + onhit,
     "advantage_on_hit": onhit,
     "advantage_on_block": onblock,
     "can_combo": None if onhit is None else onhit > 0,
@@ -505,7 +516,7 @@ def analyze(ch, cdata):
   # Base stats
   base_stats = cdata["stats"]
   result["health"] = stat_value(base_stats.get("health", None))
-  result["stun"] = stat_value(base_stats.get("stun", None))
+  result["dizzy"] = stat_value(base_stats.get("stun", None))
   result["jump_height"] = average_missing(
     jump_height(base_stats.get("nJump", None)),
     jump_height(base_stats.get("fJump", None)),
@@ -551,12 +562,14 @@ def collect_moves_stats(movedata, move_keys=None):
     "hits": [0, 0],
     "frames_per_hit": [0, 0],
     "dead_frames": [0, 0],
+    "hit_stun": [0, 0],
+    "block_stun": [0, 0],
     "advantage_on_hit": [0, 0],
     "advantage_on_block": [0, 0],
   }
   move_cmb = {
     "damage": [0, 0],
-    "stun": [0, 0],
+    "dizzy": [0, 0],
     "active_frames": [0, 0],
   }
   move_prp = {
@@ -610,12 +623,14 @@ def collect_moves_stats(movedata, move_keys=None):
           move_prp[k][1] += 1
 
   result["avg_hit_damage"] = div(move_cmb["damage"])
-  result["avg_hit_stun"] = div(move_cmb["stun"])
+  result["avg_hit_dizzy"] = div(move_cmb["dizzy"])
   result["avg_active_frames"] = div(move_cmb["active_frames"])
 
   result["avg_hit_count"] = div(move_avg["hits"])
   result["avg_frames_per_hit"] = div(move_avg["frames_per_hit"])
   result["avg_dead_frames"] = div(move_avg["dead_frames"])
+  result["avg_hit_stun"] = div(move_avg["hit_stun"])
+  result["avg_block_stun"] = div(move_avg["block_stun"])
   result["avg_hit_advantage"] = div(move_avg["advantage_on_hit"])
   result["avg_block_advantage"] = div(move_avg["advantage_on_block"])
 
@@ -783,7 +798,7 @@ def main():
   for index, pos, alt in hypotheses:
     md, p = bootstrap_test([chstats[ch] for ch in chstats], index, pos, alt)
     expected = md > 0
-    if p < 0.05:
+    if p < P_THRESHOLD:
       if md > 0:
         print(
           "  {}: {} > {} ({:.3g}; p={:.3g})".format( 
