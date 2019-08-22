@@ -69,20 +69,37 @@ columns = [
   "speed",
   "throw_range",
 
-  "avg_hit_damage",
-  "avg_hit_stun",
-  "avg_active_frames",
+  "normals.avg_hit_damage",
+  "normals.avg_hit_stun",
+  "normals.avg_active_frames",
 
-  "avg_hit_count",
-  "avg_frames_per_hit",
-  "avg_dead_frames",
-  "avg_hit_advantage",
-  "avg_block_advantage",
+  "normals.avg_hit_count",
+  "normals.avg_frames_per_hit",
+  "normals.avg_dead_frames",
+  "normals.avg_hit_advantage",
+  "normals.avg_block_advantage",
 
-  "multihit_proportion",
-  "combo_proportion",
-  "unsafe_proportion",
-  "knockdown_proportion",
+  "normals.multihit_proportion",
+  "normals.combo_proportion",
+  "normals.unsafe_proportion",
+  "normals.knockdown_proportion",
+  "normals.knockdown_count",
+
+  "all_moves.avg_hit_damage",
+  "all_moves.avg_hit_stun",
+  "all_moves.avg_active_frames",
+
+  "all_moves.avg_hit_count",
+  "all_moves.avg_frames_per_hit",
+  "all_moves.avg_dead_frames",
+  "all_moves.avg_hit_advantage",
+  "all_moves.avg_block_advantage",
+
+  "all_moves.multihit_proportion",
+  "all_moves.combo_proportion",
+  "all_moves.unsafe_proportion",
+  "all_moves.knockdown_proportion",
+  "all_moves.knockdown_count",
 ]
 
 skin_tones = {
@@ -149,10 +166,13 @@ alt_tones = {
 
 def men(x):
   return x["gender"] == "male"
+
 def women(x):
   return x["gender"] == "female"
+
 def lighter_skinned(x):
   return x["skin_tone"] == "lighter"
+
 def darker_skinned(x):
   return x["skin_tone"] == "darker"
 
@@ -168,35 +188,35 @@ hypotheses = [
   # Men are larger
   ["throw_range", men, women],
   # Men hit harder & slower
-  ["avg_hit_damage", men, women],
-  ["avg_hit_stun", men, women],
-  ["avg_active_frames", men, women],
-  ["avg_hit_count", women, men],
-  ["avg_frames_per_hit", men, women],
-  ["avg_dead_frames", men, women],
-  ["avg_hit_advantage", women, men],
-  ["avg_block_advantage", women, men],
-  ["multihit_proportion", women, men],
-  ["combo_proportion", women, men],
-  ["knockdown_proportion", men, women],
+  ["normals.avg_hit_damage", men, women],
+  ["normals.avg_hit_stun", men, women],
+  ["normals.avg_active_frames", men, women],
+  ["normals.avg_hit_count", women, men],
+  ["normals.avg_frames_per_hit", men, women],
+  ["normals.avg_dead_frames", men, women],
+  ["normals.avg_hit_advantage", women, men],
+  ["normals.avg_block_advantage", women, men],
+  ["normals.multihit_proportion", women, men],
+  ["normals.combo_proportion", women, men],
+  ["normals.knockdown_proportion", men, women],
   # Men have safer attacks
-  ["unsafe_proportion", women, men],
+  ["normals.unsafe_proportion", women, men],
   # Dark-skinned characters are beefier
   ["health", darker_skinned, lighter_skinned],
   ["stun", darker_skinned, lighter_skinned],
   # Dark-skinned characters hit harder/slower
   ["speed", lighter_skinned, darker_skinned],
-  ["avg_hit_damage", darker_skinned, lighter_skinned],
-  ["avg_hit_stun", darker_skinned, lighter_skinned],
-  ["avg_active_frames", darker_skinned, lighter_skinned],
-  ["avg_hit_count", lighter_skinned, darker_skinned],
-  ["avg_frames_per_hit", darker_skinned, lighter_skinned],
-  ["avg_dead_frames", darker_skinned, lighter_skinned],
-  ["avg_hit_advantage", lighter_skinned, darker_skinned],
-  ["avg_block_advantage", lighter_skinned, darker_skinned],
-  ["multihit_proportion", lighter_skinned, darker_skinned],
-  ["combo_proportion", lighter_skinned, darker_skinned],
-  ["knockdown_proportion", darker_skinned, lighter_skinned],
+  ["normals.avg_hit_damage", darker_skinned, lighter_skinned],
+  ["normals.avg_hit_stun", darker_skinned, lighter_skinned],
+  ["normals.avg_active_frames", darker_skinned, lighter_skinned],
+  ["normals.avg_hit_count", lighter_skinned, darker_skinned],
+  ["normals.avg_frames_per_hit", darker_skinned, lighter_skinned],
+  ["normals.avg_dead_frames", darker_skinned, lighter_skinned],
+  ["normals.avg_hit_advantage", lighter_skinned, darker_skinned],
+  ["normals.avg_block_advantage", lighter_skinned, darker_skinned],
+  ["normals.multihit_proportion", lighter_skinned, darker_skinned],
+  ["normals.combo_proportion", lighter_skinned, darker_skinned],
+  ["normals.knockdown_proportion", darker_skinned, lighter_skinned],
 ]
 
 
@@ -212,7 +232,8 @@ combined_tones = {
 CPROPS = None
 CPFILE = "all_chars.csv"
 
-OUTFILE = "framedata.tsv"
+TSVFILE = "framedata.tsv"
+JSONFILE = "framedata.json"
 
 def define_cprops():
   """
@@ -245,8 +266,15 @@ def bootstrap_test(
   for i, item in enumerate(items):
     val = item.get(index)
     if val == None:
-      slippage += 1
-      continue
+      if '.' in index:
+        outer, inner = index.split('.')
+        val = item[outer].get(inner)
+        if val == None:
+          slippage += 1
+          continue
+      else:
+        slippage += 1
+        continue
     vals.append(val)
     if pos_filter(item):
       hits.append(i - slippage)
@@ -261,6 +289,21 @@ def bootstrap_test(
       alts.append(i - slippage)
       alt_mean += val
       alt_count += 1
+
+  if pos_count == 0:
+    raise ValueError(
+      "No positive examples for '{}' vs. '{}'".format(
+        pos_filter.__name__,
+        '<rest>' if alt_filter == None else alt_filter.__name__
+      )
+    )
+  if alt_count == 0:
+    raise ValueError(
+      "No alternate examples for '{}' vs. '{}'".format(
+        pos_filter.__name__,
+        '<rest>' if alt_filter == None else alt_filter.__name__
+      )
+    )
 
   pos_mean /= pos_count
   alt_mean /= alt_count
@@ -325,7 +368,13 @@ def stat_value(x):
     if x in ['?', '~', '-']:
       return None
     elif '+' in x:
-      return sum(float(b) for b in x.split('+'))
+      bits = x.split('+')
+      vals = [float(b) for b in bits if b.strip().isdigit()]
+      return sum(vals)
+    elif '*' in x:
+      bits = x.split('*')
+      vals = [float(b) for b in bits if b.strip().isdigit()]
+      return sum(vals)
     elif '(' in x:
       return float(x[:x.index('(')])
     else:
@@ -338,9 +387,18 @@ def stat_value(x):
 def active_frames(x):
   if type(x) == str:
     if '*' in x:
-      active = [float(b) for b in x.split('*')]
-      gaps = [0]*(len(active)-1)
+      active = []
+      gaps = []
+      bits = x.split('*')
+      for i, b in enumerate(bits):
+        subact, subgaps = active_frames(b)
+        active.extend(subact)
+        gaps.extend(subgaps)
+        if i < len(bits) - 1:
+          gaps.append(0)
       return (active, gaps)
+    elif x == '~':
+      return ([0], [])
     else:
       try:
         active = []
@@ -348,8 +406,8 @@ def active_frames(x):
         norm = x.replace(")", "_").replace("(", "_")
         bits = norm.split("_")
         for i, b in enumerate(bits):
-          if b == '' and i == len(bits) - 1:
-            # ignore blank at end
+          if b in ('', '~') and i == len(bits) - 1:
+            # ignore blank or ~ at end
             continue
           if i % 2 == 0:
             active.append(float(b))
@@ -373,14 +431,30 @@ def on_hit(x):
 
 def damage_values(x):
   if type(x) == str:
+    if " per dagger" in x:
+      x = x[:x.index(" per dagger")]
+
+    if "(" in x:
+      x = x[:x.index("(")]
+
+    if '/' in x:
+      x = x[:x.index("/")]
+
     if x in "?~":
       return None
+    elif '+' in x:
+      bits = x.split('+')
+      result = []
+      for b in bits:
+        result.extend(damage_values(b))
+      return result
     else:
       bits = x.split("*")
       result = []
       for b in bits:
-        if "(" in b:
-          b = b[:b.index("(")]
+        if 'x' in b:
+          first, second = b.split('x')
+          b = float(first) * float(second)
         result.append(float(b))
       return result
   else:
@@ -396,16 +470,19 @@ def move_info(data):
   if onhit == "knockdown":
     knockdown = True
     onhit = None
-  dmg = damage_values(data["damage"])
-  stn = damage_values(data["stun"])
-  hits = len(dmg)
+  if onblock == "knockdown":
+    knockdown = True
+    onblock = None
+  dmg = damage_values(data["damage"]) if "damage" in data else None
+  stn = damage_values(data["stun"]) if "stun" in data else None
+  hits = len(dmg) if dmg else 0
   return {
     "hits": hits,
     "multihit": hits > 1,
     "damage": dmg,
     "stun": stn,
-    "frames_per_hit": sum_missing(*([st, rec] + act + gaps)) / hits,
-    "dead_frames": sum_missing(st, rec),
+    "frames_per_hit": div([sum_missing(*([st, rec or 0] + act + gaps)), hits]),
+    "dead_frames": sum_missing(st, rec or 0),
     "active_frames": act,
     "advantage_on_hit": onhit,
     "advantage_on_block": onblock,
@@ -415,7 +492,7 @@ def move_info(data):
   }
 
 def div(x):
-  return (x[0] / x[1]) if x[1] > 0 else None
+  return (x[0] / x[1]) if (x[1] > 0 and x[0] != None) else None
 
 def analyze(ch, cdata):
   """
@@ -449,7 +526,27 @@ def analyze(ch, cdata):
   result["throw_range"] = stat_value(base_stats["throwRange"])
 
   # Normal moves
-  movedata = cdata["moves"]["normal"]
+  result["normals"] = collect_moves_stats(cdata["moves"]["normal"], normals)
+
+  # All moves
+  allmoves = {}
+  for group in cdata["moves"]:
+    for move in cdata["moves"][group]:
+      allmoves[group + "|" + move] = cdata["moves"][group][move]
+
+  result["all_moves"] = collect_moves_stats(allmoves)
+
+  return result
+
+def collect_moves_stats(movedata, move_keys=None):
+  """
+  Averages various values from moves in the given moves dictionary. If
+  move_keys is given, it only uses moves that match those keys, with a bit of
+  leeway for inexact matches.
+  """
+
+  result = {}
+
   move_avg = {
     "hits": [0, 0],
     "frames_per_hit": [0, 0],
@@ -468,35 +565,43 @@ def analyze(ch, cdata):
     "unsafe": [0, 0],
     "knockdown": [0, 0],
   }
-  for n in normals:
-    cn = n[0].capitalize() + n[1:]
-    if n in movedata:
-      vals = [ move_info(movedata[n]) ]
-    elif cn in movedata:
-      vals = [ move_info(movedata[cn]) ]
+
+  if move_keys != None:
+    keys = move_keys
+  else:
+    keys = movedata.keys()
+
+  for mk in keys:
+    cmk = mk[0].capitalize() + mk[1:]
+    if mk in movedata:
+      vals = [ move_info(movedata[mk]) ]
+    elif cmk in movedata:
+      vals = [ move_info(movedata[cmk]) ]
     else:
-      matches = [k for k in movedata if k.startswith(n) or k.startswith(cn)]
+      matches = [k for k in movedata if k.startswith(mk) or k.startswith(cmk)]
       if matches:
         vals = [move_info(movedata[m]) for m in matches]
       else:
         print(
-          "Missing move data: {} → '{}' ('{}')".format(ch, n, cn),
+          "Missing move data: {} → '{}' ('{}')".format(ch, mk, cmk),
           file=sys.stderr
         )
         continue
 
     for valset in vals:
       for k in move_avg:
-        v = valset[k]
-        if v != None:
-          move_avg[k][0] += v
-          move_avg[k][1] += 1
+        if valset[k] != None:
+          v = valset[k]
+          if v != None:
+            move_avg[k][0] += v
+            move_avg[k][1] += 1
 
       for k in move_cmb:
-        for v in valset[k]:
-          if v != None:
-            move_cmb[k][0] += v
-            move_cmb[k][1] += 1
+        if valset[k] != None:
+          for v in valset[k]:
+            if v != None:
+              move_cmb[k][0] += v
+              move_cmb[k][1] += 1
 
       for k in move_prp:
         v = valset[k]
@@ -518,8 +623,10 @@ def analyze(ch, cdata):
   result["combo_proportion"] = div(move_prp["can_combo"])
   result["unsafe_proportion"] = div(move_prp["unsafe"])
   result["knockdown_proportion"] = div(move_prp["knockdown"])
+  result["knockdown_count"] = move_prp["knockdown"][0]
 
   return result
+
 
 def main():
   define_cprops()
@@ -537,7 +644,31 @@ def main():
             if result[key] == None or stats[key] == None:
               result[key] = None
             elif isinstance(result[key], (int, float)):
-              result[key] += stats[key]
+              result[key] += stats[key] # will be divided later to get avg
+            elif isinstance(result[key], dict):
+              rsub = result[key]
+              ssub = stats[key]
+              for subkey in ssub:
+                if subkey in rsub:
+                  if rsub[subkey] == None or ssub[subkey] == None:
+                    rsub[subkey] = None
+                  elif isinstance(rsub[subkey], (int, float)):
+                    rsub[subkey] += ssub[subkey] # divided later to get avg
+                  elif rsub[subkey] != ssub[subkey]:
+                    raise ValueError(
+                      (
+                        "Inconsistent within-character subvalues for '{}'->"
+                      + "'{}': {} != {}"
+                      ).format(
+                        key,
+                        subkey,
+                        rsub[subkey],
+                        ssub[subkey]
+                      )
+                    )
+                  # else keep original sub-value as they're the same
+                else:
+                  rsub[subkey] = ssub[subkey]
             elif result[key] != stats[key]:
               raise ValueError(
                 "Inconsistent within-character values for '{}': {} != {}"
@@ -553,6 +684,10 @@ def main():
       for key in stats:
         if isinstance(result[key], (int, float)):
           result[key] /= len(idmap[ch])
+        elif isinstance(result[key], dict):
+          for subkey in result[key]:
+            if isinstance(result[key][subkey], (int, float)):
+              result[key][subkey] /= len(idmap[ch])
     else:
       result = analyze(ch, data[idmap[ch]])
 
@@ -564,11 +699,85 @@ def main():
     chstats[ch] = result
 
   print("Writing TSV...")
-  with open(OUTFILE, 'w') as fout:
+  with open(TSVFILE, 'w') as fout:
     writer = csv.writer(fout, dialect="excel-tab")
     writer.writerow(columns)
     for ch in sorted(idmap):
-      writer.writerow([chstats[ch][col] for col in columns])
+      stats = chstats[ch]
+      row = []
+      for col in columns:
+        if col in stats:
+          row.append(stats[col])
+        elif '.' in col:
+          outer, inner = col.split('.')
+          row.append(stats[outer][inner])
+        else:
+          raise ValueError("Invalid column: '{}'".format(col))
+      writer.writerow(row)
+
+  print("Writing JSON...")
+  with open(JSONFILE, 'w') as fout:
+    json.dump(chstats, fout)
+
+  print("Pullout comparisons...")
+  male_kdps = []
+  female_kdps = []
+  male_kdcs = []
+  female_kdcs = []
+  for ch in chstats:
+    stats = chstats[ch]
+    if stats["gender"] == "male":
+      male_kdps.append(stats["normals"]["knockdown_proportion"])
+      male_kdcs.append(stats["normals"]["knockdown_count"])
+    elif stats["gender"] == "female":
+      female_kdps.append(stats["normals"]["knockdown_proportion"])
+      female_kdcs.append(stats["normals"]["knockdown_count"])
+
+  nmkdp = min(male_kdps)
+  xmkdp = max(male_kdps)
+  amkdp = sum(male_kdps) / len(male_kdps)
+  nfkdp = min(female_kdps)
+  xfkdp = max(female_kdps)
+  afkdp = sum(female_kdps) / len(female_kdps)
+  print("  % of normals with knockdown:")
+  print(
+    "      men: {}% ({}%--{}%)".format(
+      round(100*amkdp, 1),
+      round(100*nmkdp, 1),
+      round(100*xmkdp, 1)
+    )
+  )
+  print(
+    "    women: {}% ({}%--{}%)".format(
+      round(100*afkdp, 1),
+      round(100*nfkdp, 1),
+      round(100*xfkdp, 1)
+    )
+  )
+
+  nmkdc = min(male_kdcs)
+  xmkdc = max(male_kdcs)
+  amkdc = sum(male_kdcs) / len(male_kdcs)
+  nfkdc = min(female_kdcs)
+  xfkdc = max(female_kdcs)
+  afkdc = sum(female_kdcs) / len(female_kdcs)
+  print("  # of normals with knockdown:")
+  print("      men: {} ({}--{})".format(round(amkdc, 3), nmkdc, xmkdc))
+  print("    women: {} ({}--{})".format(round(afkdc, 3), nfkdc, xfkdc))
+
+  print("Characters with != 1 knockdown normal:")
+  for ch in chstats:
+    stats = chstats[ch]
+    kds = stats["normals"]["knockdown_count"]
+    if kds != 1:
+      print(
+        "  {} ({}/{}): {}".format(
+          stats["id"],
+          stats["gender"],
+          stats["skin_tone"],
+          kds
+        )
+      )
 
   print("Testing hypotheses...")
   for index, pos, alt in hypotheses:
