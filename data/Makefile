@@ -18,11 +18,11 @@ reject.lst: participants.lst batches/pilot-1-workers.lst batches/pilot-2-workers
 		>> reject.lst
 	./find_holy.py batches/batch-*.csv | cut -d'	' -f1 >> reject.lst
 
-pids.tsv: participants.lst Makefile
+pids.tsv: participants.lst
 	echo "id	submissions	worker_id" > pids.tsv
 	awk '{ print FNR "\t" $$1 "\t" $$2; }' < participants.lst >> pids.tsv
 
-batches/filtered-batch-%.csv: batches/batch-%.csv reject.lst Makefile
+batches/filtered-batch-%.csv: batches/batch-%.csv reject.lst
 	grep -v Rejected $< \
 		| grep -vf reject.lst \
 		| sed "s/\\r$$//" \
@@ -65,6 +65,12 @@ efr-aug-grp.json: efr-aug.tsv group.py framedata.py properties.py
 
 report.txt: efr-aug-grp.json analyze.py
 	./analyze.py < efr-aug-grp.json > report.txt
+
+analysis_results.json: efr-aug-grp.json analyze.py
+	./analyze.py < efr-aug-grp.json
+
+tables.tex: analysis_results.json tabulate.py
+	./tabulate.py < analysis_results.json > tables.tex
 
 .PHONY: clean
 clean:

@@ -239,10 +239,10 @@ novel_hypotheses = [
   ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+", {"controls": [".character.id"]}),
 
   # Brute sub-components:
-  ("Fair:more-realistic", ".constructs.body_realism", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:more-attractive", ".constructs.attractiveness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:less-muscular", ".constructs.muscles", is_lighter_skinned, is_darker_skinned, "-", {"controls": [".participant.id"]}),
-  ("Fair:thinner", ".constructs.thinness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Lighter:more-realistic", ".constructs.body_realism", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Lighter:more-attractive", ".constructs.attractiveness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Lighter:less-muscular", ".constructs.muscles", is_lighter_skinned, is_darker_skinned, "-", {"controls": [".participant.id"]}),
+  ("Lighter:thinner", ".constructs.thinness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
 
   ("Majority-Nationality:more-realistic", ".constructs.body_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality:more-attractive", ".constructs.attractiveness", is_majority, None, "+", {"controls": [".participant.id"]}),
@@ -250,32 +250,32 @@ novel_hypotheses = [
   ("Majority-Nationality:thinner", ".constructs.thinness", is_majority, None, "+", {"controls": [".participant.id"]}),
 
   # Ethnic sub-components (minus positive_ethnic_rep):
-  ("Fair:more-realistic-clothing", ".constructs.clothing_realism", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_lighter_skinned, is_darker_skinned, "-", {"controls": [".participant.id"]}),
+  ("Lighter:more-realistic-clothing", ".constructs.clothing_realism", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Lighter:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_lighter_skinned, is_darker_skinned, "-", {"controls": [".participant.id"]}),
 
   ("Majority-Nationality:more-realistic-clothing", ".constructs.clothing_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None, "-", {"controls": [".participant.id"]}),
 
   # Villain sub-components
-  ("Fair:more-admirable", ".constructs.admirability", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
-  ("Fair:more-positive-gender", ".constructs.positive_gender_rep", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Lighter:more-admirable", ".constructs.admirability", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Lighter:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
+  ("Lighter:more-positive-gender", ".constructs.positive_gender_rep", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
 
   ("Majority-Nationality:more-admirable", ".constructs.admirability", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality:more-positive-gender", ".constructs.positive_gender_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
 
   # Intersections
-  ("Fair-Women:more-realistic", ".constructs.body_realism", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-attractive", ".constructs.attractiveness", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:less-sexualized", ".constructs.sexualization", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:less-attire-sexualized", ".constructs.attire_sexualization", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:less-muscular", ".constructs.muscles", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:thinner", ".constructs.thinness", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:older", ".constructs.youth", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-admirable", ".constructs.admirability", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-positive-gender", ".constructs.positive_gender_rep", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
-  ("Fair-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Women:more-realistic", ".constructs.body_realism", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Women:more-attractive", ".constructs.attractiveness", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Women:less-sexualized", ".constructs.sexualization", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Lighter-Women:less-attire-sexualized", ".constructs.attire_sexualization", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Lighter-Women:less-muscular", ".constructs.muscles", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Lighter-Women:thinner", ".constructs.thinness", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Women:older", ".constructs.youth", lighter_skinned_women, darker_skinned_women, "-", {"controls": [".participant.id"]}),
+  ("Lighter-Women:more-admirable", ".constructs.admirability", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Women:more-positive-gender", ".constructs.positive_gender_rep", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", lighter_skinned_women, darker_skinned_women, "+", {"controls": [".participant.id"]}),
 
   ("Majority-Nationality-Women:more-realistic", ".constructs.body_realism", majority_women, non_majority_women, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality-Women:more-attractive", ".constructs.attractiveness", majority_women, non_majority_women, "+", {"controls": [".participant.id"]}),
@@ -288,14 +288,14 @@ novel_hypotheses = [
   ("Majority-Nationality-Women:more-positive-gender", ".constructs.positive_gender_rep", majority_women, non_majority_women, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality-Women:more-positive-ethnic", ".constructs.positive_ethnic_rep", majority_women, non_majority_women, "+", {"controls": [".participant.id"]}),
 
-  ("Fair-Men:more-realistic", ".constructs.body_realism", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-attractive", ".constructs.attractiveness", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:less-muscular", ".constructs.muscles", lighter_skinned_men, darker_skinned_men, "-", {"controls": [".participant.id"]}),
-  ("Fair-Men:thinner", ".constructs.thinness", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:older", ".constructs.youth", lighter_skinned_men, darker_skinned_men, "-", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-admirable", ".constructs.admirability", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-positive-gender", ".constructs.positive_gender_rep", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
-  ("Fair-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Men:more-realistic", ".constructs.body_realism", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Men:more-attractive", ".constructs.attractiveness", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Men:less-muscular", ".constructs.muscles", lighter_skinned_men, darker_skinned_men, "-", {"controls": [".participant.id"]}),
+  ("Lighter-Men:thinner", ".constructs.thinness", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Men:older", ".constructs.youth", lighter_skinned_men, darker_skinned_men, "-", {"controls": [".participant.id"]}),
+  ("Lighter-Men:more-admirable", ".constructs.admirability", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Men:more-positive-gender", ".constructs.positive_gender_rep", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
+  ("Lighter-Men:more-positive-ethnic", ".constructs.positive_ethnic_rep", lighter_skinned_men, darker_skinned_men, "+", {"controls": [".participant.id"]}),
 
   ("Majority-Nationality-Men:more-realistic", ".constructs.body_realism", majority_men, non_majority_men, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality-Men:more-attractive", ".constructs.attractiveness", majority_men, non_majority_men, "+", {"controls": [".participant.id"]}),
@@ -334,12 +334,12 @@ motive_hypotheses = [
   ("Majority-Nationality:less-man-motivated", ".character.motive.For a Male", is_majority, None, '-', {"missing": 0}),
   ("Majority-Nationality:more-heroic", ".character.motive.Save the World", is_majority, None, '+', {"missing": 0}),
 
-  ("Fair-skinned:less-antisocial", ".character.motive.Antisocial", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:more-dominant", ".character.motive.Dominance", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:more-dutiful", ".character.motive.For Duty", is_lighter_skinned, is_darker_skinned, '+', {"missing": 0}),
-  ("Fair-skinned:less-woman-motivated", ".character.motive.For a Female", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:less-man-motivated", ".character.motive.For a Male", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
-  ("Fair-skinned:more-heroic", ".character.motive.Save the World", is_lighter_skinned, is_darker_skinned, '+', {"missing": 0}),
+  ("Lighter-skinned:less-antisocial", ".character.motive.Antisocial", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Lighter-skinned:more-dominant", ".character.motive.Dominance", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Lighter-skinned:more-dutiful", ".character.motive.For Duty", is_lighter_skinned, is_darker_skinned, '+', {"missing": 0}),
+  ("Lighter-skinned:less-woman-motivated", ".character.motive.For a Female", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Lighter-skinned:less-man-motivated", ".character.motive.For a Male", is_lighter_skinned, is_darker_skinned, '-', {"missing": 0}),
+  ("Lighter-skinned:more-heroic", ".character.motive.Save the World", is_lighter_skinned, is_darker_skinned, '+', {"missing": 0}),
 ]
 
 framedata_hypotheses = [
@@ -382,13 +382,13 @@ framedata_hypotheses = [
   # Men have safer attacks
   ("Normals:men-safer", ".character.stats.normals.unsafe_proportion", character_female, character_male, '+'),
   ("Attacks:men-safer", ".character.stats.all_moves.unsafe_proportion", character_female, character_male, '+'),
-  # Dark-skinned characters are bulkier
+  # Darker-skinned characters are bulkier
   ("Health:darker-men-healthier", ".character.stats.health", darker_skinned_men, lighter_skinned_men, '+'),
   ("Health:darker-men-higher-dizzy", ".character.stats.dizzy", darker_skinned_men, lighter_skinned_men, '+'),
   ("Size:darker-men-grab-farther", ".character.stats.throw_range", darker_skinned_men, lighter_skinned_men, '+'),
-  # Fair-skinned characters are faster
+  # Lighter-skinned characters are faster
   ("Agility:lighter-men-faster", ".character.stats.speed", lighter_skinned_men, darker_skinned_men, '+'),
-  # Dark-skinned characters hit harder/slower
+  # Darker-skinned characters hit harder/slower
   ("Normals:darker-men-more-damage", ".character.stats.normals.avg_hit_damage", darker_skinned_men, lighter_skinned_men, '+'),
   ("Attacks:darker-men-more-damage", ".character.stats.all_moves.avg_hit_damage", darker_skinned_men, lighter_skinned_men, '+'),
   ("Normals:darker-men-more-dizzy", ".character.stats.normals.avg_hit_dizzy", darker_skinned_men, lighter_skinned_men, '+'),
@@ -429,6 +429,8 @@ full_hypotheses = (
 #)
 
 character_hypotheses = framedata_hypotheses
+
+all_hypotheses = full_hypotheses + character_hypotheses
 
 hgroups = {
   "Women's ethnicity exaggerated": [
@@ -496,34 +498,34 @@ hgroups = {
     "Unknown:worse-gender-rep",
     "Unknown:worse-ethnic-rep",
   ],
-  "Fair-skinned less exaggerated": [
-    "Fair:more-realistic",
-    "Fair:more-realistic-clothing",
-    "Fair:less-obvious-ethnicity",
+  "Lighter-skinned less exaggerated": [
+    "Lighter:more-realistic",
+    "Lighter:more-realistic-clothing",
+    "Lighter:less-obvious-ethnicity",
   ],
-  "Fair-skinned less brutish": [
-    "Fair:less-muscular",
-    "Fair:thinner",
-    "Fair:more-attractive",
+  "Lighter-skinned less brutish": [
+    "Lighter:less-muscular",
+    "Lighter:thinner",
+    "Lighter:more-attractive",
   ],
-  "Fair-skinned less villainous": [
-    "Fair:more-admirable",
-    "Fair:more-positive-ethnicity",
-    "Fair:more-positive-gender",
+  "Lighter-skinned less villainous": [
+    "Lighter:more-admirable",
+    "Lighter:more-positive-ethnicity",
+    "Lighter:more-positive-gender",
   ],
-  "Fair-skinned women more attractive/less sexualized then darker-skinned women":[
-    "Fair-Women:more-realistic",
-    "Fair-Women:less-muscular",
-    "Fair-Women:thinner",
-    "Fair-Women:older",
-    "Fair-Women:more-attractive",
-    "Fair-Women:less-sexualized",
-    "Fair-Women:less-attire-sexualized",
-    "Fair-Women:more-admirable",
-    "Fair-Women:more-positive-gender",
-    "Fair-Women:more-positive-ethnic",
+  "Lighter-skinned women more attractive/less sexualized then darker-skinned women":[
+    "Lighter-Women:more-realistic",
+    "Lighter-Women:less-muscular",
+    "Lighter-Women:thinner",
+    "Lighter-Women:older",
+    "Lighter-Women:more-attractive",
+    "Lighter-Women:less-sexualized",
+    "Lighter-Women:less-attire-sexualized",
+    "Lighter-Women:more-admirable",
+    "Lighter-Women:more-positive-gender",
+    "Lighter-Women:more-positive-ethnic",
   ],
-  "Majority-Nationality women more attractive/less sexualized than Secondary-Market women": [
+  "Majority-Nationality women more attractive/less sexualized than Minority+Token-Nationality women": [
     "Majority-Nationality-Women:more-realistic",
     "Majority-Nationality-Women:less-muscular",
     "Majority-Nationality-Women:thinner",
@@ -535,17 +537,17 @@ hgroups = {
     "Majority-Nationality-Women:more-positive-gender",
     "Majority-Nationality-Women:more-positive-ethnic",
   ],
-  "Fair-skinned men less brutish than darker-skinned men": [
-    "Fair-Men:more-realistic",
-    "Fair-Men:less-muscular",
-    "Fair-Men:thinner",
-    "Fair-Men:older",
-    "Fair-Men:more-attractive",
-    "Fair-Men:more-admirable",
-    "Fair-Men:more-positive-gender",
-    "Fair-Men:more-positive-ethnic",
+  "Lighter-skinned men less brutish than darker-skinned men": [
+    "Lighter-Men:more-realistic",
+    "Lighter-Men:less-muscular",
+    "Lighter-Men:thinner",
+    "Lighter-Men:older",
+    "Lighter-Men:more-attractive",
+    "Lighter-Men:more-admirable",
+    "Lighter-Men:more-positive-gender",
+    "Lighter-Men:more-positive-ethnic",
   ],
-  "Majority-Nationality men less brutish than Secondary-Market men": [
+  "Majority-Nationality men less brutish than Minority+Token-Nationality men": [
     "Majority-Nationality-Men:more-realistic",
     "Majority-Nationality-Men:less-muscular",
     "Majority-Nationality-Men:thinner",
@@ -582,13 +584,13 @@ hgroups = {
 #    "Majority-Nationality:less-man-motivated",
 #    "Majority-Nationality:more-heroic",
 #  ],
-#  "Fair-skinned 'worse' motives":  [
-#    "Fair-skinned:less-antisocial",
-#    "Fair-skinned:more-dominant",
-#    "Fair-skinned:more-dutiful",
-#    "Fair-skinned:less-woman-motivated",
-#    "Fair-skinned:less-man-motivated",
-#    "Fair-skinned:more-heroic",
+#  "Lighter-skinned 'worse' motives":  [
+#    "Lighter-skinned:less-antisocial",
+#    "Lighter-skinned:more-dominant",
+#    "Lighter-skinned:more-dutiful",
+#    "Lighter-skinned:less-woman-motivated",
+#    "Lighter-skinned:less-man-motivated",
+#    "Lighter-skinned:more-heroic",
 #  ],
   "Men are bulkier": [
     "Health:men-healthier",
@@ -712,6 +714,9 @@ def main(fin):
   char_tests = init_tests(rows, character_hypotheses, use, char=True)
   print('-'*80)
   effects, expected = analyze_tests(rows, tests + char_tests)
+  # Dump into a file
+  with open("analysis_results.json", 'w') as fout:
+    json.dump([effects, expected], fout)
   print('-'*80)
   summarize_tests(effects, expected, hgroups)
   print('-'*80)
@@ -729,8 +734,8 @@ def bootstrap_test(
   pos_filter,
   alt_filter=None,
   extras=None,
-  #trials=15000, # TODO: DEBUG
-  trials=15,
+  trials=15000, # TODO: DEBUG
+  #trials=15,
   seed=1081230891
 ):
   if not extras:
