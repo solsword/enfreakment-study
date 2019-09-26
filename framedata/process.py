@@ -596,8 +596,8 @@ def collect_moves_stats(movedata, move_keys=None):
         vals = [move_info(movedata[m]) for m in matches]
       else:
         print(
-          "Missing move data: {} → '{}' ('{}')".format(ch, mk, cmk),
-          file=sys.stderr
+          "Missing move data: {} -> '{}' ('{}')".format(ch, mk, cmk),
+          #file=sys.stderr
         )
         continue
 
