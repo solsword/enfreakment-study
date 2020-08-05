@@ -21,7 +21,7 @@
 </head>
 <body>
 <h1 id="analyzing-ethnic-enfreakment">Analyzing Ethnic Enfreakment</h1>
-<p>This repository contains code and data from an online study that sought to measure some of the contours of ethnic enfreakment in fighting games (Street Fighter V and Tekken 7 specifically).</p>
+<p>This repository contains code and data from an online study that sought to measure some of the contours of ethnic enfreakment in fighting games (Street Fighter V and Tekken 7 specifically). You can browse all of the files online at: <a href="https://github.com/solsword/enfreakment-study/">https://github.com/solsword/enfreakment-study/</a></p>
 <h2 id="study-setup">Study Setup</h2>
 <p>The <code>turk/</code> folder contains the HTML templates and other data required to construct the Amazon Mechanical Turk Human Intelligence Tasks (HITs) that we used to carry out the study. There is code there which was used to create randomized HITs and put together templates, etc. The <code>Makefile</code> in that directory, although not well-documented, should give a sense of how things fit together; it relies on the <code>clingo</code> constraint solving library to create counterbalanced character groupings, as well as <code>python</code> for some of the scripts.</p>
 <p>If you want to see an example of a fully constructed HIT, the <a href="turk/template-local.html"><code>turk/tempalte-local.html</code></a> file shows what a single HIT template looks like when filled out; if you are viewing it locally you should run <code>make template-local.html</code> in the <code>turk/</code> folder first otherwise the images will not show up.</p>

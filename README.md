@@ -2,7 +2,9 @@
 
 This repository contains code and data from an online study that sought
 to measure some of the contours of ethnic enfreakment in fighting games
-(Street Fighter V and Tekken 7 specifically).
+(Street Fighter V and Tekken 7 specifically). You can browse all of the
+files online at:
+[https://github.com/solsword/enfreakment-study/](https://github.com/solsword/enfreakment-study/)
 
 ## Study Setup
 
