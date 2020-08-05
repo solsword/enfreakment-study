@@ -112,8 +112,14 @@ clean-images:
 	for f in `ls images/sfv/clean`; do cp images/sfv/clean/$$f clean/; done
 	for f in `ls images/tk7/clean`; do cp images/tk7/clean/$$f clean/; done
 
-template-local.html: template-likert-instantiated.html clean-images
+template-localhost.html: template-likert-instantiated.html clean-images
 	cat template-likert-instantiated.html \
 	| sed \
 	  "s/web.mit.edu\/pmwh\/www\/enfreakment-images/localhost:8000/g" \
+	> $@
+
+template-local.html: template-likert-instantiated.html clean-images
+	cat template-likert-instantiated.html \
+	| sed \
+	  "s/http:\/\/web.mit.edu\/pmwh\/www\/enfreakment-images\///g" \
 	> $@

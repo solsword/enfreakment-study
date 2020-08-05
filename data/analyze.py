@@ -428,9 +428,11 @@ full_hypotheses = (
 #+ framedata_hypotheses
 #)
 
-character_hypotheses = framedata_hypotheses
+#character_hypotheses = framedata_hypotheses
 
-all_hypotheses = full_hypotheses + character_hypotheses
+#all_hypotheses = full_hypotheses + character_hypotheses
+# Looking at frame data statistically doesn't really make sense.
+all_hypotheses = full_hypotheses
 
 hgroups = {
   "Women's ethnicity exaggerated": [

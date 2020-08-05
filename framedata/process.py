@@ -88,6 +88,10 @@ columns = [
   "normals.combo_proportion",
   "normals.unsafe_proportion",
   "normals.knockdown_proportion",
+
+  "normals.multihit_count",
+  "normals.combo_count",
+  "normals.unsafe_count",
   "normals.knockdown_count",
 
   "all_moves.avg_hit_damage",
@@ -106,6 +110,10 @@ columns = [
   "all_moves.combo_proportion",
   "all_moves.unsafe_proportion",
   "all_moves.knockdown_proportion",
+
+  "all_moves.multihit_count",
+  "all_moves.combo_count",
+  "all_moves.unsafe_count",
   "all_moves.knockdown_count",
 ]
 
@@ -187,13 +195,16 @@ hypotheses = [
   # Men are more healthy
   ["health", men, women],
   ["dizzy", men, women],
+
   # Women are more agile
   ["jump_height", women, men],
   ["jump_distance", women, men],
   ["dash_distance", women, men],
   ["speed", women, men],
+
   # Men are larger
   ["throw_range", men, women],
+
   # Men hit harder & slower
   ["normals.avg_hit_damage", men, women],
   ["normals.avg_hit_dizzy", men, women],
@@ -203,14 +214,23 @@ hypotheses = [
   ["normals.avg_dead_frames", men, women],
   ["normals.avg_hit_advantage", women, men],
   ["normals.avg_block_advantage", women, men],
+
+  ["normals.multihit_count", women, men],
+  ["normals.combo_count", women, men],
+  ["normals.unsafe_count", women, men],
+  ["normals.knockdown_count", men, women],
+
   ["normals.multihit_proportion", women, men],
   ["normals.combo_proportion", women, men],
   ["normals.knockdown_proportion", men, women],
+
   # Men have safer attacks
   ["normals.unsafe_proportion", women, men],
+
   # Dark-skinned characters are beefier
   ["health", darker_skinned, lighter_skinned],
   ["dizzy", darker_skinned, lighter_skinned],
+
   # Dark-skinned characters hit harder/slower
   ["speed", lighter_skinned, darker_skinned],
   ["normals.avg_hit_damage", darker_skinned, lighter_skinned],
@@ -221,9 +241,15 @@ hypotheses = [
   ["normals.avg_dead_frames", darker_skinned, lighter_skinned],
   ["normals.avg_hit_advantage", lighter_skinned, darker_skinned],
   ["normals.avg_block_advantage", lighter_skinned, darker_skinned],
+
   ["normals.multihit_proportion", lighter_skinned, darker_skinned],
   ["normals.combo_proportion", lighter_skinned, darker_skinned],
   ["normals.knockdown_proportion", darker_skinned, lighter_skinned],
+
+  ["normals.multihit_count", lighter_skinned, darker_skinned],
+  ["normals.combo_count", lighter_skinned, darker_skinned],
+  ["normals.unsafe_count", lighter_skinned, darker_skinned],
+  ["normals.knockdown_count", darker_skinned, lighter_skinned],
 ]
 
 
@@ -337,6 +363,70 @@ def bootstrap_test(
 
   return md, as_diff / trials
 
+def get_value(item, index):
+    val = item.get(index, None)
+    if val == None:
+      if '.' in index:
+        outer, inner = index.split('.')
+        val = item[outer].get(inner, None)
+
+    return val
+
+def rank_positions(
+  items,
+  index,
+  pos_filter,
+  alt_filter=None
+):
+  if alt_filter == None:
+    alt_filter = lambda x: not pos_filter(x)
+
+  relevant = list(
+    filter(
+      lambda x: (
+        get_value(x, index) != None
+    and (pos_filter(x) or alt_filter(x))
+      ),
+      items
+    )
+  )
+
+  rs1 = 0
+  rs2 = 0
+
+  ordered = sorted(
+    relevant,
+    key=lambda x: get_value(x, index)
+  )
+
+  # Give equal ranks to tied items:
+  ranked = []
+  prev_val = None
+  rank = 0
+  for item in ordered:
+    val = get_value(item, index)
+    if prev_val == None or val != prev_val:
+      prev_val = val
+      rank += 1 # first rank assigned will be 1
+    ranked.append((rank, item))
+
+  last_rank = rank
+
+  pos_rps = []
+  alt_rps = []
+  for rank, item in ranked:
+    rank_pos = (rank - 1) / (last_rank - 1)
+    if pos_filter(item):
+      pos_rps.append(rank_pos)
+    elif alt_filter(item):
+      alt_rps.append(rank_pos)
+    else:
+      # Shouldn't be possible because of filter above
+      print("Ranked item isn't positive or alternative:\n{}".format(item))
+
+  return sum(pos_rps)/len(pos_rps), sum(alt_rps) / len(alt_rps)
+
+
 def average_missing(*vals):
   result = 0
   missing = False
@@ -349,6 +439,7 @@ def average_missing(*vals):
     return None
   else:
     return result / len(vals)
+
 
 def sum_missing(*vals):
   result = 0
@@ -638,6 +729,10 @@ def collect_moves_stats(movedata, move_keys=None):
   result["combo_proportion"] = div(move_prp["can_combo"])
   result["unsafe_proportion"] = div(move_prp["unsafe"])
   result["knockdown_proportion"] = div(move_prp["knockdown"])
+
+  result["multihit_count"] = move_prp["multihit"][0]
+  result["combo_count"] = move_prp["can_combo"][0]
+  result["unsafe_count"] = move_prp["unsafe"][0]
   result["knockdown_count"] = move_prp["knockdown"][0]
 
   return result
@@ -793,6 +888,19 @@ def main():
           kds
         )
       )
+
+  print("Looking at rank sums...")
+  for index, pos, alt in hypotheses:
+    rp1, rp2 = rank_positions([chstats[ch] for ch in chstats], index, pos, alt)
+    print(
+      " {}: {} -> {:.3g}; {} -> {:.3g}".format(
+        index,
+        pos.__name__,
+        rp1,
+        alt.__name__,
+        rp2
+      )
+    )
 
   print("Testing hypotheses...")
   for index, pos, alt in hypotheses:

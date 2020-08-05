@@ -15,3 +15,5 @@ participants.lst
 pids.tsv
 reject.lst
 report.txt
+analysis_results.json
+tables.tex
