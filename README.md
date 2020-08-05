@@ -4,6 +4,8 @@ This repository contains code and data from an online study that sought
 to measure some of the contours of ethnic enfreakment in fighting games
 (Street Fighter V and Tekken 7 specifically).
 
+## Study Setup
+
 The `turk/` folder contains the HTML templates and other data required to
 construct the Amazon Mechanical Turk Human Intelligence Tasks (HITs) that
 we used to carry out the study. There is code there which was used to
@@ -18,6 +20,8 @@ If you want to see an example of a fully constructed HIT, the
 single HIT template looks like when filled out; if you are viewing it
 locally you should run `make template-local.html` in the `turk/` folder
 first otherwise the images will not show up.
+
+## Data & Analysis
 
 The `data/` folder contains both anonymized survey response data (in the
 file [`efr.tsv`](data/efr.tsv)) as well as code for analyzing it based on
