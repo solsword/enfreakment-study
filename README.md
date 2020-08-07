@@ -1,10 +1,15 @@
-# Analyzing Ethnic Enfreakment
+% Analyzing Virtual Enfreakment
+% Sercan Şengün, James Bowie-Wilson, Peter Mawhorter, Yusef Audeh, Haewoon Kwak, and D. Fox Harrell
 
 This repository contains code and data from an online study that sought
-to measure some of the contours of ethnic enfreakment in fighting games
+to measure some of the contours of virtual enfreakment in fighting games
 (Street Fighter V and Tekken 7 specifically). You can browse all of the
 files online at:
 [https://github.com/solsword/enfreakment-study/](https://github.com/solsword/enfreakment-study/)
+
+This document explains what resources are available; the details of the
+survey methodology and statistical analysis are explained in [this
+methodology document](methodology.html).
 
 ## Study Setup
 
@@ -18,7 +23,7 @@ to create counterbalanced character groupings, as well as `python` for
 some of the scripts.
 
 If you want to see an example of a fully constructed HIT, the
-[`turk/tempalte-local.html`](turk/template-local.html) file shows what a
+[`turk/template-local.html`](turk/template-local.html) file shows what a
 single HIT template looks like when filled out; if you are viewing it
 locally you should run `make template-local.html` in the `turk/` folder
 first otherwise the images will not show up.

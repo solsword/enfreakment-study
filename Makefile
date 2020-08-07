@@ -1,2 +1,5 @@
-index.html: README.md 
-	pandoc --standalone --css js/examples.css README.md -o index.html
+index.html: README.md style.css
+	pandoc --standalone --css style.css $< -o $@
+
+methodology.html: methodology.md style.css
+	pandoc --standalone --css style.css $< -o $@

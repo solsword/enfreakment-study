@@ -1,4 +1,4 @@
-.DEFAULT_GOAL=report.txt
+.DEFAULT_GOAL=tables-100.tex
 
 %-workers.lst: %.csv
 	grep -v Rejected $< | cut -d'"' -f32 | tail -n+2 > $@
@@ -35,9 +35,10 @@ batches/filtered-batch-%.csv: batches/batch-%.csv reject.lst
 #batches/full-makeup-%.tsv: batches/makeup-%.tsv
 #	sed "1s/\t/\tAnswer./g" $< > $@
 
-.PHONY: jump
 jump: batches/filtered-batch-1.csv batches/filtered-batch-2.csv batches/filtered-batch-3.csv
+	touch jump
 #jump: batches/filtered-batch-1.csv batches/filtered-batch-2.csv batches/filtered-batch-3.csv batches/full-makeup-1.tsv batches/full-makeup-2.tsv batches/full-makeup-3.tsv
+#	touch jump
 
 #efr.tsv: jump pids.tsv process.py
 #	./process.py batches/filtered-batch-*.csv batches/full-makeup-*.tsv > efr.tsv
@@ -63,14 +64,35 @@ efr-aug.tsv: efr.tsv reprocess.py
 efr-aug-grp.json: efr-aug.tsv group.py framedata.py properties.py
 	./group.py < efr-aug.tsv > efr-aug-grp.json
 
-report.txt: efr-aug-grp.json analyze.py
-	./analyze.py < efr-aug-grp.json > report.txt
+tests-%.json: efr-aug-grp.json analyze.py
+	./analyze.py $* < $< > initial-report-$*.txt
 
-analysis_results.json: efr-aug-grp.json analyze.py
-	./analyze.py < efr-aug-grp.json
+analysis_results-%.json: tests-%.json correct.py
+	./correct.py $* < $< > corrections-report-$*.txt
 
-tables.tex: analysis_results.json tabulate.py
-	./tabulate.py < analysis_results.json > tables.tex
+tables-%.tex: analysis_results-%.json tabulate.py
+	./tabulate.py < $< > $@
+
+tables-full.tex: tables-15000.tex
+	cp $< $@
+
+.PRECIOUS: tests-%.json analysis_results-%.json
+
+plots.log: efr-aug-grp.json plot.py
+	mkdir -p plots
+	./plot.py < $< > $@
+
+plots/%.pdf: plots/%.svg plots.log
+	inkscape --export-filename=$@ $<
+
+.PHONY: figures
+figures: \
+	plots/constructs_by_gender.pdf \
+	plots/constructs_by_skin_color.pdf \
+	plots/demo-age.pdf \
+	plots/demo-edu.pdf \
+	plots/demo-gender.pdf \
+	plots/demo-play.pdf
 
 .PHONY: clean
 clean:

@@ -73,33 +73,6 @@ charmap = {
     for i, char in enumerate(characters)
 }
 
-test_agreement = [
-  ".ratings.attire_ethnicity",
-  ".ratings.attire_not_sexualized",
-  ".ratings.attire_sexualized",
-  ".ratings.attractive",
-  ".ratings.chubby",
-  ".ratings.costume",
-  ".ratings.ethnic_stereotypes",
-  ".ratings.exaggerated_body",
-  ".ratings.gender_stereotypes",
-  ".ratings.muscular",
-  ".ratings.non_muscular",
-  ".ratings.not_role_model",
-  ".ratings.not_sexualized",
-  ".ratings.obv_ethnicity",
-  ".ratings.old",
-  ".ratings.pos_ethnic_rep",
-  ".ratings.pos_gender_rep",
-  ".ratings.realistic_body",
-  ".ratings.realistic_clothing",
-  ".ratings.role_model",
-  ".ratings.sexualized",
-  ".ratings.skinny",
-  ".ratings.ugly",
-  ".ratings.young",
-]
-
 def is_japanese(row):
   return get(row, ".character.country") == "Japan"
 
@@ -183,6 +156,18 @@ original_hypotheses = [
 
 def unknown_country(row):
   return get(row, ".character.country") == "Unknown"
+
+def is_oriental(row):
+  return get(row, ".character.country") in (
+      "China",
+      "Egypt",
+      "India",
+      "Japan",
+      "Middle East",
+      "Philippines",
+      "Saudi Arabia",
+      "South Korea",
+  )
 
 def darker_skinned_women(row):
   return character_female(row) and get(row, ".character.skin_tone") == "darker"
@@ -316,6 +301,10 @@ novel_hypotheses = [
   ("Unknown:less-admirable", ".constructs.admirability", unknown_country, None, "-", {"controls": [".participant.id"]}),
   ("Unknown:worse-gender-rep", ".constructs.positive_gender_rep", unknown_country, None, "-", {"controls": [".participant.id"]}),
   ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "-", {"controls": [".participant.id"]}),
+
+  # Orientalism?
+  ("Oriental-Nationality:less-realistic-clothing", ".constructs.clothing_realism", is_oriental, None, "-", {"controls": [".participant.id"]}),
+  ("Oriental-Nationality:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_oriental, None, "+", {"controls": [".participant.id"]}),
 ]
 
 motive_hypotheses = [
@@ -570,6 +559,10 @@ hgroups = {
     "Infrequent-Players:recognize-bad-ethnic-rep",
     "Frequent-Players:ignore-bad-ethnic-rep",
   ],
+  "Oriental characters have more obvious ethnic cues": [
+      "Oriental-Nationality:less-realistic-clothing",
+      "Oriental-Nationality:more-obvious-ethnicity",
+  ],
 #  "Women 'worse' motives":  [
 #    "Women:less-antisocial",
 #    "Women:less-dominant",
@@ -594,87 +587,87 @@ hgroups = {
 #    "Lighter-skinned:less-man-motivated",
 #    "Lighter-skinned:more-heroic",
 #  ],
-  "Men are bulkier": [
-    "Health:men-healthier",
-    "Health:men-higher-dizzy",
-    "Size:men-grab-farther",
-  ],
-  "Women are more agile": [
-    "Agility:women-jump-higher",
-    "Agility:women-jump-farther",
-    "Agility:women-dash-farther",
-    "Agility:women-faster",
-  ],
-  "Men have slower/stronger normals": [
-    "Normals:men-more-damage",
-    "Normals:men-more-dizzy",
-    "Normals:men-active-longer",
-    "Normals:women-hit-more",
-    "Normals:men-slower",
-    "Normals:men-more-delayed",
-    "Normals:men-more-hitstun",
-    "Normals:men-more-blockstun",
-    "Normals:women-plus-on-hit",
-    "Normals:women-plus-on-block",
-    "Normals:women-more-multihit",
-    "Normals:women-more-combos",
-    "Normals:men-more-knockdowns",
-    "Normals:men-safer",
-  ],
-  "Men have slower/stronger attacks": [
-    "Attacks:men-more-damage",
-    "Attacks:men-more-dizzy",
-    "Attacks:men-active-longer",
-    "Attacks:women-hit-more",
-    "Attacks:men-slower",
-    "Attacks:men-more-delayed",
-    "Attacks:men-more-hitstun",
-    "Attacks:men-more-blockstun",
-    "Attacks:women-plus-on-hit",
-    "Attacks:women-plus-on-block",
-    "Attacks:women-more-multihit",
-    "Attacks:women-more-combos",
-    "Attacks:men-more-knockdowns",
-    "Attacks:men-safer",
-  ],
-  "Darker-skinned men are bulkier": [
-    "Health:darker-men-healthier",
-    "Health:darker-men-higher-dizzy",
-    "Size:darker-men-grab-farther",
-  ],
-  "Darker-skinned men are less agile": [
-    "Agility:lighter-men-faster",
-  ],
-  "Darker-skinned men have slower/stronger normals": [
-    "Normals:darker-men-more-damage",
-    "Normals:darker-men-more-dizzy",
-    "Normals:darker-men-active-longer",
-    "Normals:lighter-men-hit-more",
-    "Normals:darker-men-slower",
-    "Normals:darker-men-more-delayed",
-    "Normals:darker-men-more-hitstun",
-    "Normals:darker-men-more-blockstun",
-    "Normals:lighter-men-plus-on-hit",
-    "Normals:lighter-men-plus-on-block",
-    "Normals:lighter-men-more-multihit",
-    "Normals:lighter-men-more-combos",
-    "Normals:darker-men-more-knockdowns",
-  ],
-  "Darker-skinned men have slower/stronger attacks": [
-    "Attacks:darker-men-more-damage",
-    "Attacks:darker-men-more-dizzy",
-    "Attacks:darker-men-active-longer",
-    "Attacks:lighter-men-hit-more",
-    "Attacks:darker-men-slower",
-    "Attacks:darker-men-more-delayed",
-    "Attacks:darker-men-more-hitstun",
-    "Attacks:darker-men-more-blockstun",
-    "Attacks:lighter-men-plus-on-hit",
-    "Attacks:lighter-men-plus-on-block",
-    "Attacks:lighter-men-more-multihit",
-    "Attacks:lighter-men-more-combos",
-    "Attacks:darker-men-more-knockdowns",
-  ],
+#  "Men are bulkier": [
+#    "Health:men-healthier",
+#    "Health:men-higher-dizzy",
+#    "Size:men-grab-farther",
+#  ],
+#  "Women are more agile": [
+#    "Agility:women-jump-higher",
+#    "Agility:women-jump-farther",
+#    "Agility:women-dash-farther",
+#    "Agility:women-faster",
+#  ],
+#  "Men have slower/stronger normals": [
+#    "Normals:men-more-damage",
+#    "Normals:men-more-dizzy",
+#    "Normals:men-active-longer",
+#    "Normals:women-hit-more",
+#    "Normals:men-slower",
+#    "Normals:men-more-delayed",
+#    "Normals:men-more-hitstun",
+#    "Normals:men-more-blockstun",
+#    "Normals:women-plus-on-hit",
+#    "Normals:women-plus-on-block",
+#    "Normals:women-more-multihit",
+#    "Normals:women-more-combos",
+#    "Normals:men-more-knockdowns",
+#    "Normals:men-safer",
+#  ],
+#  "Men have slower/stronger attacks": [
+#    "Attacks:men-more-damage",
+#    "Attacks:men-more-dizzy",
+#    "Attacks:men-active-longer",
+#    "Attacks:women-hit-more",
+#    "Attacks:men-slower",
+#    "Attacks:men-more-delayed",
+#    "Attacks:men-more-hitstun",
+#    "Attacks:men-more-blockstun",
+#    "Attacks:women-plus-on-hit",
+#    "Attacks:women-plus-on-block",
+#    "Attacks:women-more-multihit",
+#    "Attacks:women-more-combos",
+#    "Attacks:men-more-knockdowns",
+#    "Attacks:men-safer",
+#  ],
+#  "Darker-skinned men are bulkier": [
+#    "Health:darker-men-healthier",
+#    "Health:darker-men-higher-dizzy",
+#    "Size:darker-men-grab-farther",
+#  ],
+#  "Darker-skinned men are less agile": [
+#    "Agility:lighter-men-faster",
+#  ],
+#  "Darker-skinned men have slower/stronger normals": [
+#    "Normals:darker-men-more-damage",
+#    "Normals:darker-men-more-dizzy",
+#    "Normals:darker-men-active-longer",
+#    "Normals:lighter-men-hit-more",
+#    "Normals:darker-men-slower",
+#    "Normals:darker-men-more-delayed",
+#    "Normals:darker-men-more-hitstun",
+#    "Normals:darker-men-more-blockstun",
+#    "Normals:lighter-men-plus-on-hit",
+#    "Normals:lighter-men-plus-on-block",
+#    "Normals:lighter-men-more-multihit",
+#    "Normals:lighter-men-more-combos",
+#    "Normals:darker-men-more-knockdowns",
+#  ],
+#  "Darker-skinned men have slower/stronger attacks": [
+#    "Attacks:darker-men-more-damage",
+#    "Attacks:darker-men-more-dizzy",
+#    "Attacks:darker-men-active-longer",
+#    "Attacks:lighter-men-hit-more",
+#    "Attacks:darker-men-slower",
+#    "Attacks:darker-men-more-delayed",
+#    "Attacks:darker-men-more-hitstun",
+#    "Attacks:darker-men-more-blockstun",
+#    "Attacks:lighter-men-plus-on-hit",
+#    "Attacks:lighter-men-plus-on-block",
+#    "Attacks:lighter-men-more-multihit",
+#    "Attacks:lighter-men-more-combos",
+#    "Attacks:darker-men-more-knockdowns",
+#  ],
 }
 
 def main(fin):
@@ -705,26 +698,34 @@ def main(fin):
       use.__name__
     )
   )
-  tests = init_tests(rows, full_hypotheses, use)
+  n_trials = 100
+  if len(sys.argv) > 1:
+      try:
+          n_trials = int(sys.argv[1])
+      except:
+          print(
+              f"Warning: invalid number of trials: {sys.argv[1]};"
+              f" defaulting to 100 trials per test."
+          )
+  tests = init_tests(rows, full_hypotheses, use, trials=n_trials)
+  #print('-'*80)
+  #print(
+  #  "Testing {} character hypotheses using {}...".format(
+  #    len(character_hypotheses),
+  #    use.__name__
+  #  )
+  #)
+  #tests += init_tests(
+  #    rows,
+  #    character_hypotheses,
+  #    use,
+  #    char=True,
+  #    trials=n_trials
+  #)
+  with open(f"tests-{n_trials}.json", 'w') as fout:
+      json.dump({"rows": rows, "tests": tests}, fout)
   print('-'*80)
-  print(
-    "Testing {} character hypotheses using {}...".format(
-      len(character_hypotheses),
-      use.__name__
-    )
-  )
-  char_tests = init_tests(rows, character_hypotheses, use, char=True)
-  print('-'*80)
-  effects, expected = analyze_tests(rows, tests + char_tests)
-  # Dump into a file
-  with open("analysis_results.json", 'w') as fout:
-    json.dump([effects, expected], fout)
-  print('-'*80)
-  summarize_tests(effects, expected, hgroups)
-  print('-'*80)
-  analyze_agreement(rows)
-  print('-'*80)
-  print("...analysis complete.")
+  print("...testing complete.")
   print('='*80)
 
 class Undefined:
@@ -736,8 +737,7 @@ def bootstrap_test(
   pos_filter,
   alt_filter=None,
   extras=None,
-  trials=15000, # TODO: DEBUG
-  #trials=15,
+  trials=100,
   seed=1081230891
 ):
   if not extras:
@@ -852,7 +852,13 @@ def t_test(
 
   return inmean - outmean, p
 
-def init_tests(rows, hypotheses, method=bootstrap_test, char=False):
+def init_tests(
+    rows,
+    hypotheses,
+    method=bootstrap_test,
+    char=False,
+    trials=100
+):
   """
   Constructs a bunch of test objects and returns a list of them for
   analyze_tests to process.
@@ -875,7 +881,14 @@ def init_tests(rows, hypotheses, method=bootstrap_test, char=False):
       extras = {}
     else: # has extras
       name, index, pos_filter, alt_filter, direction, extras = hyp
-    md, p = method(rows, index, pos_filter, alt_filter, extras)
+    md, p = method(
+        rows,
+        index,
+        pos_filter,
+        alt_filter,
+        extras,
+        trials=trials
+    )
     prg = "{}/{} done [{}]...".format(i, len(hypotheses), name)
     print(prg, " "*(78 - len(prg)), end="\r")
     sys.stdout.flush()
@@ -957,129 +970,6 @@ def init_tests(rows, hypotheses, method=bootstrap_test, char=False):
       raise ValueError("Invalid test direction: '{}'".format(direction))
   print("{}/{} done...".format(len(hypotheses), len(hypotheses)))
   return tests
-
-def analyze_tests(rows, tests, threshold = 0.05):
-  """
-  Given a bunch of test objects, analyzes them and prints out results.
-  """
-  failed = False
-  m = len(tests)
-  effects = {}
-  expected = {}
-  for i, (name, expd, md, p, smsg, fmsg) in enumerate(
-    sorted(tests, key=lambda x: x[3])
-  ):
-    k = i + 1
-    #th = threshold / (m - i) ## Holm-Bonferroni
-    th = threshold * (k/m) # Benjamini-Hochberg
-    error = md == None
-    close = p < threshold if not isinstance(p, str) else False
-    expected[name] = expd
-    if error:
-      e = "ERR: {}".format(fmsg)
-      effects[name] = e
-      print(e)
-    elif failed:
-      effects[name] = None
-      print("{} {} ~ {:.3g}".format(" *"[close], fmsg, th))
-    elif p > th:
-      effects[name] = None
-      failed = True
-      print("{} {} > {:.3g}".format(" *"[close], fmsg, th))
-    else:
-      effects[name] = md
-      print("{} {} < {:.3g}".format(" *"[close], smsg, th))
-
-  return effects, expected
-
-def summarize_tests(effects, expected, hgroups):
-  for name in hgroups:
-    hypotheses = hgroups[name]
-    print(name)
-    for hyp in hypotheses:
-      if expected[hyp] == None:
-        print("  {}: {}".format(hyp, effects[hyp]))
-      else:
-        print(
-          "  {} {}: {}".format(
-            ' ' if expected[hyp] else '!',
-            hyp,
-            "{:+.3g}".format(effects[hyp]) if effects[hyp] != None else '?'
-          )
-        )
-
-def analyze_agreement(rows):
-  n_raters = len(rows)//5
-  n_characters = len(rows)//7
-  print("Rating agreement (full/categorical):")
-  for t in test_agreement:
-    ratings = np.full((n_raters, n_characters), np.nan)
-    bin_ratings = np.full((n_raters, n_characters), np.nan)
-    pidmap = {}
-    nextpid = 0
-    for row in rows:
-      pid = get(row, ".participant.id")
-      if pid in pidmap:
-        ipid = pidmap[pid]
-      else:
-        ipid = nextpid
-        pidmap[pid] = ipid
-        nextpid += 1
-      ch = get(row, ".character.id")
-      cid = charmap[ch]
-      if not np.isnan(ratings[ipid, cid]):
-        print(
-          "Double-fill: [{}, {}] was {} ? {}!".format(
-            ipid,
-            ch,
-            ratings[ipid, cid],
-            np.isnan(ratings[ipid, cid])
-          ),
-          file=sys.stderr
-        )
-        print(row, file=sys.stderr)
-      val = get(row, t)
-      ratings[ipid,cid] = val
-      bin_ratings[ipid,cid] = [-1,0,1][(val>3) + (val>4)] if val else None
-    # DEBUG:
-    """
-    if "muscular" in t:
-      rgrouped = {i: [] for i in range(len(characters))}
-      bingrouped = {i: { -1: 0, 0: 0, 1: 0 } for i in range(len(characters))}
-      for ipid in range(ratings.shape[0]):
-        for cid in range(ratings.shape[1]):
-          if not np.isnan(ratings[ipid,cid]):
-            rgrouped[cid].append(ratings[ipid,cid])
-          if not np.isnan(bin_ratings[ipid,cid]):
-            bingrouped[cid][bin_ratings[ipid,cid]] += 1
-      for i, ch in enumerate(characters):
-        print(
-          "{:>12s}: {} :: {}/{}/{}".format(
-            ch,
-            [int(x) for x in rgrouped[i]],
-            bingrouped[i][-1],
-            bingrouped[i][0],
-            bingrouped[i][1],
-          )
-        )
-    #"""
-    α = kr_alpha(
-      reliability_data = ratings,
-      value_domain = list(range(7)),
-      level_of_measurement = "ordinal"
-    )
-    α_binary = kr_alpha(
-      reliability_data = bin_ratings,
-      value_domain = [-1, 0, 1],
-      level_of_measurement = "ordinal"
-    )
-    print(
-      "  {:>22s}:  {:<8s} /   {:<8s}".format(
-        t.split('.')[-1],
-        "{:.3g}".format(α),
-        "{:.3g}".format(α_binary)
-      )
-    )
 
 if __name__ == "__main__":
   main(sys.stdin)

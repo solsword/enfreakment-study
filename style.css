@@ -1,0 +1,56 @@
+body {
+    margin: 8pt auto;
+    width: 100%;
+    max-width: 45rem;
+    text-align: justify;
+    /*font-family: "TexGyre Pagella", Optima, Palatino, serif;*/
+    font-family: Ubuntu, sans-serif;
+    position: relative;
+}
+
+.sidenote {
+    position: relative;
+    font-size: 0.8em;
+    text-align: left;
+}
+
+.sidenote>p {
+    margin: 8pt 0pt 8pt 8pt;
+    width: 11rem;
+    position: absolute;
+    left: 45rem;
+    top: -6rem;
+}
+
+@media only screen and (max-width: 55rem) {
+    .sidenote>p {
+        position: static;
+        width: inherit;
+    }
+}
+
+.hanglists li {
+    padding-left: 1.5em;
+    text-indent: -1.5em;
+}
+
+.figure {
+    margin: 8pt auto;
+    width: 100%;
+    max-width: 42rem;
+}
+
+.figure>img {
+    width: 100%;
+}
+
+.twocolumn {
+    display: grid;
+    grid-template-columns: 21rem 21rem;
+    grid-auto-rows: max-content;
+    grid-auto-columns: none;
+}
+
+.spancolumns {
+    grid-column: 1 / span 2;
+}
