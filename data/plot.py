@@ -28,6 +28,30 @@ demographics_colors = [
   "#440088",
 ]
 
+nationality_colors = [
+  "#bc002d", # "Japan"
+  "#3c3b6e", # "United States of America"
+  "#009b3a", # "Brazil"
+  "#de2910", # "China" # or #ffde00
+  "#0033a0", # "Russia"
+  "#00247d", # "United Kingdom"
+  "#ff0000", # "Canada"
+  "#c09300", # "Egypt"
+  "#ffce00", # "Germany"
+  "#ff9933", # "India"
+  "#169b62", # "Ireland"
+  "#cd212a", # "Italy"
+  "#006341", # "Mexico"
+  "#000000", # "Middle East"
+  "#ce1126", # "Monaco"
+  "#fcd116", # "Philippines"
+  "#006c35", # "Saudi Arabia"
+  "#cd2e3a", # "South Korea"
+  "#f1bf00", # "Spain"
+  "#004b87", # "Sweden"
+  "#888888", # "Unknown"
+]
+
 # Font setup
 font = {
   "family": "DejaVu Sans",
@@ -641,6 +665,49 @@ def main(fin):
   )
 
   filename = "plots/constructs_by_skin_color.svg"
+  print(f"Saving '{filename}'...")
+  plt.savefig(filename, format="svg")
+  plt.close()
+
+  # Note: This is way too messy to be useful...
+  plot_histograms_by_group(
+    crows,
+    [3], # musculature
+    lambda r: get(r, ".character.country"),
+    group_arrange=[
+      ["Japan", "Japan"],
+      ["United States of America", "United States of America"],
+      ["Brazil", "Brazil"],
+      ["China", "China"],
+      ["Russia", "Russia"],
+      ["United Kingdom", "United Kingdom"],
+      ["Canada", "Canada"],
+      ["Egypt", "Egypt"],
+      ["Germany", "Germany"],
+      ["India", "India"],
+      ["Ireland", "Ireland"],
+      ["Italy", "Italy"],
+      ["Mexico", "Mexico"],
+      ["Middle East", "Middle East"],
+      ["Monaco", "Monaco"],
+      ["Philippines", "Philippines"],
+      ["Saudi Arabia", "Saudi Arabia"],
+      ["South Korea", "South Korea"],
+      ["Spain", "Spain"],
+      ["Sweden", "Sweden"],
+      ["Unknown", "Unknown"],
+    ],
+    style={
+      "clabels": [
+        "musculature",
+      ],
+      "title": "Musculature by Nationality",
+      "ylabel": "Median Construct Values",
+      "xlabel": "Construct (width shows # of characters)",
+      "colors": nationality_colors,
+    }
+  )
+  filename = "plots/musculature_by_nationality.svg"
   print(f"Saving '{filename}'...")
   plt.savefig(filename, format="svg")
   plt.close()

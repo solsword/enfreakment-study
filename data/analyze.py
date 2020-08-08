@@ -122,20 +122,20 @@ original_hypotheses = [
 
   ("Women:more-attractive", ".constructs.attractiveness", character_female, None, "+", {"controls": [".participant.id"]}),
   ("Japanese:more-attractive", ".constructs.attractiveness", is_japanese, None, "+", {"controls": [".participant.id"]}),
-  ("Majority:more-attractive", ".constructs.attractiveness", is_majority, None, "+", {"controls": [".participant.id"]}),
+  ("Majority-Nationality:more-attractive", ".constructs.attractiveness", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Token:less-attractive", ".constructs.attractiveness", is_token, None, "-", {"controls": [".participant.id"]}),
 
   ("Women:more-sexualized", ".constructs.sexualization", character_female, None,"+", {"controls": [".participant.id"]}),
   ("Women:more-attire-sexualized", ".constructs.attire_sexualization", character_female, None,"+", {"controls": [".participant.id"]}),
 
-  ("Women:less-realistic-clothes", ".constructs.clothing_realism", character_female, None, "-", {"controls": [".participant.id"]}),
-  ("Japanese:more-realistic-clothes", ".constructs.clothing_realism", is_japanese, None, "+", {"controls": [".participant.id"]}),
-  ("Majority:more-realistic-clothes", ".constructs.clothing_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
-  ("Token:less-realistic-clothes", ".constructs.clothing_realism", is_token, None, "-", {"controls": [".participant.id"]}),
+  ("Women:less-realistic-clothing", ".constructs.clothing_realism", character_female, None, "-", {"controls": [".participant.id"]}),
+  ("Japanese:more-realistic-clothing", ".constructs.clothing_realism", is_japanese, None, "+", {"controls": [".participant.id"]}),
+  ("Majority-Nationality:more-realistic-clothing", ".constructs.clothing_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
+  ("Token:less-realistic-clothing", ".constructs.clothing_realism", is_token, None, "-", {"controls": [".participant.id"]}),
 
   ("Women:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", character_female, None,"+", {"controls": [".participant.id"]}),
   ("Japanese:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_japanese, None, "-", {"controls": [".participant.id"]}),
-  ("Majority:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"-", {"controls": [".participant.id"]}),
+  ("Majority-Nationality:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None,"-", {"controls": [".participant.id"]}),
   ("Token:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_token, None, "+", {"controls": [".participant.id"]}),
 
   ("Women:less-admirable", ".constructs.admirability", character_female, None, "-", {"controls": [".participant.id"]}),
@@ -144,7 +144,7 @@ original_hypotheses = [
   ("Women:less-positive-gender", ".constructs.positive_gender_rep", character_female, None, "-", {"controls": [".participant.id"]}),
 
   ("Japanese:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_japanese, None, "+", {"controls": [".participant.id"]}),
-  ("Majority:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
+  ("Majority-Nationality:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Token:less-positive-ethnicity", ".constructs.positive_ethnic_rep", is_token, None, "-", {"controls": [".participant.id"]}),
 ]
 
@@ -218,7 +218,7 @@ novel_hypotheses = [
   ("Frequent-Players:ignore-bad-gender-rep", ".constructs.positive_gender_rep", frequent_player, None, "+", {"controls": [".character.id"]}),
 
   # Participant ethnicity/frequency vs. ethnicity perceptions:
-  ("Similar-Ethnicity:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", ethnically_similar, None, "-", {"controls": [".character.id"]}),
+  ("Similar-Ethnicity:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", ethnically_similar, None, "-", {"controls": []}),
   ("Nonwhite-Raters:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", participant_nonwhite, None, "-", {"controls": [".character.id"]}),
   ("Infrequent-Players:recognize-bad-ethnic-rep", ".constructs.positive_ethnic_rep", infrequent_player, None, "-", {"controls": [".character.id"]}),
   ("Frequent-Players:ignore-bad-ethnic-rep", ".constructs.positive_ethnic_rep", frequent_player, None, "+", {"controls": [".character.id"]}),
@@ -230,7 +230,8 @@ novel_hypotheses = [
   ("Lighter:thinner", ".constructs.thinness", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
 
   ("Majority-Nationality:more-realistic", ".constructs.body_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
-  ("Majority-Nationality:more-attractive", ".constructs.attractiveness", is_majority, None, "+", {"controls": [".participant.id"]}),
+  # Already tested
+  #("Majority-Nationality:more-attractive", ".constructs.attractiveness", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality:less-muscular", ".constructs.muscles", is_majority, None, "-", {"controls": [".participant.id"]}),
   ("Majority-Nationality:thinner", ".constructs.thinness", is_majority, None, "+", {"controls": [".participant.id"]}),
 
@@ -238,8 +239,9 @@ novel_hypotheses = [
   ("Lighter:more-realistic-clothing", ".constructs.clothing_realism", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
   ("Lighter:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_lighter_skinned, is_darker_skinned, "-", {"controls": [".participant.id"]}),
 
-  ("Majority-Nationality:more-realistic-clothing", ".constructs.clothing_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
-  ("Majority-Nationality:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None, "-", {"controls": [".participant.id"]}),
+  # Already tested in original hypotheses
+  #("Majority-Nationality:more-realistic-clothing", ".constructs.clothing_realism", is_majority, None, "+", {"controls": [".participant.id"]}),
+  #("Majority-Nationality:less-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_majority, None, "-", {"controls": [".participant.id"]}),
 
   # Villain sub-components
   ("Lighter:more-admirable", ".constructs.admirability", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
@@ -247,7 +249,8 @@ novel_hypotheses = [
   ("Lighter:more-positive-gender", ".constructs.positive_gender_rep", is_lighter_skinned, is_darker_skinned, "+", {"controls": [".participant.id"]}),
 
   ("Majority-Nationality:more-admirable", ".constructs.admirability", is_majority, None, "+", {"controls": [".participant.id"]}),
-  ("Majority-Nationality:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
+  # Already tested as an original hypothesis
+  #("Majority-Nationality:more-positive-ethnicity", ".constructs.positive_ethnic_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
   ("Majority-Nationality:more-positive-gender", ".constructs.positive_gender_rep", is_majority, None, "+", {"controls": [".participant.id"]}),
 
   # Intersections
@@ -303,8 +306,8 @@ novel_hypotheses = [
   ("Unknown:worse-ethnic-rep", ".constructs.positive_ethnic_rep", unknown_country, None, "-", {"controls": [".participant.id"]}),
 
   # Orientalism?
-  ("Oriental-Nationality:less-realistic-clothing", ".constructs.clothing_realism", is_oriental, None, "-", {"controls": [".participant.id"]}),
-  ("Oriental-Nationality:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_oriental, None, "+", {"controls": [".participant.id"]}),
+  #("Oriental-Nationality:less-realistic-clothing", ".constructs.clothing_realism", is_oriental, None, "-", {"controls": [".participant.id"]}),
+  #("Oriental-Nationality:more-obvious-ethnicity", ".constructs.combined_ethnic_signals", is_oriental, None, "+", {"controls": [".participant.id"]}),
 ]
 
 motive_hypotheses = [
@@ -425,7 +428,7 @@ all_hypotheses = full_hypotheses
 
 hgroups = {
   "Women's ethnicity exaggerated": [
-    "Women:less-realistic-clothes",
+    "Women:less-realistic-clothing",
     "Women:more-obvious-ethnicity",
   ],
   "Women sexualized": [
@@ -442,7 +445,7 @@ hgroups = {
   ],
   "Japanese more realistic": [
     "Japanese:more-realistic",
-    "Japanese:more-realistic-clothes",
+    "Japanese:more-realistic-clothing",
     "Japanese:less-obvious-ethnicity",
   ],
   "Japanese preferred": [
@@ -467,13 +470,13 @@ hgroups = {
     "Majority-Nationality:more-positive-gender",
   ],
   "Majority preferred/realistic": [
-    "Majority:more-realistic-clothes",
-    "Majority:less-obvious-ethnicity",
-    "Majority:more-attractive",
-    "Majority:more-positive-ethnicity",
+    "Majority-Nationality:more-realistic-clothing",
+    "Majority-Nationality:less-obvious-ethnicity",
+    "Majority-Nationality:more-attractive",
+    "Majority-Nationality:more-positive-ethnicity",
   ],
   "Token suppressed/unrealistic": [
-    "Token:less-realistic-clothes",
+    "Token:less-realistic-clothing",
     "Token:more-obvious-ethnicity",
     "Token:less-attractive",
     "Token:less-positive-ethnicity",
@@ -559,10 +562,10 @@ hgroups = {
     "Infrequent-Players:recognize-bad-ethnic-rep",
     "Frequent-Players:ignore-bad-ethnic-rep",
   ],
-  "Oriental characters have more obvious ethnic cues": [
-      "Oriental-Nationality:less-realistic-clothing",
-      "Oriental-Nationality:more-obvious-ethnicity",
-  ],
+#  "Oriental characters have more obvious ethnic cues": [
+#      "Oriental-Nationality:less-realistic-clothing",
+#      "Oriental-Nationality:more-obvious-ethnicity",
+#  ],
 #  "Women 'worse' motives":  [
 #    "Women:less-antisocial",
 #    "Women:less-dominant",
